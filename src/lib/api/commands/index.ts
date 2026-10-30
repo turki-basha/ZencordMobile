@@ -43,12 +43,10 @@ export function registerCommand(command: ZenCordApplicationCommand | BunnyApplic
         builtInCommands = commandsModule.getBuiltInCommands(Object.values(ApplicationCommandType), true, false);
     }
 
-    builtInCommands.sort((a: ApplicationCommand, b: ApplicationCommand) => parseInt(b.id!) - parseInt(a.id!));
+    const sortedCommands = Array.isArray(builtInCommands) ? [...builtInCommands].sort((a: ApplicationCommand, b: ApplicationCommand) => (parseInt(b.id || "0", 10) || 0) - (parseInt(a.id || "0", 10) || 0)) : [];
 
-    const lastCommand = builtInCommands[builtInCommands.length - 1];
-
-    // Override the new command's id to the last command id - 1
-    command.id = (parseInt(lastCommand.id!, 10) - 1).toString();
+    const lastCommand = sortedCommands[sortedCommands.length - 1];
+    command.id = ((parseInt(lastCommand?.id || "0", 10) || -1) - 1).toString();
 
     // Fill optional args
     command.__zencord = command.__bunny = {

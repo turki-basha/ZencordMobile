@@ -145,15 +145,7 @@ function onModuleRequire(moduleExports: any, id: Metro.ModuleID) {
         }
     }
 
-    // Hindi timestamps moment
-    if (moduleExports.isMoment) {
-        instead("defineLocale", moduleExports, (args: [string], orig: (lcl: string) => string) => {
-            const origLocale = moduleExports.locale();
-            const res = orig(...args);
-            moduleExports.locale(origLocale);
-            return res;
-        });
-    }
+    // Hindi timestamps moment (disabled to prevent locale override and chat crash)
 
     const subs = moduleSubscriptions.get(Number(id));
     if (subs) {

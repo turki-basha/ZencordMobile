@@ -12,6 +12,11 @@ function getErrorBoundaryContext() {
 export default function patchErrorBoundary() {
     return after.await("render", getErrorBoundaryContext(), function (this: any) {
         if (!this.state.error) return;
+        const ebErr = this.state.error;
+        console.error("[ZenCord ErrorBoundary]", ebErr);
+        try {
+            alert("ZenCord Component Crash:\n" + (ebErr?.stack || ebErr?.message || String(ebErr)).slice(0, 400));
+        } catch {}
 
         return <ErrorBoundaryScreen
             error={this.state.error}

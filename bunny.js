@@ -3817,14 +3817,6 @@
         blacklistModule(id + inc);
       }
     }
-    if (moduleExports.isMoment) {
-      instead2("defineLocale", moduleExports, (args, orig) => {
-        var origLocale = moduleExports.locale();
-        var res = orig(...args);
-        moduleExports.locale(origLocale);
-        return res;
-      });
-    }
     var subs = moduleSubscriptions.get(Number(id));
     if (subs) {
       subs.forEach((s) => s());
@@ -4624,7 +4616,7 @@
       init_logger();
       init_toasts();
       import_react_native4 = __toESM(require_react_native());
-      versionHash = "6746a75-local";
+      versionHash = "e0c9e4e-local";
     }
   });
 
@@ -5568,6 +5560,12 @@
     return after.await("render", getErrorBoundaryContext(), function() {
       if (!this.state.error)
         return;
+      var ebErr = this.state.error;
+      console.error("[ZenCord ErrorBoundary]", ebErr);
+      try {
+        alert("ZenCord Component Crash:\n" + (ebErr?.stack || ebErr?.message || String(ebErr)).slice(0, 400));
+      } catch (e) {
+      }
       return /* @__PURE__ */ jsx(ErrorBoundaryScreen, {
         error: this.state.error,
         rerender: () => this.setState({
@@ -7948,6 +7946,16 @@
               try {
                 if (ret?.props?.id && typeof ret.props.id === "string" && ret.props.id.startsWith("zencord-")) {
                   var custom = globalThis.__zencord_badges?.[ret.props.id];
+                  if (custom && ret.props)
+                    Object.assign(ret.props, custom);
+                }
+              } catch (e) {
+              }
+            });
+            onJsxCreate("RenderBadge", (_2, ret) => {
+              try {
+                if (ret?.props?.id && typeof ret.props.id === "string" && ret.props.id.startsWith("zencord-")) {
+                  var custom = globalThis.__zencord_badges?.[ret.props.id];
                   if (custom && ret.props) {
                     Object.assign(ret.props, custom);
                   }
@@ -7985,7 +7993,9 @@
                         source: {
                           uri: badge.url
                         },
-                        icon: "dummy",
+                        icon: {
+                          uri: badge.url
+                        },
                         iconSrc: badge.url
                       });
                     }
@@ -8359,10 +8369,7 @@
         var quickInstallPlugin = (init_quickinstall(), __toCommonJS(quickinstall_exports));
         return {
           "zencord.badges": badgesPlugin,
-          "zencord.quickinstall": quickInstallPlugin,
-          // Backward compatibility aliases
-          "bunny.badges": badgesPlugin,
-          "bunny.quickinstall": quickInstallPlugin
+          "zencord.quickinstall": quickInstallPlugin
         };
       };
     }
@@ -8598,9 +8605,11 @@
     } catch (e) {
       builtInCommands = commands.getBuiltInCommands(Object.values(ApplicationCommandType), true, false);
     }
-    builtInCommands.sort((a, b3) => parseInt(b3.id) - parseInt(a.id));
-    var lastCommand = builtInCommands[builtInCommands.length - 1];
-    command.id = (parseInt(lastCommand.id, 10) - 1).toString();
+    var sortedCommands = Array.isArray(builtInCommands) ? [
+      ...builtInCommands
+    ].sort((a, b3) => (parseInt(b3.id || "0", 10) || 0) - (parseInt(a.id || "0", 10) || 0)) : [];
+    var lastCommand = sortedCommands[sortedCommands.length - 1];
+    command.id = ((parseInt(lastCommand?.id || "0", 10) || -1) - 1).toString();
     command.__zencord = command.__bunny = {
       shouldHide: command.shouldHide
     };
@@ -15309,7 +15318,7 @@
             uri: zencord_default
           },
           render: () => Promise.resolve().then(() => (init_General(), General_exports)),
-          useTrailing: () => `(${"6746a75-local"})`
+          useTrailing: () => `(${"e0c9e4e-local"})`
         },
         {
           key: "ZENCORD_PLUGINS",
@@ -15814,7 +15823,7 @@
         alert([
           "Failed to load ZenCord!\n",
           `Build Number: ${ClientInfoManager.Build}`,
-          `ZenCord: ${"6746a75-local"}`,
+          `ZenCord: ${"e0c9e4e-local"}`,
           stack || e?.toString?.()
         ].join("\n"));
       }
@@ -15836,6 +15845,17 @@
       });
       var startDiscord = /* @__PURE__ */ function() {
         var _ref = _async_to_generator(function* () {
+          if (globalThis.ErrorUtils) {
+            var origHandler = globalThis.ErrorUtils.getGlobalHandler?.();
+            globalThis.ErrorUtils.setGlobalHandler((err, isFatal) => {
+              var msg = err?.stack || err?.message || String(err);
+              console.error("[ZenCord Runtime Error]", msg);
+              if (isFatal)
+                alert("ZenCord Fatal Error:\n" + msg.slice(0, 400));
+              if (origHandler)
+                origHandler(err, isFatal);
+            });
+          }
           yield initializeZenCord();
           unpatchHook();
           originalRequire(0);

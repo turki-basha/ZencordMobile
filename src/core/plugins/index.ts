@@ -18,10 +18,7 @@ export const getCorePlugins = (): Record<string, CorePlugin> => {
 
     return {
         "zencord.badges": badgesPlugin,
-        "zencord.quickinstall": quickInstallPlugin,
-        // Backward compatibility aliases
-        "bunny.badges": badgesPlugin,
-        "bunny.quickinstall": quickInstallPlugin
+        "zencord.quickinstall": quickInstallPlugin
     };
 };
 

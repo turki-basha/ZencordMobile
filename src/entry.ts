@@ -44,6 +44,15 @@ if (typeof globalThis.__r !== "undefined") {
         });
 
         const startDiscord = async () => {
+            if ((globalThis as any).ErrorUtils) {
+                const origHandler = (globalThis as any).ErrorUtils.getGlobalHandler?.();
+                (globalThis as any).ErrorUtils.setGlobalHandler((err: any, isFatal?: boolean) => {
+                    const msg = err?.stack || err?.message || String(err);
+                    console.error("[ZenCord Runtime Error]", msg);
+                    if (isFatal) alert("ZenCord Fatal Error:\n" + msg.slice(0, 400));
+                    if (origHandler) origHandler(err, isFatal);
+                });
+            }
             await initializeZenCord();
             unpatchHook();
             originalRequire(0);

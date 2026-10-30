@@ -135,6 +135,14 @@ export default defineCorePlugin({
                 try {
                     if (ret?.props?.id && typeof ret.props.id === "string" && ret.props.id.startsWith("zencord-")) {
                         const custom = (globalThis as any).__zencord_badges?.[ret.props.id];
+                        if (custom && ret.props) Object.assign(ret.props, custom);
+                    }
+                } catch {}
+            });
+            onJsxCreate("RenderBadge", (_, ret) => {
+                try {
+                    if (ret?.props?.id && typeof ret.props.id === "string" && ret.props.id.startsWith("zencord-")) {
+                        const custom = (globalThis as any).__zencord_badges?.[ret.props.id];
                         if (custom && ret.props) {
                             Object.assign(ret.props, custom);
                         }
@@ -168,7 +176,7 @@ export default defineCorePlugin({
                                     id: badgeKey,
                                     description: badge.label,
                                     source: { uri: badge.url },
-                                    icon: "dummy",
+                                    icon: { uri: badge.url },
                                     iconSrc: badge.url
                                 });
                             }
