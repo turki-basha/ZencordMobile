@@ -151,7 +151,9 @@ export async function initThemes() {
         await newAwaitStorage(colorsPref);
 
         const currentTheme = getThemeFromLoader();
-        initColors(currentTheme?.data ?? null);
+        if (currentTheme?.data) {
+            initColors(currentTheme.data);
+        }
 
         updateThemes().catch(e => console.error("Failed to update themes", e));
     } catch (e) {

@@ -3381,7 +3381,9 @@
         }
         yield awaitStorage2(colorsPref);
         var currentTheme = getThemeFromLoader();
-        initColors(currentTheme?.data ?? null);
+        if (currentTheme?.data) {
+          initColors(currentTheme.data);
+        }
         updateThemes().catch((e) => console.error("Failed to update themes", e));
       } catch (e) {
         console.error("Failed to initialize themes", e);
@@ -3818,8 +3820,9 @@
     if (moduleExports.isMoment) {
       instead2("defineLocale", moduleExports, (args, orig) => {
         var origLocale = moduleExports.locale();
-        orig(...args);
+        var res = orig(...args);
         moduleExports.locale(origLocale);
+        return res;
       });
     }
     var subs = moduleSubscriptions.get(Number(id));
@@ -4621,7 +4624,7 @@
       init_logger();
       init_toasts();
       import_react_native4 = __toESM(require_react_native());
-      versionHash = "7d6636e-local";
+      versionHash = "6746a75-local";
     }
   });
 
@@ -15306,7 +15309,7 @@
             uri: zencord_default
           },
           render: () => Promise.resolve().then(() => (init_General(), General_exports)),
-          useTrailing: () => `(${"7d6636e-local"})`
+          useTrailing: () => `(${"6746a75-local"})`
         },
         {
           key: "ZENCORD_PLUGINS",
@@ -15811,7 +15814,7 @@
         alert([
           "Failed to load ZenCord!\n",
           `Build Number: ${ClientInfoManager.Build}`,
-          `ZenCord: ${"7d6636e-local"}`,
+          `ZenCord: ${"6746a75-local"}`,
           stack || e?.toString?.()
         ].join("\n"));
       }

@@ -149,8 +149,9 @@ function onModuleRequire(moduleExports: any, id: Metro.ModuleID) {
     if (moduleExports.isMoment) {
         instead("defineLocale", moduleExports, (args: [string], orig: (lcl: string) => string) => {
             const origLocale = moduleExports.locale();
-            orig(...args);
+            const res = orig(...args);
             moduleExports.locale(origLocale);
+            return res;
         });
     }
 
