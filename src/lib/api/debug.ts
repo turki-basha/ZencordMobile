@@ -105,6 +105,13 @@ export function getDebugInfo() {
             version: versionHash.split("-")[0],
             loader: getLoaderName(),
         },
+        zencord: {
+            version: versionHash,
+            loader: {
+                name: getLoaderName(),
+                version: getLoaderVersion()
+            }
+        },
         bunny: {
             version: versionHash,
             loader: {

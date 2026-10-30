@@ -1,10 +1,16 @@
+/*
+ * ZenCord Mobile, a Discord client mod
+ * Copyright (c) 2026 ZenCord Team and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { patcher } from "@lib/api";
 import { registerCommand } from "@lib/api/commands";
 import { createStorage } from "@lib/api/storage";
 import { logger } from "@lib/utils/logger";
 
 import { registeredPlugins } from ".";
-import { BunnyPluginObject } from "./types";
+import { BunnyPluginObject, ZenCordPluginObject } from "./types";
 
 type DisposableFn = (...props: any[]) => () => unknown;
 function shimDisposableFn<F extends DisposableFn>(unpatches: (() => void)[], f: F): F {
@@ -22,38 +28,40 @@ function shimDisposableFn<F extends DisposableFn>(unpatches: (() => void)[], f: 
     return dummy;
 }
 
-export function createBunnyPluginApi(id: string) {
+export function createZenCordPluginApi(id: string) {
     const disposers = new Array<DisposableFn>;
+    const base = window.zencord || window.bunny;
 
     // proxying this would be a good idea
     const object = {
-        ...window.bunny,
+        ...base,
         api: {
-            ...window.bunny.api,
+            ...base.api,
             patcher: {
                 before: shimDisposableFn(disposers, patcher.before),
                 after: shimDisposableFn(disposers, patcher.after),
                 instead: shimDisposableFn(disposers, patcher.instead)
             },
             commands: {
-                ...window.bunny.api.commands,
+                ...base.api.commands,
                 registerCommand: shimDisposableFn(disposers, registerCommand)
             },
             flux: {
-                ...window.bunny.api.flux,
-                intercept: shimDisposableFn(disposers, window.bunny.api.flux.intercept)
+                ...base.api.flux,
+                intercept: shimDisposableFn(disposers, base.api.flux.intercept)
             }
         },
-        // Added something in here? Make sure to also update BunnyPluginProperty in ./types
         plugin: {
             createStorage: <T extends object = any>() => createStorage<T>(`plugins/storage/${id}.json`),
             manifest: registeredPlugins.get(id),
             logger
         }
-    } as unknown as BunnyPluginObject;
+    } as unknown as ZenCordPluginObject;
 
     return {
         object,
         disposers,
     };
 }
+
+export const createBunnyPluginApi = createZenCordPluginApi;

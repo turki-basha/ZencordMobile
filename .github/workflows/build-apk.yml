@@ -58,3 +58,4 @@ jobs:
         with:
           name: zencord-mobile-apk-assets
           path: dist/
+

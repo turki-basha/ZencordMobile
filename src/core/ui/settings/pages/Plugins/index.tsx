@@ -123,7 +123,7 @@ export default function Plugins() {
             label: "Install a plugin",
             fetchFn: async (url: string) => {
                 if (!url.startsWith(VD_PROXY_PREFIX) && !url.startsWith(BUNNY_PROXY_PREFIX) && !settings.developerSettings) {
-                    openAlert("bunny-plugin-unproxied-confirmation", <AlertModal
+                    openAlert("zencord-plugin-unproxied-confirmation", <AlertModal
                         title="Hold On!"
                         content="You're trying to install a plugin from an unproxied external source. This means you're trusting the creator to run their code in this app without your knowledge. Are you sure you want to continue?"
                         extraContent={<Card><Text variant="text-md/bold">{url}</Text></Card>}
@@ -131,7 +131,7 @@ export default function Plugins() {
                             <AlertActionButton text="Continue" variant="primary" onPress={() => {
                                 VdPluginManager.installPlugin(url)
                                     .then(() => showToast(Strings.TOASTS_INSTALLED_PLUGIN, findAssetId("Check")))
-                                    .catch(e => openAlert("bunny-plugin-install-failed", <AlertModal
+                                    .catch(e => openAlert("zencord-plugin-install-failed", <AlertModal
                                         title="Install Failed"
                                         content={`Unable to install plugin from '${url}':`}
                                         extraContent={<Card><Text variant="text-md/normal">{e instanceof Error ? e.message : String(e)}</Text></Card>}

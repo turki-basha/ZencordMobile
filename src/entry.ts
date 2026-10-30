@@ -4,7 +4,7 @@ const { instead } = require("spitroast");
 // @ts-ignore - shut up fr
 globalThis.window = globalThis;
 
-async function initializeBunny() {
+async function initializeZenCord() {
     try {
         // Make 'freeze' and 'seal' do nothing
         Object.freeze = Object.seal = Object;
@@ -17,9 +17,9 @@ async function initializeBunny() {
 
         console.log(stack ?? e?.toString?.() ?? e);
         alert([
-            "Failed to load Bunny!\n",
+            "Failed to load ZenCord!\n",
             `Build Number: ${ClientInfoManager.Build}`,
-            `Bunny: ${version}`,
+            `ZenCord: ${version}`,
             stack || e?.toString?.(),
         ].join("\n"));
     }
@@ -27,7 +27,7 @@ async function initializeBunny() {
 
 // @ts-ignore
 if (typeof globalThis.__r !== "undefined") {
-    initializeBunny();
+    initializeZenCord();
 } else {
     // We hold calls from the native side
     function onceIndexRequired(originalRequire: any) {
@@ -44,7 +44,7 @@ if (typeof globalThis.__r !== "undefined") {
         });
 
         const startDiscord = async () => {
-            await initializeBunny();
+            await initializeZenCord();
             unpatchHook();
             originalRequire(0);
 

@@ -13,7 +13,7 @@ export default function About() {
 
     const versions = [
         {
-            label: Strings.BUNNY,
+            label: "ZenCord",
             version: debugInfo.bunny.version,
             icon: { uri: PyoncordIcon },
         },

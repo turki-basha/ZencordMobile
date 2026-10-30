@@ -1,3 +1,9 @@
+/*
+ * ZenCord Mobile, a Discord client mod
+ * Copyright (c) 2026 ZenCord Team and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 export interface Argument {
     type: ApplicationCommandOptionType,
     name: string,
@@ -19,14 +25,19 @@ export interface ApplicationCommand {
     untranslatedName?: string;
     inputType?: ApplicationCommandInputType;
     type?: ApplicationCommandType;
+    __zencord?: {
+        shouldHide: () => boolean;
+    };
     __bunny?: {
         shouldHide: () => boolean;
     };
 }
 
-export interface BunnyApplicationCommand extends ApplicationCommand {
+export interface ZenCordApplicationCommand extends ApplicationCommand {
     shouldHide: () => boolean;
 }
+
+export type BunnyApplicationCommand = ZenCordApplicationCommand;
 
 export enum ApplicationCommandInputType {
     BUILT_IN,
@@ -56,21 +67,19 @@ export enum ApplicationCommandOptionType {
     ROLE,
     MENTIONABLE,
     NUMBER,
-    ATTACHMENT,
+    ATTACHMENT
 }
 
 export enum ApplicationCommandType {
     CHAT = 1,
     USER,
-    MESSAGE,
+    MESSAGE
 }
 
 export interface CommandContext {
     channel: any;
-    guild: any;
 }
 
 export interface CommandResult {
-    content: string;
-    tts?: boolean;
+    content?: string;
 }

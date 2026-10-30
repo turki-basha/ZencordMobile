@@ -37,6 +37,7 @@ export default async () => {
     );
 
     // Assign window object
+    window.zencord = lib;
     window.bunny = lib;
 
     // Once done, load Vendetta plugins
@@ -51,5 +52,5 @@ export default async () => {
     updateFonts();
 
     // We good :)
-    logger.log("Bunny is ready!");
+    logger.log("ZenCord Mobile is ready!");
 };

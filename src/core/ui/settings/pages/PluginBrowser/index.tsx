@@ -173,7 +173,7 @@ function AddRepositoryAlert() {
                     } catch (e) {
                         showToast("Failed to add repository!", findAssetId("Small"));
                     } finally {
-                        dismissAlert("bunny-add-plugin-repository");
+                        dismissAlert("zencord-add-plugin-repository");
                         showSheet("plugin-browser-options", PluginBrowserOptions);
                     }
                 }} />
@@ -190,7 +190,7 @@ function PluginBrowserOptions() {
                 label="Add Repository..."
                 icon={<TableRow.Icon source={findAssetId("PlusMediumIcon")} />}
                 onPress={() => {
-                    openAlert("bunny-add-plugin-repository", <AddRepositoryAlert />);
+                    openAlert("zencord-add-plugin-repository", <AddRepositoryAlert />);
                     hideSheet("plugin-browser-options");
                 }} />
         </TableRowGroup>
@@ -203,7 +203,7 @@ function RepositoryRow(props: { url: string; }) {
 
     return (
         <TableRow
-            label={isOfficial ? "Bunny's Repository" : (repo.$meta?.name ?? "Unknown")}
+            label={isOfficial ? "ZenCord Repository" : (repo.$meta?.name ?? "Unknown")}
             subLabel={props.url}
             trailing={(
                 <Stack direction="horizontal">
@@ -222,7 +222,7 @@ function RepositoryRow(props: { url: string; }) {
                         disabled={isOfficial}
                         icon={findAssetId("TrashIcon")}
                         onPress={() => {
-                            openAlert("bunny-remove-repository", <AlertModal
+                            openAlert("zencord-remove-repository", <AlertModal
                                 title="Remove Repository"
                                 content="Are you sure you want to remove this repository?"
                                 extraContent={<Card>
@@ -235,7 +235,7 @@ function RepositoryRow(props: { url: string; }) {
                                         onPress={async () => {
                                             await deleteRepository(props.url);
                                             showToast("Removed repository!", findAssetId("Trash"));
-                                            dismissAlert("bunny-remove-repository");
+                                            dismissAlert("zencord-remove-repository");
                                         }}
                                     />
                                 </AlertActions>}

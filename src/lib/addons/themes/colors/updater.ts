@@ -1,3 +1,9 @@
+/*
+ * ZenCord Mobile, a Discord client mod
+ * Copyright (c) 2026 ZenCord Team and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { settings } from "@lib/api/settings";
 import { findByProps, findByPropsLazy, findByStoreNameLazy } from "@metro";
 
@@ -13,7 +19,7 @@ const FormDivider = findByPropsLazy("DIVIDER_COLORS");
 let _inc = 1;
 
 interface InternalColorRef {
-    key: `bn-theme-${string}`;
+    key: `zc-theme-${string}` | `bn-theme-${string}`;
     current: InternalColorDefinition | null;
     readonly origRaw: Record<string, string>;
     lastSetDiscordTheme: string;
@@ -22,19 +28,19 @@ interface InternalColorRef {
 /** @internal */
 export const _colorRef: InternalColorRef = {
     current: null,
-    key: `bn-theme-${_inc}`,
+    key: `zc-theme-${_inc}`,
     origRaw: origRawColor,
     lastSetDiscordTheme: "darker"
 };
 
-export function updateBunnyColor(colorManifest: ColorManifest | null, { update = true }) {
+export function updateZenCordColor(colorManifest: ColorManifest | null, { update = true }) {
     if (settings.safeMode?.enabled) return;
 
     const internalDef = colorManifest ? parseColorManifest(colorManifest) : null;
     const ref = Object.assign(_colorRef, {
         current: internalDef,
-        key: `bn-theme-${++_inc}`,
-        lastSetDiscordTheme: !ThemeStore.theme.startsWith("bn-theme-")
+        key: `zc-theme-${++_inc}`,
+        lastSetDiscordTheme: !ThemeStore.theme.startsWith("zc-theme-") && !ThemeStore.theme.startsWith("bn-theme-")
             ? ThemeStore.theme
             : _colorRef.lastSetDiscordTheme
     });
@@ -57,3 +63,5 @@ export function updateBunnyColor(colorManifest: ColorManifest | null, { update =
     }
 }
 
+// Backwards compatibility alias
+export const updateBunnyColor = updateZenCordColor;

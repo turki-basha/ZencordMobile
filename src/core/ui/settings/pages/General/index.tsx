@@ -24,7 +24,7 @@ export default function General() {
             <Stack style={{ paddingVertical: 24, paddingHorizontal: 12 }} spacing={24}>
                 <TableRowGroup title={Strings.INFO}>
                     <TableRow
-                        label={Strings.BUNNY}
+                        label={"ZenCord"}
                         icon={<TableRow.Icon source={{ uri: PyoncordIcon }} />}
                         trailing={<TableRow.TrailingText text={debugInfo.bunny.version} />}
                     />
@@ -71,13 +71,13 @@ export default function General() {
                     />
                     <TableSwitchRow
                         label={"Safe Mode"}
-                        subLabel={"Load Bunny without loading add-ons"}
+                        subLabel={"Load ZenCord without loading add-ons"}
                         icon={<TableRow.Icon source={findAssetId("ShieldIcon")!} />}
                         value={isSafeMode()}
                         onValueChange={(to: boolean) => {
                             toggleSafeMode({ to, reload: false });
                             openAlert(
-                                "bunny-reload-safe-mode",
+                                "zencord-reload-safe-mode",
                                 <AlertModal
                                     title="Reload now?"
                                     content={!to ? "All add-ons will load normally." : "All add-ons will be temporarily disabled upon reload."}

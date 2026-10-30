@@ -1,4 +1,4 @@
-import PyoncordIcon from "@assets/icons/pyoncord.png";
+import ZenCordIcon from "@assets/icons/zencord.png";
 import { Strings } from "@core/i18n";
 import { useProxy } from "@core/vendetta/storage";
 import { findAssetId } from "@lib/api/assets";
@@ -7,41 +7,42 @@ import { settings } from "@lib/api/settings";
 import { registerSection } from "@ui/settings";
 import { version } from "bunny-build-info";
 
-export { PyoncordIcon };
+const PyoncordIcon = ZenCordIcon;
+export { ZenCordIcon, PyoncordIcon };
 
 export default function initSettings() {
     registerSection({
         name: "ZenCord",
         items: [
             {
-                key: "BUNNY",
+                key: "ZENCORD",
                 title: () => Strings.BUNNY,
-                icon: { uri: PyoncordIcon },
+                icon: { uri: ZenCordIcon },
                 render: () => import("@core/ui/settings/pages/General"),
                 useTrailing: () => `(${version})`
             },
             {
-                key: "BUNNY_PLUGINS",
+                key: "ZENCORD_PLUGINS",
                 title: () => Strings.PLUGINS,
                 icon: findAssetId("ActivitiesIcon"),
                 render: () => import("@core/ui/settings/pages/Plugins")
             },
             {
-                key: "BUNNY_THEMES",
+                key: "ZENCORD_THEMES",
                 title: () => Strings.THEMES,
                 icon: findAssetId("PaintPaletteIcon"),
                 render: () => import("@core/ui/settings/pages/Themes"),
                 usePredicate: () => isThemeSupported()
             },
             {
-                key: "BUNNY_FONTS",
+                key: "ZENCORD_FONTS",
                 title: () => Strings.FONTS,
                 icon: findAssetId("ic_add_text"),
                 render: () => import("@core/ui/settings/pages/Fonts"),
                 usePredicate: () => isFontSupported()
             },
             {
-                key: "BUNNY_DEVELOPER",
+                key: "ZENCORD_DEVELOPER",
                 title: () => Strings.DEVELOPER,
                 icon: findAssetId("WrenchIcon"),
                 render: () => import("@core/ui/settings/pages/Developer"),
@@ -50,8 +51,12 @@ export default function initSettings() {
         ]
     });
 
-    // Compat for plugins which injects into the settings
-    // Flaw: in the old UI, this will be displayed anyway with no items
+    // Compat for plugins which inject into legacy sections
+    registerSection({
+        name: "Bunny",
+        items: []
+    });
+
     registerSection({
         name: "Vendetta",
         items: []

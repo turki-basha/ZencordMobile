@@ -1,6 +1,12 @@
+/*
+ * ZenCord Mobile, a Discord client mod
+ * Copyright (c) 2026 ZenCord Team and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 export type Author = { name: string, id?: `${bigint}`; };
 
-export interface BunnyManifest {
+export interface ZenCordManifest {
     readonly id: string;
     readonly spec: number;
     readonly version: string;
@@ -15,3 +21,5 @@ export interface BunnyManifest {
         readonly [key: string]: any;
     };
 }
+
+export type BunnyManifest = ZenCordManifest;
