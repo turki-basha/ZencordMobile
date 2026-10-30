@@ -45,6 +45,7 @@ export function patchTabsUI(unpatches: (() => void | boolean)[]) {
                     }
                 },
                 BUNNY_CUSTOM_PAGE: {
+                    type: "route",
                     title: () => "ZenCord",
                     screen: {
                         route: "BUNNY_CUSTOM_PAGE",

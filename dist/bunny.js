@@ -3120,22 +3120,27 @@
   function patchChatBackground() {
     var patches2 = [
       after("render", Messages, (_2, ret) => {
-        if (!_colorRef.current || !_colorRef.current.background?.url)
-          return;
-        var messagesComponent = findInReactTree(ret, (x2) => x2 && "HACK_fixModalInteraction" in x2.props && x2?.props?.style);
-        if (messagesComponent) {
-          var flattened = import_react_native3.StyleSheet.flatten(messagesComponent.props.style);
-          var backgroundColor = (0, import_chroma_js2.default)(flattened.backgroundColor || "black").alpha(1 - (_colorRef.current.background?.opacity ?? 1)).hex();
-          messagesComponent.props.style = import_react_native3.StyleSheet.flatten([
-            messagesComponent.props.style,
-            {
-              backgroundColor
-            }
-          ]);
+        try {
+          if (!_colorRef.current || !_colorRef.current.background?.url)
+            return ret;
+          var messagesComponent = findInReactTree(ret, (x2) => x2 && "HACK_fixModalInteraction" in x2.props && x2?.props?.style);
+          if (messagesComponent) {
+            var flattened = import_react_native3.StyleSheet.flatten(messagesComponent.props.style);
+            var backgroundColor = (0, import_chroma_js2.default)(flattened.backgroundColor || "black").alpha(1 - (_colorRef.current.background?.opacity ?? 1)).hex();
+            messagesComponent.props.style = import_react_native3.StyleSheet.flatten([
+              messagesComponent.props.style,
+              {
+                backgroundColor
+              }
+            ]);
+          }
+          return /* @__PURE__ */ jsx(ThemeBackground, {
+            children: ret
+          });
+        } catch (err) {
+          console.error("[ZenCord ChatBackground] Error:", err);
+          return ret;
         }
-        return /* @__PURE__ */ jsx(ThemeBackground, {
-          children: ret
-        });
       })
     ];
     return () => patches2.forEach((x2) => x2());
@@ -4655,7 +4660,7 @@
       init_logger();
       init_toasts();
       import_react_native5 = __toESM(require_react_native());
-      versionHash = "88a528b-local";
+      versionHash = "17cf1a7-local";
     }
   });
 
@@ -5818,6 +5823,7 @@
             }
           },
           BUNNY_CUSTOM_PAGE: {
+            type: "route",
             title: () => "ZenCord",
             screen: {
               route: "BUNNY_CUSTOM_PAGE",
@@ -7797,93 +7803,24 @@
     }
   });
 
-  // src/lib/api/react/jsx.ts
-  var jsx_exports = {};
-  __export(jsx_exports, {
-    deleteJsxCreate: () => deleteJsxCreate,
-    onJsxCreate: () => onJsxCreate,
-    patchJsx: () => patchJsx
-  });
-  function onJsxCreate(Component, callback) {
-    if (!callbacks.has(Component))
-      callbacks.set(Component, []);
-    callbacks.get(Component).push(callback);
-  }
-  function deleteJsxCreate(Component, callback) {
-    if (!callbacks.has(Component))
-      return;
-    var cbs = callbacks.get(Component);
-    cbs.splice(cbs.indexOf(callback), 1);
-    if (cbs.length === 0)
-      callbacks.delete(Component);
-  }
-  function patchJsx() {
-    var callback = ([Component], ret) => {
-      if (typeof Component === "function" && callbacks.has(Component.name)) {
-        var cbs = callbacks.get(Component.name);
-        for (var cb of cbs) {
-          var _ret = cb(Component, ret);
-          if (_ret !== void 0)
-            ret = _ret;
-        }
-        return ret;
-      }
-    };
-    var patches2 = [
-      after("jsx", jsxRuntime2, callback),
-      after("jsxs", jsxRuntime2, callback)
-    ];
-    return () => patches2.forEach((unpatch) => unpatch());
-  }
-  var callbacks, jsxRuntime2;
-  var init_jsx = __esm({
-    "src/lib/api/react/jsx.ts"() {
-      "use strict";
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      init_patcher();
-      init_metro();
-      callbacks = /* @__PURE__ */ new Map();
-      jsxRuntime2 = findByPropsLazy("jsx", "jsxs");
-    }
-  });
-
   // src/core/plugins/badges/index.tsx
   var badges_exports = {};
   __export(badges_exports, {
-    ZENCORD_API_BADGES_URL: () => ZENCORD_API_BADGES_URL,
-    ZENCORD_API_DIRECT_URL: () => ZENCORD_API_DIRECT_URL,
-    ZENCORD_GITHUB_FALLBACK_URL: () => ZENCORD_GITHUB_FALLBACK_URL,
-    ZEN_BADGE_ICONS: () => ZEN_BADGE_ICONS,
     default: () => badges_default
   });
-  var ZEN_BADGE_ICONS, ZENCORD_API_BADGES_URL, ZENCORD_API_DIRECT_URL, ZENCORD_GITHUB_FALLBACK_URL, useBadgesModule, badges_default;
+  var badges_default;
   var init_badges = __esm({
     "src/core/plugins/badges/index.tsx"() {
       "use strict";
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
-      init_async_to_generator();
-      init_patcher();
-      init_jsx();
-      init_metro();
       init_plugins2();
-      ZEN_BADGE_ICONS = {
-        DONOR: "https://cdn.discordapp.com/emojis/1564696511953248398.webp?size=96",
-        DEVELOPER: "https://cdn.discordapp.com/emojis/1564698785551097986.webp?size=96",
-        BOT: "https://cdn.discordapp.com/emojis/1564687539556585492.webp?size=96",
-        VIP: "https://cdn.discordapp.com/emojis/1564695885605109942.webp?size=96"
-      };
-      ZENCORD_API_BADGES_URL = "https://www.zencord.site/api/badges";
-      ZENCORD_API_DIRECT_URL = "https://zencord.site/api/badges";
-      ZENCORD_GITHUB_FALLBACK_URL = "https://raw.githubusercontent.com/turki-basha/ZenCord/main/badges.json";
-      useBadgesModule = findByName("useBadges", false);
       badges_default = defineCorePlugin({
         manifest: {
           id: "zencord.badges",
           name: "ZenCord Badges",
           version: "1.0.0",
-          description: "Displays official ZenCord badges (Developer, VIP, Supporter, Bot, Custom) directly on user profiles.",
+          description: "Official ZenCord badges integration.",
           authors: [
             {
               name: "ZenCord Team"
@@ -7891,128 +7828,7 @@
           ]
         },
         start() {
-          var propHolder = {};
-          var badgeCache = {};
-          var globalBadgeDb = {};
-          function convertToMobileBadges(entries) {
-            return entries.map((entry) => {
-              var type = entry.type || "donor";
-              var defaultTitle = "ZenCord Supporter";
-              var defaultIcon = ZEN_BADGE_ICONS.DONOR;
-              if (type === "developer") {
-                defaultTitle = "ZenCord Developer";
-                defaultIcon = ZEN_BADGE_ICONS.DEVELOPER;
-              } else if (type === "bot") {
-                defaultTitle = "ZenCord Official Bot";
-                defaultIcon = ZEN_BADGE_ICONS.BOT;
-              } else if (type === "vip") {
-                defaultTitle = "ZenCord VIP";
-                defaultIcon = ZEN_BADGE_ICONS.VIP;
-              }
-              return {
-                label: entry.tooltip || defaultTitle,
-                url: entry.badge || defaultIcon
-              };
-            });
-          }
-          function fetchZenCordDatabase() {
-            return _fetchZenCordDatabase.apply(this, arguments);
-          }
-          function _fetchZenCordDatabase() {
-            _fetchZenCordDatabase = _async_to_generator(function* () {
-              try {
-                var [apiWwwRes, apiDirectRes, fallbackRes] = yield allSettled([
-                  fetch(ZENCORD_API_BADGES_URL).then((r) => r.ok ? r.json() : null),
-                  fetch(ZENCORD_API_DIRECT_URL).then((r) => r.ok ? r.json() : null),
-                  fetch(ZENCORD_GITHUB_FALLBACK_URL).then((r) => r.ok ? r.json() : null)
-                ]);
-                var merged = {};
-                if (fallbackRes.status === "fulfilled" && fallbackRes.value && typeof fallbackRes.value === "object") {
-                  for (var [userId, badges] of Object.entries(fallbackRes.value)) {
-                    if (Array.isArray(badges)) {
-                      merged[userId] = [
-                        ...merged[userId] || [],
-                        ...badges
-                      ];
-                    }
-                  }
-                }
-                if (apiDirectRes.status === "fulfilled" && apiDirectRes.value && typeof apiDirectRes.value === "object") {
-                  for (var [userId1, badges1] of Object.entries(apiDirectRes.value)) {
-                    if (Array.isArray(badges1)) {
-                      merged[userId1] = badges1;
-                    }
-                  }
-                }
-                if (apiWwwRes.status === "fulfilled" && apiWwwRes.value && typeof apiWwwRes.value === "object") {
-                  for (var [userId2, badges2] of Object.entries(apiWwwRes.value)) {
-                    if (Array.isArray(badges2)) {
-                      merged[userId2] = badges2;
-                    }
-                  }
-                }
-                globalBadgeDb = merged;
-                for (var [userId3, entries] of Object.entries(merged)) {
-                  badgeCache[userId3] = convertToMobileBadges(entries);
-                }
-              } catch (err) {
-                console.error("[ZenCord Badges] Failed to load badges database:", err);
-              }
-            });
-            return _fetchZenCordDatabase.apply(this, arguments);
-          }
-          fetchZenCordDatabase();
-          var refreshInterval = setInterval(fetchZenCordDatabase, 15 * 60 * 1e3);
-          try {
-            onJsxCreate("RenderedBadge", (_2, ret) => {
-              try {
-                if (ret?.props?.id && (ret.props.id.match(/zencord-\d+-\d+/) || ret.props.id.match(/bunny-\d+-\d+/))) {
-                  if (propHolder[ret.props.id]) {
-                    Object.assign(ret.props, propHolder[ret.props.id]);
-                  }
-                }
-              } catch (e) {
-              }
-            });
-          } catch (e) {
-          }
-          if (useBadgesModule) {
-            after("default", useBadgesModule, ([user], r) => {
-              try {
-                if (!r || !Array.isArray(r))
-                  return r;
-                var userId = user?.id || user?.userId;
-                if (!userId)
-                  return r;
-                var userBadges = badgeCache[userId] || (globalBadgeDb[userId] ? convertToMobileBadges(globalBadgeDb[userId]) : null);
-                if (userBadges && userBadges.length > 0) {
-                  userBadges.forEach((badge, index) => {
-                    var badgeKey = `zencord-${userId}-${index}`;
-                    propHolder[badgeKey] = {
-                      source: {
-                        uri: badge.url
-                      },
-                      id: `zencord-${index}`,
-                      label: badge.label
-                    };
-                    if (!r.some((existing) => existing?.id === badgeKey)) {
-                      r.push({
-                        id: badgeKey,
-                        description: badge.label,
-                        icon: "_"
-                      });
-                    }
-                  });
-                }
-                return r;
-              } catch (e) {
-                console.error("[ZenCord Badges] Error in useBadges:", e);
-                return r;
-              }
-            });
-          }
           return () => {
-            clearInterval(refreshInterval);
           };
         }
       });
@@ -8706,6 +8522,57 @@
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
       init_fs();
+    }
+  });
+
+  // src/lib/api/react/jsx.ts
+  var jsx_exports = {};
+  __export(jsx_exports, {
+    deleteJsxCreate: () => deleteJsxCreate,
+    onJsxCreate: () => onJsxCreate,
+    patchJsx: () => patchJsx
+  });
+  function onJsxCreate(Component, callback) {
+    if (!callbacks.has(Component))
+      callbacks.set(Component, []);
+    callbacks.get(Component).push(callback);
+  }
+  function deleteJsxCreate(Component, callback) {
+    if (!callbacks.has(Component))
+      return;
+    var cbs = callbacks.get(Component);
+    cbs.splice(cbs.indexOf(callback), 1);
+    if (cbs.length === 0)
+      callbacks.delete(Component);
+  }
+  function patchJsx() {
+    var callback = ([Component], ret) => {
+      if (typeof Component === "function" && callbacks.has(Component.name)) {
+        var cbs = callbacks.get(Component.name);
+        for (var cb of cbs) {
+          var _ret = cb(Component, ret);
+          if (_ret !== void 0)
+            ret = _ret;
+        }
+        return ret;
+      }
+    };
+    var patches2 = [
+      after("jsx", jsxRuntime2, callback),
+      after("jsxs", jsxRuntime2, callback)
+    ];
+    return () => patches2.forEach((unpatch) => unpatch());
+  }
+  var callbacks, jsxRuntime2;
+  var init_jsx = __esm({
+    "src/lib/api/react/jsx.ts"() {
+      "use strict";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_patcher();
+      init_metro();
+      callbacks = /* @__PURE__ */ new Map();
+      jsxRuntime2 = findByPropsLazy("jsx", "jsxs");
     }
   });
 
@@ -15312,12 +15179,12 @@
       items: [
         {
           key: "ZENCORD",
-          title: () => Strings.BUNNY,
+          title: () => "ZenCord",
           icon: {
             uri: zencord_default
           },
           render: () => Promise.resolve().then(() => (init_General(), General_exports)),
-          useTrailing: () => `(${"88a528b-local"})`
+          useTrailing: () => `(${"17cf1a7-local"})`
         },
         {
           key: "ZENCORD_PLUGINS",
@@ -15822,7 +15689,7 @@
         alert([
           "Failed to load ZenCord!\n",
           `Build Number: ${ClientInfoManager.Build}`,
-          `ZenCord: ${"88a528b-local"}`,
+          `ZenCord: ${"17cf1a7-local"}`,
           stack || e?.toString?.()
         ].join("\n"));
       }

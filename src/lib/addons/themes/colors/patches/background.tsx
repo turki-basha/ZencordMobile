@@ -32,27 +32,32 @@ function ThemeBackground({ children }: { children: React.ReactNode }) {
 export default function patchChatBackground() {
     const patches = [
         after("render", Messages, (_, ret) => {
-            if (!_colorRef.current || !_colorRef.current.background?.url) return;
-            const messagesComponent = findInReactTree(
-                ret,
-                x => x && "HACK_fixModalInteraction" in x.props && x?.props?.style
-            );
+            try {
+                if (!_colorRef.current || !_colorRef.current.background?.url) return ret;
+                const messagesComponent = findInReactTree(
+                    ret,
+                    x => x && "HACK_fixModalInteraction" in x.props && x?.props?.style
+                );
 
-            if (messagesComponent) {
-                const flattened = StyleSheet.flatten(messagesComponent.props.style);
-                const backgroundColor = chroma(
-                    flattened.backgroundColor || "black"
-                ).alpha(
-                    1 - (_colorRef.current.background?.opacity ?? 1)
-                ).hex();
+                if (messagesComponent) {
+                    const flattened = StyleSheet.flatten(messagesComponent.props.style);
+                    const backgroundColor = chroma(
+                        flattened.backgroundColor || "black"
+                    ).alpha(
+                        1 - (_colorRef.current.background?.opacity ?? 1)
+                    ).hex();
 
-                messagesComponent.props.style = StyleSheet.flatten([
-                    messagesComponent.props.style,
-                    { backgroundColor }
-                ]);
+                    messagesComponent.props.style = StyleSheet.flatten([
+                        messagesComponent.props.style,
+                        { backgroundColor }
+                    ]);
+                }
+
+                return <ThemeBackground>{ret}</ThemeBackground>;
+            } catch (err) {
+                console.error("[ZenCord ChatBackground] Error:", err);
+                return ret;
             }
-
-            return <ThemeBackground>{ret}</ThemeBackground>;
         })
     ];
 

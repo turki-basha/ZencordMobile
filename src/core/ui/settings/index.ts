@@ -16,7 +16,7 @@ export default function initSettings() {
         items: [
             {
                 key: "ZENCORD",
-                title: () => Strings.BUNNY,
+                title: () => "ZenCord",
                 icon: { uri: ZenCordIcon },
                 render: () => import("@core/ui/settings/pages/General"),
                 useTrailing: () => `(${version})`
