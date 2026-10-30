@@ -3997,7 +3997,6 @@
     };
     setTimeout(() => {
       for (var id in window.modules) {
-        (init_modules2(), __toCommonJS(modules_exports2)).requireModule(id);
       }
     }, 100);
     _metroCache = cache;
@@ -4093,7 +4092,7 @@
       init_modules();
       init_dist();
       init_enums();
-      CACHE_VERSION = 102;
+      CACHE_VERSION = 103;
       ZENCORD_METRO_CACHE_PATH = "caches/zencord_metro_modules.json";
       _metroCache = null;
       getMetroCache = () => _metroCache;
@@ -4616,7 +4615,7 @@
       init_logger();
       init_toasts();
       import_react_native4 = __toESM(require_react_native());
-      versionHash = "e0c9e4e-local";
+      versionHash = "e35c687-local";
     }
   });
 
@@ -5563,7 +5562,6 @@
       var ebErr = this.state.error;
       console.error("[ZenCord ErrorBoundary]", ebErr);
       try {
-        alert("ZenCord Component Crash:\n" + (ebErr?.stack || ebErr?.message || String(ebErr)).slice(0, 400));
       } catch (e) {
       }
       return /* @__PURE__ */ jsx(ErrorBoundaryScreen, {
@@ -7834,7 +7832,7 @@
       init_async_to_generator();
       init_patcher();
       init_jsx();
-      init_metro();
+      init_wrappers();
       init_plugins2();
       ZEN_BADGE_ICONS = {
         DONOR: "https://cdn.discordapp.com/emojis/1564696511953248398.webp?size=96",
@@ -7845,7 +7843,7 @@
       ZENCORD_API_BADGES_URL = "https://www.zencord.site/api/badges";
       ZENCORD_API_DIRECT_URL = "https://zencord.site/api/badges";
       ZENCORD_GITHUB_FALLBACK_URL = "https://raw.githubusercontent.com/turki-basha/ZenCord/main/badges.json";
-      useBadgesModule = findByName("useBadges", false);
+      useBadgesModule = findByNameLazy("useBadges", false);
       badges_default = defineCorePlugin({
         manifest: {
           id: "zencord.badges",
@@ -7993,9 +7991,7 @@
                         source: {
                           uri: badge.url
                         },
-                        icon: {
-                          uri: badge.url
-                        },
+                        icon: "dummy",
                         iconSrc: badge.url
                       });
                     }
@@ -8261,10 +8257,10 @@
       init_lazy();
       init_common();
       init_filters();
-      init_finders();
+      init_lazy2();
       init_wrappers();
       init_toasts();
-      showSimpleActionSheet2 = findExports(byMutableProp("showSimpleActionSheet"));
+      showSimpleActionSheet2 = createLazyModule(byMutableProp("showSimpleActionSheet"));
       handleClick = findByPropsLazy("handleClick");
       ({ openURL } = lazyDestructure(() => url));
       ({ getChannelId } = lazyDestructure(() => channels));
@@ -15318,7 +15314,7 @@
             uri: zencord_default
           },
           render: () => Promise.resolve().then(() => (init_General(), General_exports)),
-          useTrailing: () => `(${"e0c9e4e-local"})`
+          useTrailing: () => `(${"e35c687-local"})`
         },
         {
           key: "ZENCORD_PLUGINS",
@@ -15823,7 +15819,7 @@
         alert([
           "Failed to load ZenCord!\n",
           `Build Number: ${ClientInfoManager.Build}`,
-          `ZenCord: ${"e0c9e4e-local"}`,
+          `ZenCord: ${"e35c687-local"}`,
           stack || e?.toString?.()
         ].join("\n"));
       }
@@ -15850,8 +15846,6 @@
             globalThis.ErrorUtils.setGlobalHandler((err, isFatal) => {
               var msg = err?.stack || err?.message || String(err);
               console.error("[ZenCord Runtime Error]", msg);
-              if (isFatal)
-                alert("ZenCord Fatal Error:\n" + msg.slice(0, 400));
               if (origHandler)
                 origHandler(err, isFatal);
             });

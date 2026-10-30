@@ -15,7 +15,7 @@ export default function patchErrorBoundary() {
         const ebErr = this.state.error;
         console.error("[ZenCord ErrorBoundary]", ebErr);
         try {
-            alert("ZenCord Component Crash:\n" + (ebErr?.stack || ebErr?.message || String(ebErr)).slice(0, 400));
+            // logged to console
         } catch {}
 
         return <ErrorBoundaryScreen

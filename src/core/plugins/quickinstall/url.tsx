@@ -6,14 +6,14 @@ import { findAssetId } from "@lib/api/assets";
 import { isThemeSupported } from "@lib/api/native/loader";
 import { after, instead } from "@lib/api/patcher";
 import { VD_PROXY_PREFIX,VD_THEMES_CHANNEL_ID } from "@lib/utils/constants";
-import { lazyDestructure } from "@lib/utils/lazy";
+import { lazyDestructure, proxyLazy } from "@lib/utils/lazy";
 import { channels, url } from "@metro/common";
 import { byMutableProp } from "@metro/filters";
-import { findExports } from "@metro/finders";
+import { createLazyModule } from "@metro/lazy";
 import { findByProps, findByPropsLazy } from "@metro/wrappers";
 import { showToast } from "@ui/toasts";
 
-const showSimpleActionSheet = findExports(byMutableProp("showSimpleActionSheet"));
+const showSimpleActionSheet = createLazyModule(byMutableProp("showSimpleActionSheet"));
 const handleClick = findByPropsLazy("handleClick");
 const { openURL } = lazyDestructure(() => url);
 const { getChannelId } = lazyDestructure(() => channels);

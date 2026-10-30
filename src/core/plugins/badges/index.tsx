@@ -6,7 +6,7 @@
 
 import { after } from "@lib/api/patcher";
 import { onJsxCreate } from "@lib/api/react/jsx";
-import { findByName } from "@metro";
+import { findByNameLazy } from "@metro/wrappers";
 
 import { defineCorePlugin } from "..";
 
@@ -32,7 +32,7 @@ export const ZENCORD_API_BADGES_URL = "https://www.zencord.site/api/badges";
 export const ZENCORD_API_DIRECT_URL = "https://zencord.site/api/badges";
 export const ZENCORD_GITHUB_FALLBACK_URL = "https://raw.githubusercontent.com/turki-basha/ZenCord/main/badges.json";
 
-const useBadgesModule = findByName("useBadges", false);
+const useBadgesModule = findByNameLazy("useBadges", false);
 
 export default defineCorePlugin({
     manifest: {
@@ -176,7 +176,7 @@ export default defineCorePlugin({
                                     id: badgeKey,
                                     description: badge.label,
                                     source: { uri: badge.url },
-                                    icon: { uri: badge.url },
+                                    icon: "dummy",
                                     iconSrc: badge.url
                                 });
                             }

@@ -4,7 +4,7 @@ import { debounce } from "es-toolkit";
 
 import { ModuleFlags, ModulesMapInternal } from "./enums";
 
-const CACHE_VERSION = 102;
+const CACHE_VERSION = 103;
 const ZENCORD_METRO_CACHE_PATH = "caches/zencord_metro_modules.json";
 
 type ModulesMap = {
@@ -29,7 +29,7 @@ function buildInitCache() {
     // delay so the cache is initialized before the modules are loaded.
     setTimeout(() => {
         for (const id in window.modules) {
-            require("./modules").requireModule(id);
+            // Do not force-initialize all modules prematurely
         }
     }, 100);
 

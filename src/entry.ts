@@ -49,7 +49,7 @@ if (typeof globalThis.__r !== "undefined") {
                 (globalThis as any).ErrorUtils.setGlobalHandler((err: any, isFatal?: boolean) => {
                     const msg = err?.stack || err?.message || String(err);
                     console.error("[ZenCord Runtime Error]", msg);
-                    if (isFatal) alert("ZenCord Fatal Error:\n" + msg.slice(0, 400));
+                    // logged to console
                     if (origHandler) origHandler(err, isFatal);
                 });
             }
