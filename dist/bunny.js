@@ -3846,7 +3846,7 @@
     ErrorUtils.setGlobalHandler(noopHandler);
     var moduleExports;
     try {
-      moduleExports = metroRequire(id);
+      moduleExports = void 0;
     } catch (e) {
       blacklistModule(id);
       moduleExports = void 0;
@@ -3855,15 +3855,17 @@
     return moduleExports;
   }
   function* getModules(uniq, all = false) {
-    yield [
-      -1,
-      (init_redesign(), __toCommonJS(redesign_exports))
-    ];
+    if (!metroModules[0]?.isInitialized)
+      metroRequire(0);
     var cache = getMetroCache().findIndex[uniq];
     if (all && !cache?.[`_${ModulesMapInternal.FULL_LOOKUP}`])
       cache = void 0;
     if (cache?.[`_${ModulesMapInternal.NOT_FOUND}`])
       return;
+    yield [
+      -1,
+      (init_redesign(), __toCommonJS(redesign_exports))
+    ];
     for (var id in cache) {
       if (id[0] === "_")
         continue;
@@ -4615,7 +4617,7 @@
       init_logger();
       init_toasts();
       import_react_native4 = __toESM(require_react_native());
-      versionHash = "e35c687-local";
+      versionHash = "4cc458a-local";
     }
   });
 
@@ -8597,15 +8599,15 @@
   function registerCommand(command) {
     var builtInCommands;
     try {
-      builtInCommands = commands.getBuiltInCommands(ApplicationCommandType.CHAT, true, false);
+      builtInCommands = [];
     } catch (e) {
-      builtInCommands = commands.getBuiltInCommands(Object.values(ApplicationCommandType), true, false);
+      builtInCommands = [];
     }
     var sortedCommands = Array.isArray(builtInCommands) ? [
       ...builtInCommands
     ].sort((a, b3) => (parseInt(b3.id || "0", 10) || 0) - (parseInt(a.id || "0", 10) || 0)) : [];
     var lastCommand = sortedCommands[sortedCommands.length - 1];
-    command.id = ((parseInt(lastCommand?.id || "0", 10) || -1) - 1).toString();
+    command.id = (-100 - commands2.length).toString();
     command.__zencord = command.__bunny = {
       shouldHide: command.shouldHide
     };
@@ -15314,7 +15316,7 @@
             uri: zencord_default
           },
           render: () => Promise.resolve().then(() => (init_General(), General_exports)),
-          useTrailing: () => `(${"e35c687-local"})`
+          useTrailing: () => `(${"4cc458a-local"})`
         },
         {
           key: "ZENCORD_PLUGINS",
@@ -15819,7 +15821,7 @@
         alert([
           "Failed to load ZenCord!\n",
           `Build Number: ${ClientInfoManager.Build}`,
-          `ZenCord: ${"e35c687-local"}`,
+          `ZenCord: ${"4cc458a-local"}`,
           stack || e?.toString?.()
         ].join("\n"));
       }
