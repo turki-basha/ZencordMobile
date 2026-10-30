@@ -155,5 +155,7 @@ if (isThisFileBeingRunViaCLI) {
             timeTook,
             true
         );
+        try { if (fs.existsSync('dist/zencord.min.js')) fs.copyFileSync('dist/zencord.min.js', 'dist/bunny.min.js'); } catch (_) {}
     }
 }
+
