@@ -10,10 +10,15 @@ let commands: ApplicationCommand[] = [];
  */
 export function patchCommands() {
     const unpatch = after("getBuiltInCommands", commandsModule, ([type], res: ApplicationCommand[]) => {
-        return [...res, ...commands.filter(c =>
-            (type instanceof Array ? type.includes(c.type) : type === c.type)
-            && (c.__zencord?.shouldHide?.() !== false && c.__bunny?.shouldHide?.() !== false))
-        ];
+        try {
+            if (!res || !Array.isArray(res)) return res;
+            return [...res, ...commands.filter(c =>
+                (type instanceof Array ? type.includes(c.type) : type === c.type)
+                && (c.__zencord?.shouldHide?.() !== false && c.__bunny?.shouldHide?.() !== false))
+            ];
+        } catch {
+            return res;
+        }
     });
 
     // Register core commands
