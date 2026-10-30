@@ -3817,6 +3817,14 @@
         blacklistModule(id + inc);
       }
     }
+    if (moduleExports.isMoment) {
+      instead2("defineLocale", moduleExports, (args, orig) => {
+        var origLocale = moduleExports.locale();
+        var res = orig(...args);
+        moduleExports.locale(origLocale);
+        return res;
+      });
+    }
     var subs = moduleSubscriptions.get(Number(id));
     if (subs) {
       subs.forEach((s) => s());
@@ -3846,7 +3854,7 @@
     ErrorUtils.setGlobalHandler(noopHandler);
     var moduleExports;
     try {
-      moduleExports = void 0;
+      moduleExports = metroRequire(id);
     } catch (e) {
       blacklistModule(id);
       moduleExports = void 0;
@@ -3855,17 +3863,15 @@
     return moduleExports;
   }
   function* getModules(uniq, all = false) {
-    if (!metroModules[0]?.isInitialized)
-      metroRequire(0);
+    yield [
+      -1,
+      (init_redesign(), __toCommonJS(redesign_exports))
+    ];
     var cache = getMetroCache().findIndex[uniq];
     if (all && !cache?.[`_${ModulesMapInternal.FULL_LOOKUP}`])
       cache = void 0;
     if (cache?.[`_${ModulesMapInternal.NOT_FOUND}`])
       return;
-    yield [
-      -1,
-      (init_redesign(), __toCommonJS(redesign_exports))
-    ];
     for (var id in cache) {
       if (id[0] === "_")
         continue;
@@ -4617,7 +4623,7 @@
       init_logger();
       init_toasts();
       import_react_native4 = __toESM(require_react_native());
-      versionHash = "4cc458a-local";
+      versionHash = "c844e5f-local";
     }
   });
 
@@ -15316,7 +15322,7 @@
             uri: zencord_default
           },
           render: () => Promise.resolve().then(() => (init_General(), General_exports)),
-          useTrailing: () => `(${"4cc458a-local"})`
+          useTrailing: () => `(${"c844e5f-local"})`
         },
         {
           key: "ZENCORD_PLUGINS",
@@ -15821,7 +15827,7 @@
         alert([
           "Failed to load ZenCord!\n",
           `Build Number: ${ClientInfoManager.Build}`,
-          `ZenCord: ${"4cc458a-local"}`,
+          `ZenCord: ${"c844e5f-local"}`,
           stack || e?.toString?.()
         ].join("\n"));
       }

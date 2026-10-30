@@ -145,7 +145,15 @@ function onModuleRequire(moduleExports: any, id: Metro.ModuleID) {
         }
     }
 
-    // Hindi timestamps moment (disabled to prevent locale override and chat crash)
+    // Hindi timestamps moment
+    if (moduleExports.isMoment) {
+        instead("defineLocale", moduleExports, (args: [string], orig: (lcl: string) => string) => {
+            const origLocale = moduleExports.locale();
+            const res = orig(...args);
+            moduleExports.locale(origLocale);
+            return res;
+        });
+    }
 
     const subs = moduleSubscriptions.get(Number(id));
     if (subs) {
@@ -183,7 +191,7 @@ export function requireModule(id: Metro.ModuleID) {
 
     let moduleExports;
     try {
-        moduleExports = undefined;
+        moduleExports = metroRequire(id);
     } catch {
         blacklistModule(id);
         moduleExports = undefined;
@@ -196,11 +204,11 @@ export function requireModule(id: Metro.ModuleID) {
 }
 
 export function* getModules(uniq: string, all = false) {
-    if (!metroModules[0]?.isInitialized) metroRequire(0);
+    yield [-1, require("@metro/polyfills/redesign")];
 
     let cache = getMetroCache().findIndex[uniq];
     if (all && !cache?.[`_${ModulesMapInternal.FULL_LOOKUP}`]) cache = undefined;
-    if (cache?.[`_${ModulesMapInternal.NOT_FOUND}`]) return; yield [-1, require("@metro/polyfills/redesign")];
+    if (cache?.[`_${ModulesMapInternal.NOT_FOUND}`]) return;
 
     for (const id in cache) {
         if (id[0] === "_") continue;
