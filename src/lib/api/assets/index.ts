@@ -21,7 +21,8 @@ export function* iterateAssets() {
         if (flagsIndex[id] & ModuleFlags.ASSET) {
             const assetId = requireModule(Number(id));
             if (typeof assetId !== "number" || yielded.has(assetId)) continue;
-            yield getAssetById(assetId);
+            const resolvedAsset = getAssetById(assetId);
+            yield resolvedAsset;
             yielded.add(assetId);
         }
     }

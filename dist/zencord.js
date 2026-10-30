@@ -4172,7 +4172,8 @@
         var assetId = requireModule(Number(id));
         if (typeof assetId !== "number" || yielded.has(assetId))
           continue;
-        yield getAssetById(assetId);
+        var resolvedAsset = getAssetById(assetId);
+        yield resolvedAsset;
         yielded.add(assetId);
       }
     }
@@ -4593,7 +4594,7 @@
       init_logger();
       init_toasts();
       import_react_native4 = __toESM(require_react_native());
-      versionHash = "a44b380-local";
+      versionHash = "0184471-local";
     }
   });
 
@@ -15094,7 +15095,7 @@
             uri: zencord_default
           },
           render: () => Promise.resolve().then(() => (init_General(), General_exports)),
-          useTrailing: () => `(${"a44b380-local"})`
+          useTrailing: () => `(${"0184471-local"})`
         },
         {
           key: "ZENCORD_PLUGINS",
@@ -15599,7 +15600,7 @@
         alert([
           "Failed to load ZenCord!\n",
           `Build Number: ${ClientInfoManager.Build}`,
-          `ZenCord: ${"a44b380-local"}`,
+          `ZenCord: ${"0184471-local"}`,
           stack || e?.toString?.()
         ].join("\n"));
       }
