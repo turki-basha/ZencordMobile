@@ -36,31 +36,15 @@ for (const key in metroModules) {
             const originalImportingId = _importingModuleId;
             _importingModuleId = id;
 
-            const { 1: metroRequire, 4: moduleObject } = args;
+            const { 4: moduleObject } = args;
 
-            args[2 /* metroImportDefault */] = id => {
-                const exps = metroRequire(id);
-                return exps && exps.__esModule ? exps.default : exps;
-            };
-
-            args[3 /* metroImportAll */] = id => {
-                const exps = metroRequire(id);
-                if (exps && exps.__esModule) return exps;
-
-                const importAll: Record<string, any> = {};
-                if (exps) Object.assign(importAll, exps);
-                importAll.default = exps;
-                return importAll;
-            };
-
-            origFunc(...args);
+            const ret = origFunc(...args);
             if (!isBadExports(moduleObject.exports)) {
                 onModuleRequire(moduleObject.exports, id);
-            } else {
-                blacklistModule(id);
             }
 
             _importingModuleId = originalImportingId;
+            return ret;
         }) as any); // If only spitroast had better types
     }
 }
@@ -94,11 +78,11 @@ function onModuleRequire(moduleExports: any, id: Metro.ModuleID) {
 
     // There are modules registering the same native component
     if (!patchedNativeComponentRegistry && ["customBubblingEventTypes", "customDirectEventTypes", "register", "get"].every(x => moduleExports[x])) {
-        instead("register", moduleExports, ([name, cb]: any, origFunc: any) => {
+        instead("register", moduleExports, (args: any, origFunc: any) => {
             try {
-                return origFunc(name, cb);
+                return origFunc.apply(moduleExports, args);
             } catch {
-                return name;
+                return args[0];
             }
         });
 
@@ -136,14 +120,7 @@ function onModuleRequire(moduleExports: any, id: Metro.ModuleID) {
         patchedInspectSource = true;
     }
 
-    //
-    if (moduleExports.findHostInstance_DEPRECATED) {
-        const prevExports = metroModules[id - 1]?.publicModule.exports;
-        const inc = prevExports.default?.reactProfilingEnabled ? 1 : -1;
-        if (!metroModules[id + inc]?.isInitialized) {
-            blacklistModule(id + inc);
-        }
-    }
+
 
     // Hindi timestamps moment
     if (false && moduleExports.isMoment) {
@@ -204,8 +181,6 @@ export function requireModule(id: Metro.ModuleID) {
 }
 
 export function* getModules(uniq: string, all = false) {
-    yield [-1, require("@metro/polyfills/redesign")];
-
     let cache = getMetroCache().findIndex[uniq];
     if (all && !cache?.[`_${ModulesMapInternal.FULL_LOOKUP}`]) cache = undefined;
     if (cache?.[`_${ModulesMapInternal.NOT_FOUND}`]) return;
@@ -222,6 +197,8 @@ export function* getModules(uniq: string, all = false) {
         if (isBadExports(exports)) continue;
         yield [id, exports];
     }
+
+    yield [-1, require("@metro/polyfills/redesign")];
 }
 
 export function* getCachedPolyfillModules(name: string) {

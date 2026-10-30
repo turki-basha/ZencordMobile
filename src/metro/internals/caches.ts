@@ -4,7 +4,7 @@ import { debounce } from "es-toolkit";
 
 import { ModuleFlags, ModulesMapInternal } from "./enums";
 
-const CACHE_VERSION = 103;
+const CACHE_VERSION = 104;
 const ZENCORD_METRO_CACHE_PATH = "caches/zencord_metro_modules.json";
 
 type ModulesMap = {

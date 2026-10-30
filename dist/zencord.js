@@ -3777,11 +3777,11 @@
       "register",
       "get"
     ].every((x2) => moduleExports[x2])) {
-      instead2("register", moduleExports, ([name, cb], origFunc) => {
+      instead2("register", moduleExports, (args, origFunc) => {
         try {
-          return origFunc(name, cb);
+          return origFunc.apply(moduleExports, args);
         } catch (e) {
-          return name;
+          return args[0];
         }
       });
       patchedNativeComponentRegistry = true;
@@ -3809,13 +3809,6 @@
       var inspect = (f) => typeof f === "function" && functionToString.apply(f, []);
       window["__core-js_shared__"].inspectSource = inspect;
       patchedInspectSource = true;
-    }
-    if (moduleExports.findHostInstance_DEPRECATED) {
-      var prevExports = metroModules[id - 1]?.publicModule.exports;
-      var inc = prevExports.default?.reactProfilingEnabled ? 1 : -1;
-      if (!metroModules[id + inc]?.isInitialized) {
-        blacklistModule(id + inc);
-      }
     }
     if (false) {
       instead2("defineLocale", moduleExports, (args, orig) => {
@@ -3863,10 +3856,6 @@
     return moduleExports;
   }
   function* getModules(uniq, all = false) {
-    yield [
-      -1,
-      (init_redesign(), __toCommonJS(redesign_exports))
-    ];
     var cache = getMetroCache().findIndex[uniq];
     if (all && !cache?.[`_${ModulesMapInternal.FULL_LOOKUP}`])
       cache = void 0;
@@ -3892,6 +3881,10 @@
         exports1
       ];
     }
+    yield [
+      -1,
+      (init_redesign(), __toCommonJS(redesign_exports))
+    ];
   }
   function* getCachedPolyfillModules(name) {
     var cache = getMetroCache().polyfillIndex[name];
@@ -3936,34 +3929,13 @@
           instead2("factory", metroModule, (args, origFunc) => {
             var originalImportingId = _importingModuleId;
             _importingModuleId = id;
-            var { 1: metroRequire2, 4: moduleObject } = args;
-            args[
-              2
-              /* metroImportDefault */
-            ] = (id2) => {
-              var exps = metroRequire2(id2);
-              return exps && exps.__esModule ? exps.default : exps;
-            };
-            args[
-              3
-              /* metroImportAll */
-            ] = (id2) => {
-              var exps = metroRequire2(id2);
-              if (exps && exps.__esModule)
-                return exps;
-              var importAll = {};
-              if (exps)
-                Object.assign(importAll, exps);
-              importAll.default = exps;
-              return importAll;
-            };
-            origFunc(...args);
+            var { 4: moduleObject } = args;
+            var ret = origFunc(...args);
             if (!isBadExports(moduleObject.exports)) {
               onModuleRequire(moduleObject.exports, id);
-            } else {
-              blacklistModule(id);
             }
             _importingModuleId = originalImportingId;
+            return ret;
           });
         }
       };
@@ -4100,7 +4072,7 @@
       init_modules();
       init_dist();
       init_enums();
-      CACHE_VERSION = 103;
+      CACHE_VERSION = 104;
       ZENCORD_METRO_CACHE_PATH = "caches/zencord_metro_modules.json";
       _metroCache = null;
       getMetroCache = () => _metroCache;
@@ -4594,7 +4566,7 @@
       init_logger();
       init_toasts();
       import_react_native4 = __toESM(require_react_native());
-      versionHash = "0184471-local";
+      versionHash = "b41f619-local";
     }
   });
 
@@ -8386,6 +8358,8 @@
   });
   function injectFluxInterceptor() {
     var cb = (payload) => {
+      if (!payload || typeof payload !== "object")
+        return false;
       for (var intercept2 of intercepts) {
         var res = intercept2(payload);
         if (res == null) {
@@ -8397,7 +8371,7 @@
           payload[modifiedSym] = true;
         }
       }
-      return blockedSym in payload;
+      return Boolean(blockedSym in payload);
     };
     (dispatcher._interceptors ??= []).unshift(cb);
     return () => dispatcher._interceptors &&= dispatcher._interceptors.filter((v2) => v2 !== cb);
@@ -15095,7 +15069,7 @@
             uri: zencord_default
           },
           render: () => Promise.resolve().then(() => (init_General(), General_exports)),
-          useTrailing: () => `(${"0184471-local"})`
+          useTrailing: () => `(${"b41f619-local"})`
         },
         {
           key: "ZENCORD_PLUGINS",
@@ -15600,7 +15574,7 @@
         alert([
           "Failed to load ZenCord!\n",
           `Build Number: ${ClientInfoManager.Build}`,
-          `ZenCord: ${"0184471-local"}`,
+          `ZenCord: ${"b41f619-local"}`,
           stack || e?.toString?.()
         ].join("\n"));
       }
