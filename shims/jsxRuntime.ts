@@ -14,29 +14,5 @@ function unproxyFirstArg<T>(args: T[]) {
 }
 
 export const Fragment = Symbol.for("react.fragment");
-
-export const jsx = (...args: any[]) => {
-    unproxyFirstArg(args);
-    try {
-        if (args[1]?.id && typeof args[1].id === "string" && args[1].id.startsWith("zencord-")) {
-            const custom = (globalThis as any).__zencord_badges?.[args[1].id];
-            if (custom) {
-                args[1] = { ...args[1], ...custom };
-            }
-        }
-    } catch {}
-    return jsxRuntime.jsx(...args);
-};
-
-export const jsxs = (...args: any[]) => {
-    unproxyFirstArg(args);
-    try {
-        if (args[1]?.id && typeof args[1].id === "string" && args[1].id.startsWith("zencord-")) {
-            const custom = (globalThis as any).__zencord_badges?.[args[1].id];
-            if (custom) {
-                args[1] = { ...args[1], ...custom };
-            }
-        }
-    } catch {}
-    return jsxRuntime.jsxs(...args);
-};
+export const jsx = (...args: any[]) => jsxRuntime.jsx(...unproxyFirstArg(args));
+export const jsxs = (...args: any[]) => jsxRuntime.jsxs(...unproxyFirstArg(args));

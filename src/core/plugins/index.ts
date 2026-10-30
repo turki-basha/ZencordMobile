@@ -13,11 +13,12 @@ interface CorePlugin {
 
 // Called from @lib/plugins
 export const getCorePlugins = (): Record<string, CorePlugin> => {
-    const badgesPlugin = require("./badges");
+    // Badges temporarily disabled for testing chat/messages stability
+    // const badgesPlugin = require("./badges");
     const quickInstallPlugin = require("./quickinstall");
 
     return {
-        "zencord.badges": badgesPlugin,
+        // "zencord.badges": badgesPlugin,
         "zencord.quickinstall": quickInstallPlugin
     };
 };
