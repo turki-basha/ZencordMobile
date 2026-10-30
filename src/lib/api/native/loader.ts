@@ -31,7 +31,7 @@ function polyfillVendettaLoaderIdentity() {
     if (!isPyonLoader() || isVendettaLoader()) return null;
 
     const loader = {
-        name: pyonLoaderIdentity.loaderName,
+        name: "ZenCord",
         features: {} as Record<string, any>
     };
 
@@ -93,10 +93,7 @@ export function getVendettaLoaderIdentity(): VendettaLoaderIdentity | null {
 getVendettaLoaderIdentity();
 
 export function getLoaderName() {
-    if (isPyonLoader()) return pyonLoaderIdentity.loaderName;
-    else if (isVendettaLoader()) return vendettaLoaderIdentity.name;
-
-    return "Unknown";
+    return "ZenCord";
 }
 
 export function getLoaderVersion(): string | null {

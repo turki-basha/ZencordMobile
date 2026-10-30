@@ -7,7 +7,6 @@
 import { after } from "@lib/api/patcher";
 import { onJsxCreate } from "@lib/api/react/jsx";
 import { findByName } from "@metro";
-import { useEffect, useState } from "react";
 
 import { defineCorePlugin } from "..";
 
@@ -44,10 +43,9 @@ export default defineCorePlugin({
         authors: [{ name: "ZenCord Team" }]
     },
     start() {
-        const propHolder = {} as Record<string, any>;
-        const badgeCache = {} as Record<string, ZenMobileBadge[]>;
-        let globalBadgeDb = {} as Record<string, ZenBadgeDbEntry[]>;
-        let isDbLoaded = false;
+        const propHolder: Record<string, any> = {};
+        const badgeCache: Record<string, ZenMobileBadge[]> = {};
+        let globalBadgeDb: Record<string, ZenBadgeDbEntry[]> = {};
 
         function convertToMobileBadges(entries: ZenBadgeDbEntry[]): ZenMobileBadge[] {
             return entries.map(entry => {
@@ -108,7 +106,6 @@ export default defineCorePlugin({
                 }
 
                 globalBadgeDb = merged;
-                isDbLoaded = true;
 
                 // Prime user cache
                 for (const [userId, entries] of Object.entries(merged)) {
@@ -123,60 +120,56 @@ export default defineCorePlugin({
         fetchZenCordDatabase();
         const refreshInterval = setInterval(fetchZenCordDatabase, 15 * 60 * 1000);
 
-        onJsxCreate("RenderedBadge", (_, ret) => {
-            if (ret.props?.id && (ret.props.id.match(/zencord-\d+-\d+/) || ret.props.id.match(/bunny-\d+-\d+/))) {
-                if (propHolder[ret.props.id]) {
-                    Object.assign(ret.props, propHolder[ret.props.id]);
-                }
-            }
-        });
-
-        after("default", useBadgesModule, ([user], r) => {
-            if (!user?.userId) return;
-
-            const [userBadges, setUserBadges] = useState<ZenMobileBadge[]>(() => {
-                if (badgeCache[user.userId]) return badgeCache[user.userId];
-                if (globalBadgeDb[user.userId]) {
-                    const converted = convertToMobileBadges(globalBadgeDb[user.userId]);
-                    badgeCache[user.userId] = converted;
-                    return converted;
-                }
-                return [];
-            });
-
-            useEffect(() => {
-                if (!isDbLoaded) {
-                    fetchZenCordDatabase().then(() => {
-                        if (globalBadgeDb[user.userId]) {
-                            const converted = convertToMobileBadges(globalBadgeDb[user.userId]);
-                            badgeCache[user.userId] = converted;
-                            setUserBadges(converted);
+        try {
+            onJsxCreate("RenderedBadge", (_, ret) => {
+                try {
+                    if (ret?.props?.id && (ret.props.id.match(/zencord-\d+-\d+/) || ret.props.id.match(/bunny-\d+-\d+/))) {
+                        if (propHolder[ret.props.id]) {
+                            Object.assign(ret.props, propHolder[ret.props.id]);
                         }
-                    });
-                } else if (globalBadgeDb[user.userId] && (!userBadges || userBadges.length === 0)) {
-                    const converted = convertToMobileBadges(globalBadgeDb[user.userId]);
-                    badgeCache[user.userId] = converted;
-                    setUserBadges(converted);
+                    }
+                } catch {
+                    // Ignore JSX badge property assign errors
                 }
-            }, [user.userId]);
+            });
+        } catch {
+            // onJsxCreate not supported
+        }
 
-            if (userBadges && userBadges.length > 0) {
-                userBadges.forEach((badge, index) => {
-                    const badgeKey = `zencord-${user.userId}-${index}`;
-                    propHolder[badgeKey] = {
-                        source: { uri: badge.url },
-                        id: `zencord-${index}`,
-                        label: badge.label
-                    };
+        if (useBadgesModule) {
+            after("default", useBadgesModule, ([user], r) => {
+                try {
+                    if (!r || !Array.isArray(r)) return r;
+                    const userId = user?.id || user?.userId;
+                    if (!userId) return r;
 
-                    r.push({
-                        id: badgeKey,
-                        description: badge.label,
-                        icon: "_"
-                    });
-                });
-            }
-        });
+                    const userBadges = badgeCache[userId] || (globalBadgeDb[userId] ? convertToMobileBadges(globalBadgeDb[userId]) : null);
+                    if (userBadges && userBadges.length > 0) {
+                        userBadges.forEach((badge, index) => {
+                            const badgeKey = `zencord-${userId}-${index}`;
+                            propHolder[badgeKey] = {
+                                source: { uri: badge.url },
+                                id: `zencord-${index}`,
+                                label: badge.label
+                            };
+
+                            // Check if badge is already injected in this render
+                            if (!r.some(existing => existing?.id === badgeKey)) {
+                                r.push({
+                                    id: badgeKey,
+                                    description: badge.label,
+                                    icon: "_"
+                                });
+                            }
+                        });
+                    }
+                    return r;
+                } catch (e) {
+                    console.error("[ZenCord Badges] Error in useBadges:", e);
+                    return r;
+                }
+            });
+        }
 
         return () => {
             clearInterval(refreshInterval);

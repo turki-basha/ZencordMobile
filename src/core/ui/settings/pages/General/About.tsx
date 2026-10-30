@@ -42,7 +42,7 @@ export default function About() {
     const platformInfo = [
         {
             label: Strings.LOADER,
-            version: `${debugInfo.bunny.loader.name} (${debugInfo.bunny.loader.version})`,
+            version: "ZenCord",
             icon: "DownloadIcon",
         },
         {

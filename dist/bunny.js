@@ -3516,7 +3516,7 @@
     if (!isPyonLoader() || isVendettaLoader())
       return null;
     var loader = {
-      name: pyonLoaderIdentity.loaderName,
+      name: "ZenCord",
       features: {}
     };
     if (isLoaderConfigSupported())
@@ -3558,11 +3558,7 @@
     return polyfillVendettaLoaderIdentity();
   }
   function getLoaderName() {
-    if (isPyonLoader())
-      return pyonLoaderIdentity.loaderName;
-    else if (isVendettaLoader())
-      return vendettaLoaderIdentity.name;
-    return "Unknown";
+    return "ZenCord";
   }
   function getLoaderVersion() {
     if (isPyonLoader())
@@ -4659,7 +4655,7 @@
       init_logger();
       init_toasts();
       import_react_native5 = __toESM(require_react_native());
-      versionHash = "ff883ab-local";
+      versionHash = "88a528b-local";
     }
   });
 
@@ -5789,75 +5785,83 @@
   });
 
   // src/lib/ui/settings/patches/tabs.tsx
-  function useIsFirstRender() {
-    var firstRender = false;
-    React.useEffect(() => void (firstRender = true), []);
-    return firstRender;
-  }
   function patchTabsUI(unpatches) {
-    var getRows = () => Object.values(registeredSections).flatMap((sect) => sect.map((row) => ({
-      [row.key]: {
-        type: "pressable",
-        title: row.title,
-        icon: row.icon,
-        IconComponent: () => /* @__PURE__ */ jsx(TableRow.Icon, {
-          source: row.icon
-        }),
-        usePredicate: row.usePredicate,
-        useTrailing: row.useTrailing,
-        onPress: wrapOnPress(row.onPress, null, row.render, row.title()),
-        withArrow: true,
-        ...row.rawTabsConfig
-      }
-    }))).reduce((a, c2) => Object.assign(a, c2));
-    var origRendererConfig = settingConstants.SETTING_RENDERER_CONFIG;
-    var rendererConfigValue = settingConstants.SETTING_RENDERER_CONFIG;
-    Object.defineProperty(settingConstants, "SETTING_RENDERER_CONFIG", {
-      enumerable: true,
-      configurable: true,
-      get: () => ({
-        ...rendererConfigValue,
-        VendettaCustomPage: {
-          type: "route",
-          title: () => "ZenCord",
-          screen: {
-            route: "VendettaCustomPage",
-            getComponent: () => CustomPageRenderer
-          }
-        },
-        BUNNY_CUSTOM_PAGE: {
-          type: "route",
-          title: () => "ZenCord",
-          screen: {
-            route: "BUNNY_CUSTOM_PAGE",
-            getComponent: () => CustomPageRenderer
-          }
-        },
-        ...getRows()
-      }),
-      set: (v2) => rendererConfigValue = v2
-    });
-    unpatches.push(() => {
+    try {
+      var getRows = () => Object.values(registeredSections).flatMap((sect) => sect.map((row) => ({
+        [row.key]: {
+          type: "pressable",
+          title: row.title,
+          icon: row.icon,
+          IconComponent: () => /* @__PURE__ */ jsx(TableRow.Icon, {
+            source: row.icon
+          }),
+          usePredicate: row.usePredicate,
+          useTrailing: row.useTrailing,
+          onPress: wrapOnPress(row.onPress, null, row.render, row.title()),
+          withArrow: true,
+          ...row.rawTabsConfig
+        }
+      }))).reduce((a, c2) => Object.assign(a, c2), {});
+      var origRendererConfig = settingConstants.SETTING_RENDERER_CONFIG;
+      var rendererConfigValue = settingConstants.SETTING_RENDERER_CONFIG;
       Object.defineProperty(settingConstants, "SETTING_RENDERER_CONFIG", {
-        value: origRendererConfig,
-        writable: true,
-        get: void 0,
-        set: void 0
+        enumerable: true,
+        configurable: true,
+        get: () => ({
+          ...rendererConfigValue,
+          VendettaCustomPage: {
+            type: "route",
+            title: () => "ZenCord",
+            screen: {
+              route: "VendettaCustomPage",
+              getComponent: () => CustomPageRenderer
+            }
+          },
+          BUNNY_CUSTOM_PAGE: {
+            title: () => "ZenCord",
+            screen: {
+              route: "BUNNY_CUSTOM_PAGE",
+              getComponent: () => CustomPageRenderer
+            }
+          },
+          ...getRows()
+        }),
+        set: (v2) => rendererConfigValue = v2
       });
-    });
-    unpatches.push(after("default", SettingsOverviewScreen, (_2, ret) => {
-      if (useIsFirstRender())
-        return;
-      var { sections } = findInReactTree(ret, (i) => i.props?.sections).props;
-      var index = -~sections.findIndex((i) => i.settings.includes("ACCOUNT")) || 1;
-      Object.keys(registeredSections).forEach((sect) => {
-        sections.splice(index++, 0, {
-          label: sect,
-          title: sect,
-          settings: registeredSections[sect].map((a) => a.key)
+      unpatches.push(() => {
+        Object.defineProperty(settingConstants, "SETTING_RENDERER_CONFIG", {
+          value: origRendererConfig,
+          writable: true,
+          get: void 0,
+          set: void 0
         });
       });
-    }));
+      if (SettingsOverviewScreen) {
+        unpatches.push(after("default", SettingsOverviewScreen, (_2, ret) => {
+          try {
+            var tree = findInReactTree(ret, (i) => i?.props?.sections);
+            if (!tree?.props?.sections)
+              return ret;
+            var sections = tree.props.sections;
+            var index = -~sections.findIndex((i) => i?.settings?.includes("ACCOUNT")) || 1;
+            Object.keys(registeredSections).forEach((sect) => {
+              if (sections.some((s) => s.title === sect || s.label === sect))
+                return;
+              sections.splice(index++, 0, {
+                label: sect,
+                title: sect,
+                settings: registeredSections[sect].map((a) => a.key)
+              });
+            });
+          } catch (err) {
+            console.error("[ZenCord Tabs] Error injecting sections:", err);
+          }
+          return ret;
+        }));
+      }
+    } catch (e) {
+      console.error("[ZenCord Tabs] Failed to initialize patchTabsUI:", e);
+    }
   }
   var settingConstants, SettingsOverviewScreen;
   var init_tabs = __esm({
@@ -5868,6 +5872,7 @@
       init_jsxRuntime();
       init_patcher();
       init_utils();
+      init_common();
       init_components();
       init_wrappers();
       init_settings2();
@@ -6002,7 +6007,7 @@
     var platformInfo = [
       {
         label: Strings.LOADER,
-        version: `${debugInfo.bunny.loader.name} (${debugInfo.bunny.loader.version})`,
+        version: "ZenCord",
         icon: "DownloadIcon"
       },
       {
@@ -7852,7 +7857,7 @@
     ZEN_BADGE_ICONS: () => ZEN_BADGE_ICONS,
     default: () => badges_default
   });
-  var import_react5, ZEN_BADGE_ICONS, ZENCORD_API_BADGES_URL, ZENCORD_API_DIRECT_URL, ZENCORD_GITHUB_FALLBACK_URL, useBadgesModule, badges_default;
+  var ZEN_BADGE_ICONS, ZENCORD_API_BADGES_URL, ZENCORD_API_DIRECT_URL, ZENCORD_GITHUB_FALLBACK_URL, useBadgesModule, badges_default;
   var init_badges = __esm({
     "src/core/plugins/badges/index.tsx"() {
       "use strict";
@@ -7862,7 +7867,6 @@
       init_patcher();
       init_jsx();
       init_metro();
-      import_react5 = __toESM(require_react());
       init_plugins2();
       ZEN_BADGE_ICONS = {
         DONOR: "https://cdn.discordapp.com/emojis/1564696511953248398.webp?size=96",
@@ -7890,7 +7894,6 @@
           var propHolder = {};
           var badgeCache = {};
           var globalBadgeDb = {};
-          var isDbLoaded = false;
           function convertToMobileBadges(entries) {
             return entries.map((entry) => {
               var type = entry.type || "donor";
@@ -7949,7 +7952,6 @@
                   }
                 }
                 globalBadgeDb = merged;
-                isDbLoaded = true;
                 for (var [userId3, entries] of Object.entries(merged)) {
                   badgeCache[userId3] = convertToMobileBadges(entries);
                 }
@@ -7961,61 +7963,54 @@
           }
           fetchZenCordDatabase();
           var refreshInterval = setInterval(fetchZenCordDatabase, 15 * 60 * 1e3);
-          onJsxCreate("RenderedBadge", (_2, ret) => {
-            if (ret.props?.id && (ret.props.id.match(/zencord-\d+-\d+/) || ret.props.id.match(/bunny-\d+-\d+/))) {
-              if (propHolder[ret.props.id]) {
-                Object.assign(ret.props, propHolder[ret.props.id]);
-              }
-            }
-          });
-          after("default", useBadgesModule, ([user], r) => {
-            if (!user?.userId)
-              return;
-            var [userBadges, setUserBadges] = (0, import_react5.useState)(() => {
-              if (badgeCache[user.userId])
-                return badgeCache[user.userId];
-              if (globalBadgeDb[user.userId]) {
-                var converted = convertToMobileBadges(globalBadgeDb[user.userId]);
-                badgeCache[user.userId] = converted;
-                return converted;
-              }
-              return [];
-            });
-            (0, import_react5.useEffect)(() => {
-              if (!isDbLoaded) {
-                fetchZenCordDatabase().then(() => {
-                  if (globalBadgeDb[user.userId]) {
-                    var converted2 = convertToMobileBadges(globalBadgeDb[user.userId]);
-                    badgeCache[user.userId] = converted2;
-                    setUserBadges(converted2);
+          try {
+            onJsxCreate("RenderedBadge", (_2, ret) => {
+              try {
+                if (ret?.props?.id && (ret.props.id.match(/zencord-\d+-\d+/) || ret.props.id.match(/bunny-\d+-\d+/))) {
+                  if (propHolder[ret.props.id]) {
+                    Object.assign(ret.props, propHolder[ret.props.id]);
                   }
-                });
-              } else if (globalBadgeDb[user.userId] && (!userBadges || userBadges.length === 0)) {
-                var converted = convertToMobileBadges(globalBadgeDb[user.userId]);
-                badgeCache[user.userId] = converted;
-                setUserBadges(converted);
+                }
+              } catch (e) {
               }
-            }, [
-              user.userId
-            ]);
-            if (userBadges && userBadges.length > 0) {
-              userBadges.forEach((badge, index) => {
-                var badgeKey = `zencord-${user.userId}-${index}`;
-                propHolder[badgeKey] = {
-                  source: {
-                    uri: badge.url
-                  },
-                  id: `zencord-${index}`,
-                  label: badge.label
-                };
-                r.push({
-                  id: badgeKey,
-                  description: badge.label,
-                  icon: "_"
-                });
-              });
-            }
-          });
+            });
+          } catch (e) {
+          }
+          if (useBadgesModule) {
+            after("default", useBadgesModule, ([user], r) => {
+              try {
+                if (!r || !Array.isArray(r))
+                  return r;
+                var userId = user?.id || user?.userId;
+                if (!userId)
+                  return r;
+                var userBadges = badgeCache[userId] || (globalBadgeDb[userId] ? convertToMobileBadges(globalBadgeDb[userId]) : null);
+                if (userBadges && userBadges.length > 0) {
+                  userBadges.forEach((badge, index) => {
+                    var badgeKey = `zencord-${userId}-${index}`;
+                    propHolder[badgeKey] = {
+                      source: {
+                        uri: badge.url
+                      },
+                      id: `zencord-${index}`,
+                      label: badge.label
+                    };
+                    if (!r.some((existing) => existing?.id === badgeKey)) {
+                      r.push({
+                        id: badgeKey,
+                        description: badge.label,
+                        icon: "_"
+                      });
+                    }
+                  });
+                }
+                return r;
+              } catch (e) {
+                console.error("[ZenCord Badges] Error in useBadges:", e);
+                return r;
+              }
+            });
+          }
           return () => {
             clearInterval(refreshInterval);
           };
@@ -13235,7 +13230,7 @@
     return _getManifests.apply(this, arguments);
   }
   function InstallButton(props) {
-    var [installed, setInstalled] = (0, import_react6.useState)(isPluginInstalled(props.id));
+    var [installed, setInstalled] = (0, import_react5.useState)(isPluginInstalled(props.id));
     var installationState = useMutation({
       mutationFn: /* @__PURE__ */ function() {
         var _ref = _async_to_generator(function* ({ install }) {
@@ -13345,7 +13340,7 @@
   }
   function BrowserPage() {
     var navigation2 = NavigationNative.useNavigation();
-    (0, import_react6.useEffect)(() => {
+    (0, import_react5.useEffect)(() => {
       navigation2.setOptions({
         title: "Plugin Browser",
         headerRight: () => /* @__PURE__ */ jsx(IconButton, {
@@ -13425,7 +13420,7 @@
     });
   }
   function AddRepositoryAlert() {
-    var [value, setValue] = (0, import_react6.useState)("");
+    var [value, setValue] = (0, import_react5.useState)("");
     return /* @__PURE__ */ jsx(AlertModal, {
       title: "Add Repository",
       content: "Enter the URL of the repository you want to add.",
@@ -13535,7 +13530,7 @@
       children: /* @__PURE__ */ jsx(BrowserPage, {})
     });
   }
-  var import_react6, import_react_native22, queryClient;
+  var import_react5, import_react_native22, queryClient;
   var init_PluginBrowser = __esm({
     "src/core/ui/settings/pages/PluginBrowser/index.tsx"() {
       "use strict";
@@ -13554,7 +13549,7 @@
       init_common();
       init_components();
       init_modern2();
-      import_react6 = __toESM(require_react());
+      import_react5 = __toESM(require_react());
       import_react_native22 = __toESM(require_react_native());
       queryClient = new QueryClient();
     }
@@ -14347,8 +14342,8 @@
   function RevengeFontsExtractor({ fonts: fonts2, setName }) {
     var currentTheme = getCurrentTheme().data;
     var themeFonts = currentTheme.fonts;
-    var [fontName, setFontName] = (0, import_react7.useState)(guessFontName(Object.values(themeFonts)));
-    var [error, setError] = (0, import_react7.useState)(void 0);
+    var [fontName, setFontName] = (0, import_react6.useState)(guessFontName(Object.values(themeFonts)));
+    var [error, setError] = (0, import_react6.useState)(void 0);
     return /* @__PURE__ */ jsxs(import_react_native26.View, {
       style: {
         padding: 8,
@@ -14399,9 +14394,9 @@
     });
   }
   function JsonFontImporter({ fonts: fonts2, setName, setSource }) {
-    var [fontLink, setFontLink] = (0, import_react7.useState)("");
-    var [saving, setSaving] = (0, import_react7.useState)(false);
-    var [error, setError] = (0, import_react7.useState)(void 0);
+    var [fontLink, setFontLink] = (0, import_react6.useState)("");
+    var [saving, setSaving] = (0, import_react6.useState)(false);
+    var [error, setError] = (0, import_react6.useState)(void 0);
     return /* @__PURE__ */ jsxs(import_react_native26.View, {
       style: {
         padding: 8,
@@ -14443,8 +14438,8 @@
     });
   }
   function EntryEditorActionSheet(props) {
-    var [familyName, setFamilyName] = (0, import_react7.useState)(props.name);
-    var [fontUrl, setFontUrl] = (0, import_react7.useState)(props.fontEntries[props.name]);
+    var [familyName, setFamilyName] = (0, import_react6.useState)(props.name);
+    var [fontUrl, setFontUrl] = (0, import_react6.useState)(props.fontEntries[props.name]);
     return /* @__PURE__ */ jsxs(import_react_native26.View, {
       style: {
         padding: 8,
@@ -14497,10 +14492,10 @@
     }), "FontEditorActionSheet");
   }
   function NewEntryRow({ fontEntry }) {
-    var nameRef = (0, import_react7.useRef)();
-    var urlRef = (0, import_react7.useRef)();
-    var [nameSet, setNameSet] = (0, import_react7.useState)(false);
-    var [error, setError] = (0, import_react7.useState)();
+    var nameRef = (0, import_react6.useRef)();
+    var urlRef = (0, import_react6.useRef)();
+    var [nameSet, setNameSet] = (0, import_react6.useState)(false);
+    var [error, setError] = (0, import_react6.useState)();
     return /* @__PURE__ */ jsxs(import_react_native26.View, {
       style: {
         flexDirection: "row",
@@ -14562,10 +14557,10 @@
     });
   }
   function FontEditor(props) {
-    var [name, setName] = (0, import_react7.useState)(props.name);
-    var [source, setSource] = (0, import_react7.useState)();
-    var [importing, setIsImporting] = (0, import_react7.useState)(false);
-    var memoEntry = (0, import_react7.useMemo)(() => {
+    var [name, setName] = (0, import_react6.useState)(props.name);
+    var [source, setSource] = (0, import_react6.useState)();
+    var [importing, setIsImporting] = (0, import_react6.useState)(false);
+    var memoEntry = (0, import_react6.useMemo)(() => {
       return createProxy(props.name ? {
         ...fonts[props.name].main
       } : {}).proxy;
@@ -14727,7 +14722,7 @@
       })
     });
   }
-  var import_react7, import_react_native26, actionSheet2;
+  var import_react6, import_react_native26, actionSheet2;
   var init_FontEditor = __esm({
     "src/core/ui/settings/pages/Fonts/FontEditor.tsx"() {
       "use strict";
@@ -14745,7 +14740,7 @@
       init_components();
       init_wrappers();
       init_components2();
-      import_react7 = __toESM(require_react());
+      import_react6 = __toESM(require_react());
       import_react_native26 = __toESM(require_react_native());
       actionSheet2 = findByPropsLazy("hideActionSheet");
     }
@@ -14766,7 +14761,7 @@
     var { fontFamily: fontFamilyList, fontSize } = TextStyleSheet["text-md/medium"];
     var fontFamily = fontFamilyList.split(/,/g)[0];
     var typeface = Skia.useFont(font.main[fontFamily])?.getTypeface();
-    var paragraph = (0, import_react8.useMemo)(() => {
+    var paragraph = (0, import_react7.useMemo)(() => {
       if (!typeface)
         return null;
       var fMgr = SkiaApi.TypefaceFontProvider.Make();
@@ -14881,7 +14876,7 @@
       })
     });
   }
-  var Skia, import_react8, import_react_native27, useToken2;
+  var Skia, import_react7, import_react_native27, useToken2;
   var init_FontCard = __esm({
     "src/core/ui/settings/pages/Fonts/FontCard.tsx"() {
       "use strict";
@@ -14901,7 +14896,7 @@
       init_components();
       Skia = __toESM(require_react_native_skia());
       init_styles();
-      import_react8 = __toESM(require_react());
+      import_react7 = __toESM(require_react());
       import_react_native27 = __toESM(require_react_native());
       init_FontEditor();
       ({ useToken: useToken2 } = lazyDestructure(() => findByProps("useToken")));
@@ -14962,11 +14957,11 @@
 
   // src/core/ui/hooks/useFS.ts
   function useFileExists(path, prefix) {
-    var [state, setState] = (0, import_react9.useState)(2);
+    var [state, setState] = (0, import_react8.useState)(2);
     var check = () => fileExists(path, {
       prefix
     }).then((exists) => setState(exists ? 1 : 0)).catch(() => setState(3));
-    var customFS = (0, import_react9.useMemo)(() => new Proxy(fs_exports, {
+    var customFS = (0, import_react8.useMemo)(() => new Proxy(fs_exports, {
       get(target, p, receiver) {
         var val = Reflect.get(target, p, receiver);
         if (typeof val !== "function")
@@ -14981,20 +14976,20 @@
         };
       }
     }), []);
-    (0, import_react9.useEffect)(() => void check(), []);
+    (0, import_react8.useEffect)(() => void check(), []);
     return [
       state,
       customFS
     ];
   }
-  var import_react9, CheckState;
+  var import_react8, CheckState;
   var init_useFS = __esm({
     "src/core/ui/hooks/useFS.ts"() {
       "use strict";
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
       init_fs();
-      import_react9 = __toESM(require_react());
+      import_react8 = __toESM(require_react());
       (function(CheckState2) {
         CheckState2[CheckState2["FALSE"] = 0] = "FALSE";
         CheckState2[CheckState2["TRUE"] = 1] = "TRUE";
@@ -15038,7 +15033,7 @@
   // src/core/ui/settings/pages/Developer/AssetBrowser.tsx
   function AssetBrowser() {
     var [search, setSearch] = React.useState("");
-    var all = (0, import_react10.useMemo)(() => Array.from(iterateAssets()), []);
+    var all = (0, import_react9.useMemo)(() => Array.from(iterateAssets()), []);
     return /* @__PURE__ */ jsx(ErrorBoundary, {
       children: /* @__PURE__ */ jsxs(import_react_native29.View, {
         style: {
@@ -15063,7 +15058,7 @@
       })
     });
   }
-  var import_react10, import_react_native29;
+  var import_react9, import_react_native29;
   var init_AssetBrowser = __esm({
     "src/core/ui/settings/pages/Developer/AssetBrowser.tsx"() {
       "use strict";
@@ -15074,7 +15069,7 @@
       init_assets();
       init_components();
       init_components2();
-      import_react10 = __toESM(require_react());
+      import_react9 = __toESM(require_react());
       import_react_native29 = __toESM(require_react_native());
     }
   });
@@ -15322,7 +15317,7 @@
             uri: zencord_default
           },
           render: () => Promise.resolve().then(() => (init_General(), General_exports)),
-          useTrailing: () => `(${"ff883ab-local"})`
+          useTrailing: () => `(${"88a528b-local"})`
         },
         {
           key: "ZENCORD_PLUGINS",
@@ -15398,7 +15393,7 @@
   });
 
   // src/core/vendetta/api.tsx
-  var import_react11, import_react_native31, initVendettaObject;
+  var import_react10, import_react_native31, initVendettaObject;
   var init_api3 = __esm({
     "src/core/vendetta/api.tsx"() {
       "use strict";
@@ -15427,7 +15422,7 @@
       init_styles();
       init_toasts();
       init_dist();
-      import_react11 = __toESM(require_react());
+      import_react10 = __toESM(require_react());
       import_react_native31 = __toESM(require_react_native());
       init_plugins();
       initVendettaObject = () => {
@@ -15458,8 +15453,8 @@
                     ...module,
                     ActionSheetTitleHeader: module.BottomSheetTitleHeader,
                     ActionSheetContentContainer: ({ children }) => {
-                      (0, import_react11.useEffect)(() => console.warn("Discord has removed 'ActionSheetContentContainer', please move into something else. This has been temporarily replaced with View"), []);
-                      return /* @__PURE__ */ (0, import_react11.createElement)(import_react_native31.View, null, children);
+                      (0, import_react10.useEffect)(() => console.warn("Discord has removed 'ActionSheetContentContainer', please move into something else. This has been temporarily replaced with View"), []);
+                      return /* @__PURE__ */ (0, import_react10.createElement)(import_react_native31.View, null, children);
                     }
                   };
                 }
@@ -15827,7 +15822,7 @@
         alert([
           "Failed to load ZenCord!\n",
           `Build Number: ${ClientInfoManager.Build}`,
-          `ZenCord: ${"ff883ab-local"}`,
+          `ZenCord: ${"88a528b-local"}`,
           stack || e?.toString?.()
         ].join("\n"));
       }
