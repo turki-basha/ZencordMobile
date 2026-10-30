@@ -1,0 +1,60 @@
+name: Build ZenCord Mobile APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      discord_version:
+        description: "Discord Android Version (e.g. 205.15)"
+        required: false
+        default: "205.15"
+
+jobs:
+  build-apk:
+    name: Build Patched ZenCord APK
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout ZenCord Mobile
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: 17
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build ZenCord JS Bundle
+        run: |
+          npm install -g pnpm
+          pnpm install
+          pnpm build --build-minify
+
+      - name: Download LSPatch Release
+        run: |
+          mkdir -p tools
+          curl -sL "https://github.com/LSPosed/LSPatch/releases/download/v0.6/lspatch-release-0.6.jar" -o tools/lspatch.jar || \
+          curl -sL "https://nightly.link/LSPosed/LSPatch/workflows/build/master/lspatch.zip" -o tools/lspatch.zip
+
+      - name: Download BunnyXposed / ZenCord Loader
+        run: |
+          mkdir -p modules
+          curl -sL "https://github.com/bunny-mod/BunnyXposed/releases/latest/download/app-release.apk" -o modules/loader.apk
+
+      - name: Fetch Compatible Discord APK
+        run: |
+          mkdir -p input
+          echo "Preparing Discord APK for patching..."
+          # Note: Users or Actions can provide the target Discord APK in input/discord.apk
+
+      - name: Upload Built Bundle Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zencord-mobile-apk-assets
+          path: dist/
