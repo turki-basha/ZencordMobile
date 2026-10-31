@@ -11,17 +11,20 @@ async function initializeZenCord() {
 
         await require("@metro/internals/caches").initMetroCache();
         await require(".").default();
-    } catch (e) {
-        const { ClientInfoManager } = require("@lib/api/native/modules");
+    } catch (e: any) {
         const stack = e instanceof Error ? e.stack : undefined;
-
-        console.log(stack ?? e?.toString?.() ?? e);
-        alert([
-            "Failed to load ZenCord!\n",
-            `Build Number: ${ClientInfoManager.Build}`,
-            `ZenCord: ${version}`,
-            stack || e?.toString?.(),
-        ].join("\n"));
+        console.error("[ZenCord Init Error]", stack ?? e?.toString?.() ?? e);
+        setTimeout(() => {
+            try {
+                const { ClientInfoManager } = require("@lib/api/native/modules");
+                alert([
+                    "Failed to load ZenCord!\n",
+                    `Build Number: ${ClientInfoManager?.Build ?? "unknown"}`,
+                    `ZenCord: ${version}`,
+                    stack || e?.toString?.(),
+                ].join("\n"));
+            } catch {}
+        }, 1500);
     }
 }
 
@@ -49,14 +52,22 @@ if (typeof globalThis.__r !== "undefined") {
                 (globalThis as any).ErrorUtils.setGlobalHandler((err: any, isFatal?: boolean) => {
                     const msg = err?.stack || err?.message || String(err);
                     console.error("[ZenCord Runtime Error]", msg);
-                    try {
-                        alert("ZenCord Runtime Error:\n" + msg.slice(0, 500));
-                    } catch {}
+                    if (isFatal) {
+                        setTimeout(() => {
+                            try { alert("ZenCord Fatal Error:\n" + msg.slice(0, 500)); } catch {}
+                        }, 1000);
+                    }
                     if (origHandler) origHandler(err, isFatal);
                 });
             }
-            await initializeZenCord();
-            unpatchHook();
+            try {
+                await initializeZenCord();
+            } catch (err) {
+                console.error("[ZenCord Start Error]", err);
+            }
+            try {
+                unpatchHook();
+            } catch {}
             originalRequire(0);
 
             callQueue.forEach(arg =>
