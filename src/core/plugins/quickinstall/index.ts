@@ -6,7 +6,7 @@ let patches = [] as (() => unknown)[];
 
 export default defineCorePlugin({
     manifest: {
-        id: "zencord.quickinstall",
+        id: "bunny.quickinstall",
         name: "QuickInstall",
         version: "1.0.0",
         description: "Quickly install Vendetta plugins and themes",

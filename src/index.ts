@@ -8,9 +8,10 @@ import { updateFonts } from "@lib/addons/fonts";
 import { initPlugins, updatePlugins } from "@lib/addons/plugins";
 import { initThemes } from "@lib/addons/themes";
 import { patchCommands } from "@lib/api/commands";
-import { patchLogHook } from "@lib/api/debug";
+import { initDebugger } from "@lib/api/debug";
 import { injectFluxInterceptor } from "@lib/api/flux";
 import { patchJsx } from "@lib/api/react/jsx";
+import { patchToasts } from "@lib/ui/toasts";
 import { logger } from "@lib/utils/logger";
 import { patchSettings } from "@ui/settings";
 
@@ -22,7 +23,6 @@ export default async () => {
         initThemes(),
         injectFluxInterceptor(),
         patchSettings(),
-        patchLogHook(),
         patchCommands(),
         patchJsx(),
         initVendettaObject(),
@@ -30,6 +30,7 @@ export default async () => {
         initSettings(),
         initFixes(),
         patchErrorBoundary(),
+        patchToasts(),
         updatePlugins()
     ]).then(
         // Push them all to unloader
@@ -37,8 +38,12 @@ export default async () => {
     );
 
     // Assign window object
-    window.zencord = lib;
     window.bunny = lib;
+    window.zencord = lib;
+    window.revenge = lib;
+
+    // Start debugger
+    initDebugger();
 
     // Once done, load Vendetta plugins
     VdPluginManager.initPlugins()

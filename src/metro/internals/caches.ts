@@ -4,7 +4,7 @@ import { debounce } from "es-toolkit";
 
 import { ModuleFlags, ModulesMapInternal } from "./enums";
 
-const CACHE_VERSION = 105;
+const CACHE_VERSION = 110;
 const ZENCORD_METRO_CACHE_PATH = "caches/zencord_metro_modules.json";
 
 type ModulesMap = {
@@ -15,23 +15,23 @@ let _metroCache = null as unknown as ReturnType<typeof buildInitCache>;
 
 export const getMetroCache = () => _metroCache;
 
+function getBuildNumber(): number {
+    try {
+        return (NativeClientInfoModule?.Build ?? NativeClientInfoModule?.getConstants?.()?.Build ?? 0) as number;
+    } catch {
+        return 0;
+    }
+}
+
 function buildInitCache() {
     const cache = {
         _v: CACHE_VERSION,
-        _buildNumber: NativeClientInfoModule.Build as number,
+        _buildNumber: getBuildNumber(),
         _modulesCount: Object.keys(window.modules).length,
         flagsIndex: {} as Record<string, number>,
         findIndex: {} as Record<string, ModulesMap | undefined>,
         polyfillIndex: {} as Record<string, ModulesMap | undefined>
     } as const;
-
-    // Force load all modules so useful modules are pre-cached. Add a minor
-    // delay so the cache is initialized before the modules are loaded.
-    setTimeout(() => {
-        for (const id in window.modules) {
-            // Do not force-initialize all modules prematurely
-        }
-    }, 100);
 
     _metroCache = cache;
     return cache;
@@ -48,7 +48,7 @@ export async function initMetroCache() {
             _metroCache = null!;
             throw "cache invalidated; cache version outdated";
         }
-        if (_metroCache._buildNumber !== NativeClientInfoModule.Build) {
+        if (_metroCache._buildNumber !== getBuildNumber()) {
             _metroCache = null!;
             throw "cache invalidated; version mismatch";
         }
@@ -97,13 +97,14 @@ export function getCacherForUniq(uniq: string, allFind: boolean) {
     return {
         cacheId(moduleId: number, exports: any) {
             indexObject[moduleId] ??= extractExportsFlags(exports);
-
             saveCache();
         },
-        // Finish may not be called by single find
-        finish(notFound: boolean) {
-            if (allFind) indexObject[`_${ModulesMapInternal.FULL_LOOKUP}`] = 1;
-            if (notFound) indexObject[`_${ModulesMapInternal.NOT_FOUND}`] = 1;
+        finish(notFound = false) {
+            if (notFound) {
+                indexObject[`_${ModulesMapInternal.NOT_FOUND}`] = ModuleFlags.EXISTS;
+            } else if (allFind) {
+                indexObject[`_${ModulesMapInternal.FULL_LOOKUP}`] = ModuleFlags.EXISTS;
+            }
 
             saveCache();
         }
@@ -112,18 +113,18 @@ export function getCacherForUniq(uniq: string, allFind: boolean) {
 
 /** @internal */
 export function getPolyfillModuleCacher(name: string) {
-    const indexObject = _metroCache.polyfillIndex[name] ??= {};
+    const cache = _metroCache.polyfillIndex[name] ??= {};
 
     return {
         getModules() {
-            return require("@metro/internals/modules").getCachedPolyfillModules(name);
+            return require("./modules").getCachedPolyfillModules(name);
         },
-        cacheId(moduleId: number) {
-            indexObject[moduleId] = 1;
+        cacheId(id: number) {
+            cache[id] ??= ModuleFlags.EXISTS;
             saveCache();
         },
         finish() {
-            indexObject[`_${ModulesMapInternal.FULL_LOOKUP}`] = 1;
+            cache[`_${ModulesMapInternal.FULL_LOOKUP}`] = ModuleFlags.EXISTS;
             saveCache();
         }
     };

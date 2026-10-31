@@ -4,12 +4,12 @@ import ThemeCard from "@core/ui/settings/pages/Themes/ThemeCard";
 import { useProxy } from "@core/vendetta/storage";
 import { getCurrentTheme, installTheme, themes, VdThemeInfo } from "@lib/addons/themes";
 import { colorsPref } from "@lib/addons/themes/colors/preferences";
-import { updateZenCordColor } from "@lib/addons/themes/colors/updater";
+import { updateBunnyColor } from "@lib/addons/themes/colors/updater";
 import { Author } from "@lib/addons/types";
 import { findAssetId } from "@lib/api/assets";
 import { settings } from "@lib/api/settings";
 import { useObservable } from "@lib/api/storage";
-import { ActionSheet, BottomSheetTitleHeader, Button, TableRadioGroup, TableRadioRow, TableRowIcon } from "@metro/common/components";
+import { ActionSheet, BottomSheetTitleHeader, Button, TableRowGroup, TableRowIcon, TableSwitchRow, TableRow, TableRadioGroup, TableRadioRow } from "@metro/common/components";
 import { View } from "react-native";
 
 export default function Themes() {
@@ -51,28 +51,29 @@ export default function Themes() {
                     <View style={{ paddingVertical: 20, gap: 12 }}>
                         <TableRadioGroup
                             title="Override Theme Type"
-                            value={colorsPref.type ?? "auto"}
+                            defaultValue={colorsPref.type ?? "auto"}
                             hasIcons={true}
                             onChange={type => {
                                 colorsPref.type = type !== "auto" ? type as "dark" | "light" : undefined;
-                                getCurrentTheme()?.data && updateZenCordColor(getCurrentTheme()!.data!, { update: true });
+                                getCurrentTheme()?.data && updateBunnyColor(getCurrentTheme()!.data!, { update: true });
                             }}
                         >
                             <TableRadioRow icon={<TableRowIcon source={findAssetId("RobotIcon")} />} label="Auto" value="auto" />
                             <TableRadioRow icon={<TableRowIcon source={findAssetId("ThemeDarkIcon")} />} label="Dark" value="dark" />
                             <TableRadioRow icon={<TableRowIcon source={findAssetId("ThemeLightIcon")} />} label="Light" value="light" />
                         </TableRadioGroup>
-                        <TableRadioGroup
-                            title="Chat Background"
-                            value={colorsPref.customBackground ?? "shown"}
-                            hasIcons={true}
-                            onChange={type => {
-                                colorsPref.customBackground = type !== "shown" ? type as "hidden" : null;
-                            }}
-                        >
-                            <TableRadioRow icon={<TableRowIcon source={findAssetId("ImageIcon")} />} label="Show" value={"shown"} />
-                            <TableRadioRow icon={<TableRowIcon source={findAssetId("DenyIcon")} />} label="Hide" value={"hidden"} />
-                        </TableRadioGroup>
+
+                        <TableRowGroup title="Settings">
+                            <TableSwitchRow
+                                label="Show Chat Background"
+                                subLabel="Shows or hides the theme's background image in chat"
+                                icon={<TableRow.Icon source={findAssetId("ImageIcon")} />}
+                                value={colorsPref.customBackground !== "hidden"}
+                                onValueChange={(value) => {
+                                    colorsPref.customBackground = value ? null : "hidden";
+                                }}
+                            />
+                        </TableRowGroup>
                     </View>
                 </ActionSheet>;
             }}

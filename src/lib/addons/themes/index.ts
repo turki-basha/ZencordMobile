@@ -9,7 +9,7 @@ import initColors from "./colors";
 import { applyAndroidAlphaKeys, normalizeToHex } from "./colors/parser";
 import { colorsPref } from "./colors/preferences";
 import { VendettaThemeManifest } from "./colors/types";
-import { updateZenCordColor } from "./colors/updater";
+import { updateBunnyColor } from "./colors/updater";
 
 export interface VdThemeInfo {
     id: string;
@@ -88,7 +88,7 @@ export async function fetchTheme(url: string, selected = false) {
 
     if (selected) {
         writeThemeToNative(themes[url]);
-        updateZenCordColor(themes[url].data, { update: true });
+        updateBunnyColor(themes[url].data, { update: true });
     }
 }
 
@@ -104,10 +104,10 @@ export function selectTheme(theme: VdThemeInfo | null, write = true) {
     );
 
     if (theme == null && write) {
-        updateZenCordColor(null, { update: true });
+        updateBunnyColor(null, { update: true });
         return writeThemeToNative({});
     } else if (theme) {
-        updateZenCordColor(theme.data, { update: true });
+        updateBunnyColor(theme.data, { update: true });
         return writeThemeToNative(theme);
     }
 }
@@ -151,9 +151,7 @@ export async function initThemes() {
         await newAwaitStorage(colorsPref);
 
         const currentTheme = getThemeFromLoader();
-        if (currentTheme?.data) {
-            initColors(currentTheme.data);
-        }
+        initColors(currentTheme?.data ?? null);
 
         updateThemes().catch(e => console.error("Failed to update themes", e));
     } catch (e) {

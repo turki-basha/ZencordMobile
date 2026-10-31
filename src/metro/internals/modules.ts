@@ -1,4 +1,4 @@
-import { getMetroCache, indexBlacklistFlag, indexExportsFlags } from "@metro/internals/caches";
+import { getMetroCache, indexExportsFlags } from "@metro/internals/caches";
 import { Metro } from "@metro/types";
 
 import { ModuleFlags, ModulesMapInternal } from "./enums";
@@ -6,9 +6,7 @@ import { ModuleFlags, ModulesMapInternal } from "./enums";
 const { before, instead } = require("spitroast");
 
 export const metroModules: Metro.ModuleList = window.modules;
-// Since modules registry is now a Map, the id is now strictly a number
-// Making the codebase to adapt to this change would be more ideal, though
-const metroRequire = (id: number | string) => window.__r(+id);
+const metroRequire = (id: string | number) => window.__r(+id);
 
 // eslint-disable-next-line func-call-spacing
 const moduleSubscriptions = new Map<number, Set<() => void>>();
@@ -45,7 +43,7 @@ for (const key in metroModules) {
 
             _importingModuleId = originalImportingId;
             return ret;
-        }) as any); // If only spitroast had better types
+        }) as any);
     }
 }
 
@@ -75,27 +73,24 @@ function onModuleRequire(moduleExports: any, id: Metro.ModuleID) {
         require("@lib/api/assets/patches").patchAssets(moduleExports);
     }
 
-
     // There are modules registering the same native component
     if (!patchedNativeComponentRegistry && ["customBubblingEventTypes", "customDirectEventTypes", "register", "get"].every(x => moduleExports[x])) {
-        instead("register", moduleExports, (args: any, origFunc: any) => {
+        instead("register", moduleExports, ([name, cb]: any, origFunc: any) => {
             try {
-                return origFunc.apply(moduleExports, args);
+                return origFunc(name, cb);
             } catch {
-                return args[0];
+                return name;
             }
         });
 
         patchedNativeComponentRegistry = true;
     }
 
-
     // Hook DeveloperExperimentStore
     if (moduleExports?.default?.constructor?.displayName === "DeveloperExperimentStore") {
         moduleExports.default = new Proxy(moduleExports.default, {
             get(target, property, receiver) {
                 if (property === "isDeveloper") {
-                    // Hopefully won't explode accessing it here :3
                     const { settings } = require("@lib/api/settings");
                     return settings.enableDiscordDeveloperSettings ?? false;
                 }
@@ -120,18 +115,6 @@ function onModuleRequire(moduleExports: any, id: Metro.ModuleID) {
         patchedInspectSource = true;
     }
 
-
-
-    // Hindi timestamps moment
-    if (false && moduleExports.isMoment) {
-        instead("defineLocale", moduleExports, (args: [string], orig: (lcl: string) => string) => {
-            const origLocale = moduleExports.locale();
-            const res = orig(...args);
-            moduleExports.locale(origLocale);
-            return res;
-        });
-    }
-
     const subs = moduleSubscriptions.get(Number(id));
     if (subs) {
         subs.forEach(s => s());
@@ -154,7 +137,7 @@ export function subscribeModule(id: number, cb: () => void): () => void {
 
 export function requireModule(id: Metro.ModuleID) {
     if (!metroModules[0]?.isInitialized) metroRequire(0);
-    if (blacklistedIds.has(id) && !metroModules[id]?.isInitialized) return undefined;
+    if (blacklistedIds.has(id)) return undefined;
 
     if (Number(id) === -1) return require("@metro/polyfills/redesign");
 
@@ -181,6 +164,8 @@ export function requireModule(id: Metro.ModuleID) {
 }
 
 export function* getModules(uniq: string, all = false) {
+    yield [-1, require("@metro/polyfills/redesign")];
+
     let cache = getMetroCache().findIndex[uniq];
     if (all && !cache?.[`_${ModulesMapInternal.FULL_LOOKUP}`]) cache = undefined;
     if (cache?.[`_${ModulesMapInternal.NOT_FOUND}`]) return;
@@ -197,8 +182,6 @@ export function* getModules(uniq: string, all = false) {
         if (isBadExports(exports)) continue;
         yield [id, exports];
     }
-
-    yield [-1, require("@metro/polyfills/redesign")];
 }
 
 export function* getCachedPolyfillModules(name: string) {

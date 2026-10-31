@@ -1,4 +1,4 @@
-import { ApplicationCommand, ApplicationCommandInputType, ApplicationCommandType, BunnyApplicationCommand, ZenCordApplicationCommand } from "@lib/api/commands/types";
+import { ApplicationCommand, ApplicationCommandInputType, ApplicationCommandType, BunnyApplicationCommand } from "@lib/api/commands/types";
 import { after, instead } from "@lib/api/patcher";
 import { logger } from "@lib/utils/logger";
 import { commands as commandsModule, messageUtil } from "@metro/common";
@@ -10,15 +10,10 @@ let commands: ApplicationCommand[] = [];
  */
 export function patchCommands() {
     const unpatch = after("getBuiltInCommands", commandsModule, ([type], res: ApplicationCommand[]) => {
-        try {
-            if (!res || !Array.isArray(res)) return res;
-            return [...res, ...commands.filter(c =>
-                (type instanceof Array ? type.includes(c.type) : type === c.type)
-                && (c.__zencord?.shouldHide?.() !== false && c.__bunny?.shouldHide?.() !== false))
-            ];
-        } catch {
-            return res;
-        }
+        return [...res, ...commands.filter(c =>
+            (type instanceof Array ? type.includes(c.type) : type === c.type)
+            && c.__bunny?.shouldHide?.() !== false)
+        ];
     });
 
     // Register core commands
@@ -34,22 +29,24 @@ export function patchCommands() {
     };
 }
 
-export function registerCommand(command: ZenCordApplicationCommand | BunnyApplicationCommand): () => void {
+export function registerCommand(command: BunnyApplicationCommand): () => void {
     // Get built in commands
     let builtInCommands: ApplicationCommand[];
     try {
-        builtInCommands = [];
+        builtInCommands = commandsModule.getBuiltInCommands(ApplicationCommandType.CHAT, true, false);
     } catch {
-        builtInCommands = [];
+        builtInCommands = commandsModule.getBuiltInCommands(Object.values(ApplicationCommandType), true, false);
     }
 
-    const sortedCommands = Array.isArray(builtInCommands) ? [...builtInCommands].sort((a: ApplicationCommand, b: ApplicationCommand) => (parseInt(b.id || "0", 10) || 0) - (parseInt(a.id || "0", 10) || 0)) : [];
+    builtInCommands.sort((a: ApplicationCommand, b: ApplicationCommand) => parseInt(b.id!) - parseInt(a.id!));
 
-    const lastCommand = sortedCommands[sortedCommands.length - 1];
-    command.id = (-100 - commands.length).toString();
+    const lastCommand = builtInCommands[builtInCommands.length - 1];
+
+    // Override the new command's id to the last command id - 1
+    command.id = (parseInt(lastCommand.id!, 10) - 1).toString();
 
     // Fill optional args
-    command.__zencord = command.__bunny = {
+    command.__bunny = {
         shouldHide: command.shouldHide
     };
 

@@ -1,6 +1,8 @@
 node_modules/
+dist/
 package-lock.json
 yarn.lock
 .DS_Store
 lib-dist/
 /packages/types
+node_modules

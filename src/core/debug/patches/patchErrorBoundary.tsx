@@ -1,7 +1,7 @@
 /*
- * ZenCord Mobile, a Discord client mod
- * Copyright (c) 2026 ZenCord Team and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
+ * ZenCord Mobile
+ * Copyright (c) 2026 ZenCord Team
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 export default function patchErrorBoundary() {

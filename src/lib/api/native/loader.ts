@@ -1,4 +1,5 @@
 import { VdThemeInfo } from "@lib/addons/themes";
+import { removeCacheFile } from "./fs";
 
 // @ts-ignore
 const pyonLoaderIdentity = globalThis.__PYON_LOADER__;
@@ -31,7 +32,7 @@ function polyfillVendettaLoaderIdentity() {
     if (!isPyonLoader() || isVendettaLoader()) return null;
 
     const loader = {
-        name: "ZenCord",
+        name: pyonLoaderIdentity.loaderName,
         features: {} as Record<string, any>
     };
 
@@ -93,7 +94,10 @@ export function getVendettaLoaderIdentity(): VendettaLoaderIdentity | null {
 getVendettaLoaderIdentity();
 
 export function getLoaderName() {
-    return "ZenCord";
+    if (isPyonLoader()) return pyonLoaderIdentity.loaderName;
+    else if (isVendettaLoader()) return vendettaLoaderIdentity.name;
+
+    return "Unknown";
 }
 
 export function getLoaderVersion(): string | null {
@@ -146,7 +150,7 @@ export function getThemeFilePath() {
 
 export function isReactDevToolsPreloaded() {
     if (isPyonLoader()) {
-        return Boolean(window.__reactDevTools);
+        return Boolean(window.__REACT_DEVTOOLS__);
     }
     if (isVendettaLoader()) {
         return vendettaLoaderIdentity!!.features.devtools != null;
@@ -159,7 +163,7 @@ export function getReactDevToolsProp(): string | null {
     if (!isReactDevToolsPreloaded()) return null;
 
     if (isPyonLoader()) {
-        window.__pyoncord_rdt = window.__reactDevTools.exports;
+        window.__pyoncord_rdt = window.__REACT_DEVTOOLS__.exports;
         return "__pyoncord_rdt";
     }
 
@@ -174,7 +178,7 @@ export function getReactDevToolsVersion() {
     if (!isReactDevToolsPreloaded()) return null;
 
     if (isPyonLoader()) {
-        return window.__reactDevTools.version || null;
+        return window.__REACT_DEVTOOLS__.version || null;
     }
     if (isVendettaLoader()) {
         return vendettaLoaderIdentity!!.features.devtools!!.version;
@@ -217,4 +221,9 @@ export function isFontSupported() {
     if (isPyonLoader()) return pyonLoaderIdentity.fontPatch === 2;
 
     return false;
+}
+
+export async function clearBundle() {
+    // TODO: This should be not be hardcoded, maybe put in loader.json?
+    return void await removeCacheFile("bundle.js");
 }

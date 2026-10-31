@@ -3,20 +3,21 @@ import { _colorRef } from "@lib/addons/themes/colors/updater";
 import { after } from "@lib/api/patcher";
 import { useObservable } from "@lib/api/storage";
 import { findInReactTree } from "@lib/utils";
-import { findByFilePathLazy } from "@metro";
+import { findByDisplayNameLazy } from "@metro";
 import chroma from "chroma-js";
 import { ImageBackground, StyleSheet } from "react-native";
+import { logger } from "@lib/utils/logger";
 
-const Messages = findByFilePathLazy("components_native/chat/Messages.tsx", true);
+const MessagesModule = findByDisplayNameLazy("MessagesConnected", false);
 
-function ThemeBackground({ children }: { children: React.ReactNode }) {
+function ThemeBackground({ children }: { children: React.ReactNode; }) {
     useObservable([colorsPref]);
 
     if (!_colorRef.current
         || colorsPref.customBackground === "hidden"
         || !_colorRef.current.background?.url
         || _colorRef.current.background?.blur && (typeof _colorRef.current.background?.blur !== "number")
-    ){
+    ) {
         return children;
     }
 
@@ -30,36 +31,41 @@ function ThemeBackground({ children }: { children: React.ReactNode }) {
 }
 
 export default function patchChatBackground() {
-    const patches = [
-        after("render", Messages, (_, ret) => {
-            try {
-                if (!_colorRef.current || !_colorRef.current.background?.url) return ret;
-                const messagesComponent = findInReactTree(
-                    ret,
-                    x => x && "HACK_fixModalInteraction" in x.props && x?.props?.style
-                );
+    try {
+        const patch = (_: any, ret: any) => {
+            if (!_colorRef.current || !_colorRef.current.background?.url) return;
 
-                if (messagesComponent) {
-                    const flattened = StyleSheet.flatten(messagesComponent.props.style);
-                    const backgroundColor = chroma(
-                        flattened.backgroundColor || "black"
-                    ).alpha(
-                        1 - (_colorRef.current.background?.opacity ?? 1)
-                    ).hex();
+            const messagesComponent = findInReactTree(
+                ret,
+                x => x && "HACK_fixModalInteraction" in x.props && x?.props?.style
+            );
 
-                    messagesComponent.props.style = StyleSheet.flatten([
-                        messagesComponent.props.style,
-                        { backgroundColor }
-                    ]);
-                }
+            if (messagesComponent) {
+                const flattened = StyleSheet.flatten(messagesComponent.props.style);
+                const backgroundColor = chroma(
+                    flattened.backgroundColor || "black"
+                ).alpha(
+                    1 - (_colorRef.current.background?.opacity ?? 1)
+                ).hex();
 
-                return <ThemeBackground>{ret}</ThemeBackground>;
-            } catch (err) {
-                console.error("[ZenCord ChatBackground] Error:", err);
-                return ret;
+                messagesComponent.props.style = StyleSheet.flatten([
+                    messagesComponent.props.style,
+                    { backgroundColor }
+                ]);
             }
-        })
-    ];
 
-    return () => patches.forEach(x => x());
+            return <ThemeBackground>{ret}</ThemeBackground>;
+        }
+        
+        const patches = [
+            typeof MessagesModule.default === "function"
+                ? after("default", MessagesModule, patch)
+                : after("render", MessagesModule.default, patch)
+        ];
+
+        return () => patches.forEach(x => x());
+    } catch (e) {
+        logger.error("Failed to patch chat background.", e);
+        return () => { };
+    }
 }

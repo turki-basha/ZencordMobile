@@ -1,13 +1,12 @@
 import { getThemeFromLoader, selectTheme, themes } from "@lib/addons/themes";
-import { findAssetId } from "@lib/api/assets";
-import { getLoaderName, getLoaderVersion, isThemeSupported } from "@lib/api/native/loader";
+import { getLoaderName, getLoaderVersion, isReactDevToolsPreloaded, isThemeSupported } from "@lib/api/native/loader";
 import { BundleUpdaterManager, NativeClientInfoModule, NativeDeviceModule } from "@lib/api/native/modules";
-import { after } from "@lib/api/patcher";
 import { settings } from "@lib/api/settings";
-import { logger } from "@lib/utils/logger";
-import { showToast } from "@ui/toasts";
 import { version } from "bunny-build-info";
 import { Platform, type PlatformConstants } from "react-native";
+import { connectDt, dtConnected } from "./devtools";
+import { connectRdt, rdtConnected } from "./react";
+import { logger } from "@lib/utils/logger";
 
 export interface RNConstants extends PlatformConstants {
     // Android
@@ -43,45 +42,16 @@ export async function toggleSafeMode() {
     setTimeout(BundleUpdaterManager.reload, 400);
 }
 
-let socket: WebSocket;
-export function connectToDebugger(url: string) {
-    if (socket !== undefined && socket.readyState !== WebSocket.CLOSED) socket.close();
+export function connectToDebugger(url: string, quiet?: boolean) {
+    if (dtConnected) return;
 
-    if (!url) {
-        showToast("Invalid debugger URL!", findAssetId("Small"));
-        return;
-    }
-
-    socket = new WebSocket(`ws://${url}`);
-
-    socket.addEventListener("open", () => showToast("Connected to debugger.", findAssetId("Check")));
-    socket.addEventListener("message", (message: any) => {
-        try {
-            (0, eval)(message.data);
-        } catch (e) {
-            console.error(e);
-        }
-    });
-
-    socket.addEventListener("error", (err: any) => {
-        console.log(`Debugger error: ${err.message}`);
-        showToast("An error occurred with the debugger connection!", findAssetId("Small"));
-    });
+    connectDt(url, quiet);
 }
 
-/**
- * @internal
- */
-export function patchLogHook() {
-    const unpatch = after("nativeLoggingHook", globalThis, args => {
-        if (socket?.readyState === WebSocket.OPEN) socket.send(JSON.stringify({ message: args[0], level: args[1] }));
-        logger.log(args[0]);
-    });
+export function connectToReactDevTools(url: string, quiet?: boolean) {
+    if (!isReactDevToolsPreloaded() || rdtConnected) return;
 
-    return () => {
-        socket && socket.close();
-        unpatch();
-    };
+    connectRdt(url, quiet);
 }
 
 /** @internal */
@@ -105,13 +75,6 @@ export function getDebugInfo() {
             version: versionHash.split("-")[0],
             loader: getLoaderName(),
         },
-        zencord: {
-            version: versionHash,
-            loader: {
-                name: getLoaderName(),
-                version: getLoaderVersion()
-            }
-        },
         bunny: {
             version: versionHash,
             loader: {
@@ -120,8 +83,8 @@ export function getDebugInfo() {
             }
         },
         discord: {
-            version: NativeClientInfoModule.Version,
-            build: NativeClientInfoModule.Build,
+            version: NativeClientInfoModule.getConstants().Version,
+            build: NativeClientInfoModule.getConstants().Build,
         },
         react: {
             version: React.version,
@@ -170,4 +133,18 @@ export function getDebugInfo() {
             }
         )!
     };
+}
+
+/**
+ * @internal
+ */
+export function initDebugger() {
+    if (!settings.enableAutoDebugger || !settings.debuggerUrl) return;
+
+    try {
+        connectToDebugger(settings.debuggerUrl, true);
+        connectToReactDevTools(settings.debuggerUrl, true);
+    } catch (e) {
+        logger.error("Failed to connect to DevTools during startup:", e);
+    }
 }

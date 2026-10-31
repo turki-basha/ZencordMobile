@@ -8,6 +8,7 @@ export interface Asset {
     id: number;
     name: string;
     moduleId: number;
+    type: string;
 }
 
 // Cache common usage
@@ -49,31 +50,23 @@ export function findAsset(param: number | string | ((a: Asset) => boolean)) {
         return _nameToAssetCache[param];
     }
 
+    let filter: (a: Asset) => boolean;
+
+    if (typeof param === "string") {
+        filter = a => a?.name === param;
+    } else {
+        filter = param;
+    }
+
     for (const asset of iterateAssets()) {
-        if (typeof param === "string" && asset.name === param) {
-            _nameToAssetCache[param] = asset;
-            return asset;
-        } else if (typeof param === "function" && param(asset)) {
+        if (filter(asset)) {
+            if (typeof param === "string") _nameToAssetCache[param] = asset;
             return asset;
         }
     }
-}
-
-export function filterAssets(param: string | ((a: Asset) => boolean)) {
-    const filteredAssets = [] as Array<Asset>;
-
-    for (const asset of iterateAssets()) {
-        if (typeof param === "string" ? asset.name === param : param(asset)) {
-            filteredAssets.push(asset);
-        }
-    }
-
-    return filteredAssets;
 }
 
 /**
- * Returns the first asset ID in the registry with the given name
+ * Resolves the given asset name to its ID
  */
-export function findAssetId(name: string) {
-    return findAsset(name)?.id;
-}
+export const findAssetId = (name: string) => findAsset(name)?.id;

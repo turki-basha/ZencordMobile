@@ -37,8 +37,6 @@ const _disposer = [] as Array<() => unknown>;
 export function unload() {
     for (const d of _disposer) if (typeof d === "function") d();
     // @ts-expect-error
-    // @ts-expect-error
-    delete window.zencord;
     delete window.bunny;
 }
 

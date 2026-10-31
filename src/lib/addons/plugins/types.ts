@@ -1,10 +1,4 @@
-/*
- * ZenCord Mobile, a Discord client mod
- * Copyright (c) 2026 ZenCord Team and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
-
-import { BunnyManifest, ZenCordManifest } from "@lib/addons/types";
+import { BunnyManifest } from "@lib/addons/types";
 import { createStorage } from "@lib/api/storage";
 import { Logger } from "@lib/utils/logger";
 
@@ -29,20 +23,16 @@ export interface PluginSettingsStorage {
     };
 }
 
-export interface ZenCordPluginManifest extends ZenCordManifest {
+export interface BunnyPluginManifest extends BunnyManifest {
     readonly type: "plugin";
     readonly spec: 3;
     readonly main: string;
 }
 
-export type BunnyPluginManifest = ZenCordPluginManifest;
-
-export interface ZenCordPluginManifestInternal extends ZenCordPluginManifest {
+export interface BunnyPluginManifestInternal extends BunnyPluginManifest {
     readonly parentRepository: string;
     readonly jsPath?: string;
 }
-
-export type BunnyPluginManifestInternal = ZenCordPluginManifestInternal;
 
 export interface PluginInstance {
     start?(): void;
@@ -51,19 +41,15 @@ export interface PluginInstance {
 }
 
 export interface PluginInstanceInternal extends PluginInstance {
-    readonly manifest: ZenCordPluginManifest;
+    readonly manifest: BunnyPluginManifest;
 }
 
-export interface ZenCordPluginProperty {
-    readonly manifest: ZenCordPluginManifestInternal;
+export interface BunnyPluginProperty {
+    readonly manifest: BunnyPluginManifestInternal;
     readonly logger: Logger;
     createStorage<T extends object>(): ReturnType<typeof createStorage<T>>;
 }
 
-export type BunnyPluginProperty = ZenCordPluginProperty;
-
-export type ZenCordPluginObject = (typeof window.zencord | typeof window.bunny) & {
-    plugin: ZenCordPluginProperty;
+export type BunnyPluginObject = typeof window.bunny & {
+    plugin: BunnyPluginProperty;
 };
-
-export type BunnyPluginObject = ZenCordPluginObject;

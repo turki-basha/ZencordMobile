@@ -139,7 +139,7 @@ export async function updateRepository(repoUrl: string) {
     if (!storedRepo) {
         for (const id in repo) {
             if (corePluginInstances.has(id)) {
-                throw new Error(`Plugins can't have the same ID as any of ZenCord core plugin '${id}'`);
+                throw new Error(`Plugins can't have the same ID as any of Bunny core plugin '${id}'`);
             }
         }
 
@@ -212,7 +212,7 @@ export async function deleteRepository(repoUrl: string) {
 }
 
 /**
- * Enablea a plugin. The plugin must have been declared as installed.
+ * Enable a plugin. The plugin must have been declared as installed.
  * @param id The installed plugin ID
  * @param start Whether to start the plugin
  */
@@ -224,7 +224,7 @@ export async function enablePlugin(id: string, start: boolean) {
 }
 
 /**
- * Disables and stop the plugin. The plugin must have been declared as installed
+ * Disables and stops the plugin. The plugin must have been declared as installed
  * @param id The installed plugin ID
  */
 export function disablePlugin(id: string) {
@@ -294,7 +294,7 @@ export async function startPlugin(id: string, { throwIfDisabled = false, disable
             const iife = await readFile(manifest.jsPath!!);
             var instantiator = globalEvalWithSourceUrl(
                 `(bunny,definePlugin)=>{${iife};return plugin?.default ?? plugin;}`,
-                `zencord-plugin/${id}-${manifest.version}`
+                `bunny-plugin/${id}-${manifest.version}`
             ) as PluginInstantiator;
         } catch (error) {
             throw new Error("An error occured while parsing plugin's code, possibly a syntax error?", { cause: error });

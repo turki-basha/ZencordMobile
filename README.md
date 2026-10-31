@@ -1,99 +1,75 @@
-# ZenCord Mobile 📱
-
 <p align="center">
-  <b>High-performance, modular, and privacy-centric Discord mobile client modification.</b><br>
-  Official mobile counterpart to <a href="https://github.com/turki-basha/ZenCord">ZenCord Desktop</a>.
+  <picture>
+    <source
+      width="512px"
+      media="(prefers-color-scheme: dark)"
+      srcset="assets/wordmark/wordmark+slogan-dark.svg"
+    >
+    <img
+      width="512px"
+      src="assets/wordmark/wordmark+slogan-light.svg"
+    >
+  </picture>
+  <br>
+  <a href="https://revenge-mod.github.io/">
+       <picture>
+           <source height="32px" media="(prefers-color-scheme: dark)" srcset="assets/logo/logo-dark.svg" />
+           <img height="32px" src="assets/logo/logo-light.svg" />
+       </picture>
+   </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <a href="https://discord.com/invite/ddcQf3s2Uq">
+       <picture>
+           <source height="32px" media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/13122796/178032563-d4e084b7-244e-4358-af50-26bde6dd4996.png" />
+           <img height="32px" src="https://user-images.githubusercontent.com/13122796/178032563-d4e084b7-244e-4358-af50-26bde6dd4996.png" />
+       </picture>
+   </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <a href="https://github.com/revenge-mod">
+       <picture>
+           <source height="32px" media="(prefers-color-scheme: dark)" srcset="https://i.ibb.co/dMMmCrW/Git-Hub-Mark.png" />
+           <img height="32px" src="https://i.ibb.co/9wV3HGF/Git-Hub-Mark-Light.png" />
+       </picture>
+   </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+   </a>
 </p>
 
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPLv3-0969da.svg?style=flat-square" alt="License: GPL-3.0"></a>
-  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/Language-TypeScript-3178c6.svg?style=flat-square" alt="TypeScript"></a>
-  <img src="https://img.shields.io/badge/Platform-Android%20%7C%20iOS-2ea44f.svg?style=flat-square" alt="Platform: Android | iOS">
-  <a href="https://www.zencord.site/"><img src="https://img.shields.io/badge/Website-zencord.site-5865f2.svg?style=flat-square" alt="Website"></a>
-  <a href="https://discord.gg/zencord"><img src="https://img.shields.io/badge/Community-Discord-5865f2.svg?style=flat-square&logo=discord&logoColor=white" alt="Discord"></a>
-</p>
+# 👊 Revenge
 
----
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/revenge-mod/revenge-bundle/release.yml)
+[![3-Clause BSD License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
-## 🌟 Overview
+A client modification for Discord Android, continuation of [Bunny](https://github.com/pyoncord/Bunny).
 
-**ZenCord Mobile** brings the raw speed, customization power, and privacy safeguards of **ZenCord** to Android and iOS mobile devices. 
+## 💪 Features
 
-Built on a lightweight, modular TypeScript runtime targeting Discord's React Native environment, ZenCord Mobile operates without native overhead or UI lag while seamlessly integrating with the **ZenCord Ecosystem**.
+- **🔌 Plugins**: Extend Discord with custom features
+- **🎨 Themes & Fonts**: Customize Discord's appearance to your liking
+- **🧪 Experiments**: Try out Discord's new features before they're rolled out
 
----
+## ⬇️ Download
 
-## ✨ Key Features
+This repository releases JavaScript bundles for loaders to execute. These are the official Revenge loaders:
 
-- 🎖️ **Unified ZenCord Badges Sync:** Seamlessly renders official ZenCord badges (**Developer**, **VIP**, **Supporter**, **Official Bot**, and **Custom**) directly on user profiles, chat headers, and member lists in real-time, fetching directly from [zencord.site/api/badges](https://www.zencord.site/api/badges).
-- 🚀 **Zero-Lag React Native Hooking:** Patches Discord's Metro bundler and Hermes bytecode efficiently without battery drain or framerate drops.
-- 🎨 **Deep Theming Engine:** Custom color palettes, dark themes, OLED black modes, and custom fonts for touch displays.
-- 🧩 **Extensible Mobile Plugins:** Dynamic add-on ecosystem with built-in mobile essentials (NoTrack telemetry blocker, QuickInstall, FakeNitro, and more).
-- 🔄 **Over-The-Air (OTA) Instant Updates:** Automatically receives ZenCord core and badge updates instantly upon launch without requiring manual APK reinstallation.
-- 🛡️ **Safe Mode & Recovery:** Built-in safeguards to disable malfunctioning add-ons or reset settings safely on boot.
+### Android
 
----
+- **🩹 Root with Xposed**: [RevengeXposed](https://github.com/revenge-mod/revenge-xposed/releases/latest)
+- **📵 Non-root**: [Revenge Manager](https://github.com/revenge-mod/revenge-manager/releases/latest)
 
-## 📲 Installation
+## 📚 Everything else
 
-### Option 1: Pre-Patched Standalone APK (Recommended for most users)
-1. Download the latest `ZenCord-Mobile.apk` from the [Releases](https://github.com/turki-basha/ZencordMobile/releases) page.
-2. Install the APK on your Android device (no root required).
-3. Log in to your Discord account and enjoy ZenCord Mobile with full badges and plugin support!
+### 📙 Contributing
 
-### Option 2: Using Xposed / LSPosed (Rooted Devices)
-1. Install [BunnyXposed / LSPatch](https://github.com/bunny-mod/BunnyXposed).
-2. Enable the module for Discord.
-3. ZenCord Mobile will hook into Discord upon startup.
+Thank you for considering contributing to Revenge.
+You can find the contribution guidelines [here](CONTRIBUTING.md).
 
----
+### 🛠️ Building
 
-## 🛠️ Building From Source
+To build Revenge bundle, you can follow the [documentation](/docs).
 
-### Prerequisites
-- **Node.js:** `v20.0.0` or higher
-- **pnpm:** `v9+` or `v10+` (or `npm`)
+### 📃 Documentation
 
-### Steps
+You can find the documentation of Revenge bundle [here](/docs).
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/turki-basha/ZencordMobile.git
-   cd ZencordMobile
-   ```
+## 📜 Licence
 
-2. **Install dependencies:**
-   ```bash
-   pnpm install
-   ```
-
-3. **Build the production bundle:**
-   ```bash
-   pnpm build
-   ```
-   The compiled bundle will be generated in `dist/zencord.js` and `dist/zencord.min.js`.
-
-4. **Live Development Server:**
-   ```bash
-   pnpm serve
-   ```
-   This serves the bundle locally on `http://<your-local-ip>:4040/zencord.js`. You can point your mobile client's **ZenCord Developer Settings** -> **Load from custom URL** to this endpoint for instant hot-reload testing.
-
----
-
-## 🎖️ Badges System Architecture
-
-ZenCord Mobile queries the unified ZenCord API infrastructure:
-1. `https://www.zencord.site/api/badges`
-2. `https://zencord.site/api/badges`
-3. Fallback: `https://raw.githubusercontent.com/turki-basha/ZenCord/main/badges.json`
-
-Desktop and Mobile users share the exact same badges, avatars, and custom roles across all devices.
-
----
-
-## 📜 License & Credits
-
-- Licensed under **[GNU General Public License v3.0](LICENSE)** (GPL-3.0-or-later).
-- Copyright (c) 2026 **ZenCord Team & Turki Basha**.
-- Based on research and modular tooling from the Discord mobile modding community (Bunny, Pyoncord, Vendetta).
+Revenge bundle is licensed under the 3-Clause BSD license. Please see the [license file](LICENSE) for more information.

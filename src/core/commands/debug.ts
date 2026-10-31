@@ -16,7 +16,7 @@ export default () => <ApplicationCommand>{
     execute([ephemeral], ctx) {
         const info = getDebugInfo();
         const content = [
-            "**ZenCord Mobile Debug Info**",
+            "**ZenCord Debug Info**",
             `> ZenCord: ${info.bunny.version} (${info.bunny.loader.name} ${info.bunny.loader.version})`,
             `> Discord: ${info.discord.version} (${info.discord.build})`,
             `> React: ${info.react.version} (RN ${info.react.nativeVersion})`,
@@ -28,7 +28,8 @@ export default () => <ApplicationCommand>{
         if (ephemeral?.value) {
             messageUtil.sendBotMessage(ctx.channel.id, content);
         } else {
-            messageUtil.sendMessage(ctx.channel.id, { content });
+            const fixNonce = Date.now().toString();
+            messageUtil.sendMessage(ctx.channel.id, { content }, void 0, {nonce:fixNonce});
         }
     }
 };

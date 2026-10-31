@@ -1,9 +1,3 @@
-/*
- * ZenCord Mobile, a Discord client mod
- * Copyright (c) 2026 ZenCord Team and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
-
 import { PluginInstanceInternal } from "@lib/addons/plugins/types";
 
 interface CorePlugin {
@@ -12,16 +6,9 @@ interface CorePlugin {
 }
 
 // Called from @lib/plugins
-export const getCorePlugins = (): Record<string, CorePlugin> => {
-    // Badges temporarily disabled for testing chat/messages stability
-    // const badgesPlugin = require("./badges");
-    const quickInstallPlugin = require("./quickinstall");
-
-    return {
-        // "zencord.badges": badgesPlugin,
-        "zencord.quickinstall": quickInstallPlugin
-    };
-};
+export const getCorePlugins = (): Record<string, CorePlugin> => ({
+    "zencord.quickinstall": require("./quickinstall")
+});
 
 /**
  * @internal
