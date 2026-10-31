@@ -76,6 +76,37 @@ function onModuleRequire(moduleExports: any, id: Metro.ModuleID) {
         require("@lib/api/assets/patches").patchAssets(moduleExports);
     }
 
+    // Hook ErrorBoundary as soon as its module is required
+    if (moduleExports?.getDerivedStateFromError || moduleExports?.default?.getDerivedStateFromError) {
+        const comp = moduleExports.default ?? moduleExports;
+        if (comp.prototype && !comp.prototype.__zencord_eb) {
+            comp.prototype.__zencord_eb = true;
+            const origRender = comp.prototype.render;
+            if (origRender) {
+                comp.prototype.render = function(...args: any[]) {
+                    if (this.state?.error) {
+                        const err = this.state.error;
+                        const msg = err?.stack || err?.message || String(err);
+                        console.error("[ZenCord ErrorBoundary Caught]", msg);
+                        try {
+                            alert("[Component Render Crash]\n" + msg.slice(0, 500));
+                        } catch {}
+                    }
+                    return origRender.apply(this, args);
+                };
+            }
+            const origCatch = comp.prototype.componentDidCatch;
+            comp.prototype.componentDidCatch = function(error: any, info: any) {
+                const msg = error?.stack || error?.message || String(error);
+                console.error("[ZenCord componentDidCatch]", msg, info);
+                try {
+                    alert("[componentDidCatch]\n" + msg.slice(0, 500));
+                } catch {}
+                if (origCatch) return origCatch.call(this, error, info);
+            };
+        }
+    }
+
     // There are modules registering the same native component
     if (!patchedNativeComponentRegistry && ["customBubblingEventTypes", "customDirectEventTypes", "register", "get"].every(x => moduleExports[x])) {
         instead("register", moduleExports, (args: any, origFunc: any) => {

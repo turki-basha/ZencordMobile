@@ -3771,6 +3771,38 @@
     if (moduleExports.registerAsset) {
       (init_patches(), __toCommonJS(patches_exports)).patchAssets(moduleExports);
     }
+    if (moduleExports?.getDerivedStateFromError || moduleExports?.default?.getDerivedStateFromError) {
+      var comp = moduleExports.default ?? moduleExports;
+      if (comp.prototype && !comp.prototype.__zencord_eb) {
+        comp.prototype.__zencord_eb = true;
+        var origRender = comp.prototype.render;
+        if (origRender) {
+          comp.prototype.render = function(...args) {
+            if (this.state?.error) {
+              var err = this.state.error;
+              var msg = err?.stack || err?.message || String(err);
+              console.error("[ZenCord ErrorBoundary Caught]", msg);
+              try {
+                alert("[Component Render Crash]\n" + msg.slice(0, 500));
+              } catch (e) {
+              }
+            }
+            return origRender.apply(this, args);
+          };
+        }
+        var origCatch = comp.prototype.componentDidCatch;
+        comp.prototype.componentDidCatch = function(error, info) {
+          var msg = error?.stack || error?.message || String(error);
+          console.error("[ZenCord componentDidCatch]", msg, info);
+          try {
+            alert("[componentDidCatch]\n" + msg.slice(0, 500));
+          } catch (e) {
+          }
+          if (origCatch)
+            return origCatch.call(this, error, info);
+        };
+      }
+    }
     if (!patchedNativeComponentRegistry && [
       "customBubblingEventTypes",
       "customDirectEventTypes",
@@ -4566,7 +4598,7 @@
       init_logger();
       init_toasts();
       import_react_native4 = __toESM(require_react_native());
-      versionHash = "b41f619-local";
+      versionHash = "a13d640-local";
     }
   });
 
@@ -5502,27 +5534,37 @@
   });
 
   // src/core/debug/patches/patchErrorBoundary.tsx
-  function getErrorBoundaryContext() {
-    var ctxt = findByNameLazy("ErrorBoundary")[_lazyContextSymbol];
-    return new Promise((resolve) => ctxt.getExports((exp) => resolve(exp.prototype)));
-  }
   function patchErrorBoundary() {
-    return after.await("render", getErrorBoundaryContext(), function() {
-      if (!this.state.error)
+    var hookProto = (exp) => {
+      if (!exp)
         return;
-      var ebErr = this.state.error;
-      console.error("[ZenCord ErrorBoundary]", ebErr);
-      try {
-      } catch (e) {
+      var comp = exp.default ?? exp;
+      var proto = comp.prototype ?? comp;
+      if (proto.render && !proto.__zencord_screen_hooked) {
+        proto.__zencord_screen_hooked = true;
+        after("render", proto, function(_2, ret) {
+          if (this.state?.error) {
+            var ebErr = this.state.error;
+            console.error("[ZenCord ErrorBoundary]", ebErr);
+            try {
+              alert("ZenCord Component Crash:\n" + (ebErr?.stack || ebErr?.message || String(ebErr)).slice(0, 500));
+            } catch (e) {
+            }
+            return /* @__PURE__ */ jsx(ErrorBoundaryScreen, {
+              error: this.state.error,
+              rerender: () => this.setState({
+                info: null,
+                error: null
+              })
+            });
+          }
+          return ret;
+        });
       }
-      return /* @__PURE__ */ jsx(ErrorBoundaryScreen, {
-        error: this.state.error,
-        rerender: () => this.setState({
-          info: null,
-          error: null
-        })
-      });
-    });
+    };
+    findByPropsLazy("getDerivedStateFromError")[_lazyContextSymbol]?.getExports(hookProto);
+    findByNameLazy("ErrorBoundary", false)[_lazyContextSymbol]?.getExports(hookProto);
+    findByFilePathLazy("components_native/ErrorBoundary.tsx", true)[_lazyContextSymbol]?.getExports(hookProto);
   }
   var init_patchErrorBoundary = __esm({
     "src/core/debug/patches/patchErrorBoundary.tsx"() {
@@ -8431,6 +8473,10 @@
       callbacks.delete(Component);
   }
   function patchJsx() {
+    if (callbacks.size === 0) {
+      return () => {
+      };
+    }
     var callback = ([Component], ret) => {
       if (typeof Component === "function" && callbacks.has(Component.name)) {
         var cbs = callbacks.get(Component.name);
@@ -15069,7 +15115,7 @@
             uri: zencord_default
           },
           render: () => Promise.resolve().then(() => (init_General(), General_exports)),
-          useTrailing: () => `(${"b41f619-local"})`
+          useTrailing: () => `(${"a13d640-local"})`
         },
         {
           key: "ZENCORD_PLUGINS",
@@ -15574,7 +15620,7 @@
         alert([
           "Failed to load ZenCord!\n",
           `Build Number: ${ClientInfoManager.Build}`,
-          `ZenCord: ${"b41f619-local"}`,
+          `ZenCord: ${"a13d640-local"}`,
           stack || e?.toString?.()
         ].join("\n"));
       }
@@ -15601,6 +15647,10 @@
             globalThis.ErrorUtils.setGlobalHandler((err, isFatal) => {
               var msg = err?.stack || err?.message || String(err);
               console.error("[ZenCord Runtime Error]", msg);
+              try {
+                alert("ZenCord Runtime Error:\n" + msg.slice(0, 500));
+              } catch (e) {
+              }
               if (origHandler)
                 origHandler(err, isFatal);
             });

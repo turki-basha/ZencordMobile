@@ -49,7 +49,9 @@ if (typeof globalThis.__r !== "undefined") {
                 (globalThis as any).ErrorUtils.setGlobalHandler((err: any, isFatal?: boolean) => {
                     const msg = err?.stack || err?.message || String(err);
                     console.error("[ZenCord Runtime Error]", msg);
-                    // logged to console
+                    try {
+                        alert("ZenCord Runtime Error:\n" + msg.slice(0, 500));
+                    } catch {}
                     if (origHandler) origHandler(err, isFatal);
                 });
             }

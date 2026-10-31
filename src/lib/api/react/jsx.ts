@@ -22,6 +22,10 @@ export function deleteJsxCreate(Component: string, callback: Callback) {
  * @internal
  */
 export function patchJsx() {
+    if (callbacks.size === 0) {
+        return () => {};
+    }
+
     const callback = ([Component]: unknown[], ret: JSX.Element) => {
         // The check could be more complex, but this is fine for now to avoid overhead
         if (typeof Component === "function" && callbacks.has(Component.name)) {
