@@ -14,6 +14,7 @@ let intercepts: Intercept[] = [];
  */
 export function injectFluxInterceptor() {
     const cb = (payload: any) => {
+        if (!payload || typeof payload !== "object") return false;
         for (const intercept of intercepts) {
             const res = intercept(payload);
 
@@ -28,7 +29,7 @@ export function injectFluxInterceptor() {
             }
         }
 
-        return blockedSym in payload;
+        return Boolean(blockedSym in payload);
     };
 
     (dispatcher._interceptors ??= []).unshift(cb);

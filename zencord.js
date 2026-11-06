@@ -3970,7 +3970,6 @@
       enumerable: false
     });
     blacklistedIds.add(id);
-    indexBlacklistFlag(Number(id));
   }
   function isBadExports(exports) {
     return !exports || exports === globalThis || exports.__proto__ === Object.prototype && Reflect.ownKeys(exports).length === 0 || exports.default?.[Symbol.toStringTag] === "IntlMessagesProxy";
@@ -3989,11 +3988,11 @@
       "register",
       "get"
     ].every((x2) => moduleExports[x2])) {
-      instead2("register", moduleExports, ([name, cb], origFunc) => {
+      instead2("register", moduleExports, (args, origFunc) => {
         try {
-          return origFunc(name, cb);
+          return origFunc.apply(moduleExports, args);
         } catch (unused) {
-          return name;
+          return args[0];
         }
       });
       patchedNativeComponentRegistry = true;
@@ -4021,13 +4020,6 @@
       var inspect = (f) => typeof f === "function" && functionToString.apply(f, []);
       globalThis["__core-js_shared__"].inspectSource = inspect;
       patchedInspectSource = true;
-    }
-    if (moduleExports.findHostInstance_DEPRECATED) {
-      var prevExports = metroModules[id - 1]?.publicModule.exports;
-      var inc = prevExports.default?.reactProfilingEnabled ? 1 : -1;
-      if (!metroModules[id + inc]?.isInitialized) {
-        blacklistModule(id + inc);
-      }
     }
     if (moduleExports.isMoment) {
       instead2("defineLocale", moduleExports, (args, orig) => {
@@ -4074,10 +4066,6 @@
     return moduleExports;
   }
   function* getModules(uniq, all = false) {
-    yield [
-      -1,
-      (init_redesign(), __toCommonJS(redesign_exports))
-    ];
     var cache = getMetroCache().findIndex[uniq];
     if (all && !cache?.[`_${ModulesMapInternal.FULL_LOOKUP}`])
       cache = void 0;
@@ -4103,6 +4091,10 @@
         exports1
       ];
     }
+    yield [
+      -1,
+      (init_redesign(), __toCommonJS(redesign_exports))
+    ];
   }
   function* getCachedPolyfillModules(name) {
     var cache = getMetroCache().polyfillIndex[name];
@@ -4231,34 +4223,13 @@
           instead2("factory", metroModule, (args, origFunc) => {
             var originalImportingId = _importingModuleId;
             _importingModuleId = id;
-            var { 1: metroRequire2, 4: moduleObject } = args;
-            args[
-              2
-              /* metroImportDefault */
-            ] = (id2) => {
-              var exps = metroRequire2(id2);
-              return exps && exps.__esModule ? exps.default : exps;
-            };
-            args[
-              3
-              /* metroImportAll */
-            ] = (id2) => {
-              var exps = metroRequire2(id2);
-              if (exps && exps.__esModule)
-                return exps;
-              var importAll = {};
-              if (exps)
-                Object.assign(importAll, exps);
-              importAll.default = exps;
-              return importAll;
-            };
-            origFunc(...args);
+            var { 4: moduleObject } = args;
+            var ret = origFunc(...args);
             if (!isBadExports(moduleObject.exports)) {
               onModuleRequire(moduleObject.exports, id);
-            } else {
-              blacklistModule(id);
             }
             _importingModuleId = originalImportingId;
+            return ret;
           });
         }
       };
@@ -4308,9 +4279,9 @@
   }
   function initMetroCache() {
     return _async_to_generator(function* () {
-      if (!(yield fileExists(BUNNY_METRO_CACHE_PATH)))
+      if (!(yield fileExists(ZENCORD_METRO_CACHE_PATH)))
         return void buildInitCache();
-      var rawCache = yield readFile(BUNNY_METRO_CACHE_PATH);
+      var rawCache = yield readFile(ZENCORD_METRO_CACHE_PATH);
       try {
         _metroCache = JSON.parse(rawCache);
         if (_metroCache._v !== CACHE_VERSION) {
@@ -4381,7 +4352,7 @@
       }
     };
   }
-  var CACHE_VERSION, BUNNY_METRO_CACHE_PATH, _metroCache, getMetroCache, saveCache;
+  var CACHE_VERSION, ZENCORD_METRO_CACHE_PATH, _metroCache, getMetroCache, saveCache;
   var init_caches = __esm({
     "src/metro/internals/caches.ts"() {
       "use strict";
@@ -4392,12 +4363,12 @@
       init_modules();
       init_dist();
       init_enums();
-      CACHE_VERSION = 102;
-      BUNNY_METRO_CACHE_PATH = "caches/metro_modules.json";
+      CACHE_VERSION = 106;
+      ZENCORD_METRO_CACHE_PATH = "caches/zencord_metro_modules.json";
       _metroCache = null;
       getMetroCache = () => _metroCache;
       saveCache = debounce(() => {
-        writeFile(BUNNY_METRO_CACHE_PATH, JSON.stringify(_metroCache));
+        writeFile(ZENCORD_METRO_CACHE_PATH, JSON.stringify(_metroCache));
       }, 1e3);
     }
   });
@@ -9073,6 +9044,8 @@
   });
   function injectFluxInterceptor() {
     var cb = (payload) => {
+      if (!payload || typeof payload !== "object")
+        return false;
       for (var intercept2 of intercepts) {
         var res = intercept2(payload);
         if (res == null) {
@@ -9084,7 +9057,7 @@
           payload[modifiedSym] = true;
         }
       }
-      return blockedSym in payload;
+      return Boolean(blockedSym in payload);
     };
     (dispatcher._interceptors ??= []).unshift(cb);
     return () => dispatcher._interceptors &&= dispatcher._interceptors.filter((v2) => v2 !== cb);
@@ -13448,15 +13421,21 @@ Type: ${asset.type}`,
         yield (init_caches(), __toCommonJS(caches_exports)).initMetroCache();
         (init_src(), __toCommonJS(src_exports)).default();
       } catch (e) {
-        var { ClientInfoManager } = (init_modules(), __toCommonJS(modules_exports));
         var stack = e instanceof Error ? e.stack : void 0;
-        console.log(stack ?? e?.toString?.() ?? e);
-        alert([
-          "Failed to load ZenCord!\n",
-          `Build Number: ${ClientInfoManager.getConstants().Build}`,
-          `ZenCord: ${"v1.4.3"}`,
-          stack || e?.toString?.()
-        ].join("\n"));
+        console.error("[ZenCord Init Error]", stack ?? e?.toString?.() ?? e);
+        setTimeout(() => {
+          try {
+            var { NativeClientInfoModule: NativeClientInfoModule2 } = (init_modules(), __toCommonJS(modules_exports));
+            var build = NativeClientInfoModule2?.getConstants?.()?.Build ?? NativeClientInfoModule2?.Build ?? "unknown";
+            alert([
+              "Failed to load ZenCord!\n",
+              `Build Number: ${build}`,
+              `ZenCord: ${"v1.4.3"}`,
+              stack || e?.toString?.()
+            ].join("\n"));
+          } catch (unused) {
+          }
+        }, 1500);
       }
     })();
   }
@@ -13511,12 +13490,26 @@ Type: ${asset.type}`,
         deferMethodExecution(globalThis.RN$AppRegistry, "runApplication");
       }
       var startDiscord = () => _async_to_generator(function* () {
-        yield initializeZenCord();
-        for (var unpatch of unpatches)
-          unpatch();
-        unpatches.length = 0;
-        originalRequire(0);
-        resumeDeferred();
+        try {
+          yield initializeZenCord();
+        } catch (err) {
+          console.error("[ZenCord Start Error]", err);
+        }
+        try {
+          for (var unpatch of unpatches)
+            unpatch();
+          unpatches.length = 0;
+        } catch (unused) {
+        }
+        try {
+          originalRequire(0);
+        } catch (err) {
+          console.error("[ZenCord originalRequire(0) Error]", err);
+        }
+        try {
+          resumeDeferred();
+        } catch (unused) {
+        }
       })();
       startDiscord();
     };

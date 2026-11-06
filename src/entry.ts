@@ -12,17 +12,21 @@ async function initializeZenCord() {
 
         await require("@metro/internals/caches").initMetroCache();
         require(".").default();
-    } catch (e) {
-        const { ClientInfoManager } = require("@lib/api/native/modules");
+    } catch (e: any) {
         const stack = e instanceof Error ? e.stack : undefined;
-
-        console.log(stack ?? e?.toString?.() ?? e);
-        alert([
-            "Failed to load ZenCord!\n",
-            `Build Number: ${ClientInfoManager.getConstants().Build}`,
-            `ZenCord: ${version}`,
-            stack || e?.toString?.(),
-        ].join("\n"));
+        console.error("[ZenCord Init Error]", stack ?? e?.toString?.() ?? e);
+        setTimeout(() => {
+            try {
+                const { NativeClientInfoModule } = require("@lib/api/native/modules");
+                const build = NativeClientInfoModule?.getConstants?.()?.Build ?? NativeClientInfoModule?.Build ?? "unknown";
+                alert([
+                    "Failed to load ZenCord!\n",
+                    `Build Number: ${build}`,
+                    `ZenCord: ${version}`,
+                    stack || e?.toString?.(),
+                ].join("\n"));
+            } catch {}
+        }, 1500);
     }
 }
 
@@ -101,13 +105,26 @@ if (typeof window.__r === "undefined") {
         }
 
         const startDiscord = async () => {
-            await initializeZenCord();
-            
-            for (const unpatch of unpatches) unpatch();
-            unpatches.length = 0;
+            try {
+                await initializeZenCord();
+            } catch (err) {
+                console.error("[ZenCord Start Error]", err);
+            }
 
-            originalRequire(0);
-            resumeDeferred();
+            try {
+                for (const unpatch of unpatches) unpatch();
+                unpatches.length = 0;
+            } catch {}
+
+            try {
+                originalRequire(0);
+            } catch (err) {
+                console.error("[ZenCord originalRequire(0) Error]", err);
+            }
+
+            try {
+                resumeDeferred();
+            } catch {}
         };
 
         startDiscord();
