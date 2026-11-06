@@ -59,13 +59,13 @@ export const versionHash = version;
 
 export function getDebugInfo() {
     // Hermes
-    const hermesProps = window.HermesInternal.getRuntimeProperties();
-    const hermesVer = hermesProps["OSS Release Version"];
+    const hermesProps = window.HermesInternal?.getRuntimeProperties?.() ?? {};
+    const hermesVer = hermesProps["OSS Release Version"] ?? "";
     const padding = "for RN ";
 
     // RN
-    const PlatformConstants = Platform.constants as RNConstants;
-    const rnVer = PlatformConstants.reactNativeVersion;
+    const PlatformConstants = (Platform.constants || {}) as RNConstants;
+    const rnVer = PlatformConstants.reactNativeVersion || { major: 0, minor: 0, patch: 0 };
 
     return {
         /**
@@ -83,31 +83,31 @@ export function getDebugInfo() {
             }
         },
         discord: {
-            version: NativeClientInfoModule.getConstants().Version,
-            build: NativeClientInfoModule.getConstants().Build,
+            version: NativeClientInfoModule?.Version ?? NativeClientInfoModule?.getConstants?.()?.Version ?? "unknown",
+            build: NativeClientInfoModule?.Build ?? NativeClientInfoModule?.getConstants?.()?.Build ?? "unknown",
         },
         react: {
             version: React.version,
             nativeVersion: hermesVer.startsWith(padding) ? hermesVer.substring(padding.length) : `${rnVer.major}.${rnVer.minor}.${rnVer.patch}`,
         },
         hermes: {
-            version: hermesVer,
-            buildType: hermesProps.Build,
-            bytecodeVersion: hermesProps["Bytecode Version"],
+            version: hermesVer || "unknown",
+            buildType: hermesProps.Build ?? "unknown",
+            bytecodeVersion: hermesProps["Bytecode Version"] ?? "unknown",
         },
         ...Platform.select(
             {
                 android: {
                     os: {
                         name: "Android",
-                        version: PlatformConstants.Release,
-                        sdk: PlatformConstants.Version
+                        version: PlatformConstants.Release ?? "unknown",
+                        sdk: PlatformConstants.Version ?? 0
                     },
                 },
                 ios: {
                     os: {
-                        name: PlatformConstants.systemName,
-                        version: PlatformConstants.osVersion
+                        name: PlatformConstants.systemName ?? "iOS",
+                        version: PlatformConstants.osVersion ?? "unknown"
                     },
                 }
             }
@@ -116,18 +116,18 @@ export function getDebugInfo() {
             {
                 android: {
                     device: {
-                        manufacturer: PlatformConstants.Manufacturer,
-                        brand: PlatformConstants.Brand,
-                        model: PlatformConstants.Model,
-                        codename: NativeDeviceModule.device
+                        manufacturer: PlatformConstants.Manufacturer ?? "unknown",
+                        brand: PlatformConstants.Brand ?? "unknown",
+                        model: PlatformConstants.Model ?? "unknown",
+                        codename: NativeDeviceModule?.device ?? "unknown"
                     }
                 },
                 ios: {
                     device: {
-                        manufacturer: NativeDeviceModule.deviceManufacturer,
-                        brand: NativeDeviceModule.deviceBrand,
-                        model: NativeDeviceModule.deviceModel,
-                        codename: NativeDeviceModule.device
+                        manufacturer: NativeDeviceModule?.deviceManufacturer ?? "Apple",
+                        brand: NativeDeviceModule?.deviceBrand ?? "Apple",
+                        model: NativeDeviceModule?.deviceModel ?? "unknown",
+                        codename: NativeDeviceModule?.device ?? "unknown"
                     }
                 }
             }

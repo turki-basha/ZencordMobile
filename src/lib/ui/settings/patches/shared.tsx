@@ -9,11 +9,26 @@ export const CustomPageRenderer = React.memo(() => {
     const navigation = NavigationNative.useNavigation();
     const route = NavigationNative.useRoute();
 
-    const { render: PageComponent, ...args } = route.params;
+    const params = route?.params ?? {};
+    const { render: PageComponent, ...args } = params;
 
-    React.useEffect(() => void navigation.setOptions({ ...args }), []);
+    React.useEffect(() => {
+        try {
+            if (args && Object.keys(args).length > 0) {
+                navigation?.setOptions?.(args);
+            }
+        } catch {}
+    }, []);
 
-    return <ErrorBoundary><PageComponent /></ErrorBoundary>;
+    if (!PageComponent) {
+        return <ErrorBoundary><></></ErrorBoundary>;
+    }
+
+    return (
+        <ErrorBoundary>
+            {typeof PageComponent === "function" ? <PageComponent /> : PageComponent}
+        </ErrorBoundary>
+    );
 });
 
 export function wrapOnPress(
@@ -24,19 +39,26 @@ export function wrapOnPress(
     props?: any,
 ) {
     return async () => {
-        if (onPress) return void onPress();
+        try {
+            if (onPress) return void onPress();
 
-        const Component = await renderPromise!!().then(m => m.default);
+            const Component = await renderPromise?.()?.then(m => m.default);
+            if (!Component) return;
 
-        if (typeof screenOptions === "string") {
-            screenOptions = { title: screenOptions };
+            if (typeof screenOptions === "string") {
+                screenOptions = { title: screenOptions };
+            }
+
+            const nav = navigation ?? tabsNavigationRef?.getRootNavigationRef?.();
+            if (nav?.navigate) {
+                nav.navigate("BUNNY_CUSTOM_PAGE", {
+                    ...screenOptions,
+                    render: () => <Component {...props} />
+                });
+            }
+        } catch (e) {
+            console.error("[ZenCord wrapOnPress Error]", e);
         }
-
-        navigation ??= tabsNavigationRef.getRootNavigationRef();
-        navigation.navigate("BUNNY_CUSTOM_PAGE", {
-            ...screenOptions,
-            render: () => <Component {...props} />
-        });
     };
 }
 

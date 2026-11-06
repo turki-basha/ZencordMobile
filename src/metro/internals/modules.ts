@@ -136,7 +136,6 @@ export function subscribeModule(id: number, cb: () => void): () => void {
 }
 
 export function requireModule(id: Metro.ModuleID) {
-    if (!metroModules[0]?.isInitialized) metroRequire(0);
     if (blacklistedIds.has(id)) return undefined;
 
     if (Number(id) === -1) return require("@metro/polyfills/redesign");
