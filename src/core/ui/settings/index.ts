@@ -1,4 +1,4 @@
-import ZencordIcon from "@assets/icons/zencord.png";
+import PyoncordIcon from "@assets/icons/zencord.png";
 import { Strings } from "@core/i18n";
 import { useProxy } from "@core/vendetta/storage";
 import { findAssetId } from "@lib/api/assets";
@@ -7,25 +7,24 @@ import { settings } from "@lib/api/settings";
 import { registerSection } from "@ui/settings";
 import { version } from "bunny-build-info";
 
-const PupuIcon = ZencordIcon;
-export { ZencordIcon, PupuIcon };
+export { PyoncordIcon };
 
 export default function initSettings() {
-    
+
     registerSection({
-        name: "ZenCord",
+        name: Strings.BUNNY,
         items: [
             {
-                key: "ZENCORD",
-                title: () => Strings.PUPU,
-                icon: { uri: ZencordIcon },
+                key: "BUNNY",
+                title: () => Strings.BUNNY,
+                icon: { uri: PyoncordIcon },
                 render: () => import("@core/ui/settings/pages/General"),
                 useTrailing: () => `(${version})`
             },
             {
                 key: "BUNNY_PLUGINS",
                 title: () => Strings.PLUGINS,
-                icon: findAssetId("AppsIcon"),
+                icon: findAssetId("PuzzlePieceIcon"),
                 render: () => import("@core/ui/settings/pages/Plugins")
             },
             {
@@ -43,12 +42,6 @@ export default function initSettings() {
                 usePredicate: () => isFontSupported()
             },
             {
-                key: "ZENCORD_BROWSER",
-                title: () => Strings.BROWSER,
-                icon: findAssetId("ChannelListMagnifyingGlassIcon"),
-                render: () => import("@core/ui/settings/pages/PluginBrowser"),
-            },
-            {
                 key: "BUNNY_DEVELOPER",
                 title: () => Strings.DEVELOPER,
                 icon: findAssetId("WrenchIcon"),
@@ -58,19 +51,14 @@ export default function initSettings() {
         ]
     });
 
-    // Compat with Bunny Plugins that use configs in settings
+    // Retain compatibility with plugins which inject into this section
     registerSection({
         name: "Bunny",
         items: []
     });
 
-    // Compat with Revenge Plugins that use configs in settings
-    registerSection({
-        name: "Revenge",
-        items: []
-    });
-
-    // Compat with Vendetta Plugins that use configs in settings
+    // Compat for plugins which injects into the settings
+    // Flaw: in the old UI, this will be displayed anyway with no items
     registerSection({
         name: "Vendetta",
         items: []

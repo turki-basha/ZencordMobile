@@ -56,7 +56,7 @@ export default function patchChatBackground() {
 
             return <ThemeBackground>{ret}</ThemeBackground>;
         }
-
+        
         const patches = [
             typeof MessagesModule.default === "function"
                 ? after("default", MessagesModule, patch)

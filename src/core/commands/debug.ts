@@ -15,10 +15,6 @@ export default () => <ApplicationCommand>{
     ],
     execute([ephemeral], ctx) {
         const info = getDebugInfo();
-
-        if(info.device.codename === undefined) { info.device.codename = ""}
-        else{ info.device.codename = "(" + info.device.codename + ")" }
-
         const content = [
             "**ZenCord Debug Info**",
             `> ZenCord: ${info.bunny.version} (${info.bunny.loader.name} ${info.bunny.loader.version})`,
@@ -26,13 +22,13 @@ export default () => <ApplicationCommand>{
             `> React: ${info.react.version} (RN ${info.react.nativeVersion})`,
             `> Hermes: ${info.hermes.version} (bcv${info.hermes.bytecodeVersion})`,
             `> System: ${info.os.name} ${info.os.version} ${info.os.sdk ? `(SDK ${info.os.sdk})` : ""}`.trimEnd(),
-            `> Device: ${info.device.model} ${info.device.codename}`,
+            `> Device: ${info.device.model} (${info.device.codename})`,
         ].join("\n");
 
         if (ephemeral?.value) {
             messageUtil.sendBotMessage(ctx.channel.id, content);
         } else {
-            const fixNonce = (BigInt(Date.now() - 1420070400000) << 22n).toString();
+            const fixNonce = Date.now().toString();
             messageUtil.sendMessage(ctx.channel.id, { content }, void 0, {nonce:fixNonce});
         }
     }

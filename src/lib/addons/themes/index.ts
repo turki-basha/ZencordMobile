@@ -4,7 +4,7 @@ import { getStoredTheme, getThemeFilePath, isPyonLoader, isThemeSupported } from
 import { awaitStorage as newAwaitStorage } from "@lib/api/storage";
 import { safeFetch } from "@lib/utils";
 import { Platform } from "react-native";
-import { settings } from "@lib/api/settings";
+
 import initColors from "./colors";
 import { applyAndroidAlphaKeys, normalizeToHex } from "./colors/parser";
 import { colorsPref } from "./colors/preferences";
@@ -53,26 +53,19 @@ function processData(data: VendettaThemeManifest) {
         if (Platform.OS === "android") applyAndroidAlphaKeys(rawColors);
     }
 
-    if (data.spec === undefined) {
-        if (!('theme_color_map' in data)) {
-          data.spec = 2;
-        }
-        //If not then Enmity theme and no spec
-    }
+    // this field is required by the spec but vd seems to ignore this
+    // so are most vd themes
+    data.spec ??= 2;
 
     return data;
 }
 
 function validateTheme(themeJSON: any): boolean {
     if (typeof themeJSON !== "object" || themeJSON === null) return false;
-
+    if (themeJSON.spec !== 2 && themeJSON.spec !== 3) return false;
     if (themeJSON.spec === 3 && !themeJSON.main) return false;
 
-    if (themeJSON.spec === 2) return true;
-
-    if (themeJSON.theme_color_map) return true;
-
-    return themeJSON.spec === 2 || themeJSON.spec === 3;
+    return true;
 }
 
 export async function fetchTheme(url: string, selected = false) {
@@ -149,7 +142,6 @@ export function getThemeFromLoader(): VdThemeInfo | null {
  */
 export async function initThemes() {
     if (!isThemeSupported()) return;
-    if (settings.safeMode?.enabled) return;
 
     try {
         if (isPyonLoader()) {

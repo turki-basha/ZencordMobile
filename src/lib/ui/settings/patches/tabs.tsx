@@ -1,10 +1,12 @@
 import { after } from "@lib/api/patcher";
+import { deleteJsxCreate, onJsxCreate } from "@lib/api/react/jsx";
 import { TableRow } from "@metro/common/components";
 import { findByNameLazy, findByPropsLazy } from "@metro/wrappers";
 import { registeredSections } from "@ui/settings";
-
+import { Strings } from "@core/i18n";
 import { CustomPageRenderer, wrapOnPress } from "./shared";
 import { findInReactTree } from "@lib/utils";
+import { logger } from "@lib/utils/logger";
 
 const settingConstants = findByPropsLazy("SETTING_RENDERER_CONFIG");
 const createListModule = findByPropsLazy("createList");
@@ -16,20 +18,38 @@ function useIsFirstRender() {
     return firstRender;
 }
 
+function createHarnessBoundary() {
+    return class HarnessBoundary extends React.Component<{ children: JSX.Element; }, { errored: boolean; generation: number; }> {
+        state = { errored: false, generation: 0 };
+        static getDerivedStateFromError = () => ({ errored: true });
+
+        componentDidCatch(error: unknown) {
+            logger.warn("SettingHookHarness crashed, remounting it", error);
+            if (this.state.generation < 3) this.setState(s => ({ errored: false, generation: s.generation + 1 }));
+        }
+
+        render() {
+            if (this.state.errored) return null;
+            return React.cloneElement(this.props.children, { key: this.state.generation });
+        }
+    };
+}
+
 export function patchTabsUI(unpatches: (() => void | boolean)[]) {
     const getRows = () => Object.values(registeredSections)
         .flatMap(sect => sect.map(row => ({
             [row.key]: {
                 type: "pressable",
-                // title and useTitle for compatibility across Discord versions
-                title: row.title,
+                // title was renamed to useTitle, both are here for compatibility (thanks kmiioo) https://codeberg.org/raincord/rain/pulls/52
                 useTitle: row.title,
+                title: row.title,
                 icon: row.icon,
                 IconComponent: () => <TableRow.Icon source={row.icon} />,
                 usePredicate: row.usePredicate,
                 useTrailing: row.useTrailing,
                 onPress: wrapOnPress(row.onPress, null, row.render, row.title()),
-                withArrow: true
+                withArrow: true,
+                ...row.rawTabsConfig
             }
         })))
         .reduce((a, c) => Object.assign(a, c));
@@ -44,37 +64,19 @@ export function patchTabsUI(unpatches: (() => void | boolean)[]) {
             ...rendererConfigValue,
             VendettaCustomPage: {
                 type: "route",
-                title: () => "ZenCord",
-                useTitle: () => "ZenCord",
+                useTitle: () => Strings.BUNNY,
+                title: () => Strings.BUNNY,
                 screen: {
                     route: "VendettaCustomPage",
                     getComponent: () => CustomPageRenderer
                 }
             },
-            PUPU_CUSTOM_PAGE: {
-                type: "route",
-                title: () => "ZenCord",
-                useTitle: () => "ZenCord",
-                screen: {
-                    route: "PUPU_CUSTOM_PAGE",
-                    getComponent: () => CustomPageRenderer
-                }
-            },
             BUNNY_CUSTOM_PAGE: {
                 type: "route",
-                title: () => "ZenCord",
-                useTitle: () => "ZenCord",
+                useTitle: () => Strings.BUNNY,
+                title: () => Strings.BUNNY,
                 screen: {
                     route: "BUNNY_CUSTOM_PAGE",
-                    getComponent: () => CustomPageRenderer
-                }
-            },
-            ZENCORD_CUSTOM_PAGE: {
-                type: "route",
-                title: () => "ZenCord",
-                useTitle: () => "ZenCord",
-                screen: {
-                    route: "ZENCORD_CUSTOM_PAGE",
                     getComponent: () => CustomPageRenderer
                 }
             },
@@ -82,6 +84,11 @@ export function patchTabsUI(unpatches: (() => void | boolean)[]) {
         }),
         set: v => rendererConfigValue = v,
     });
+
+    const HarnessBoundary = createHarnessBoundary();
+    const wrapHarness = (_: any, ret: JSX.Element) => <HarnessBoundary>{ret}</HarnessBoundary>;
+    onJsxCreate("SettingHookHarness", wrapHarness);
+    unpatches.push(() => deleteJsxCreate("SettingHookHarness", wrapHarness));
 
     unpatches.push(() => {
         Object.defineProperty(settingConstants, "SETTING_RENDERER_CONFIG", {

@@ -1,5 +1,5 @@
 import { Strings } from "@core/i18n";
-import { ZencordIcon } from "@core/ui/settings";
+import { PyoncordIcon } from "@core/ui/settings";
 import Version from "@core/ui/settings/pages/General/Version";
 import { useProxy } from "@core/vendetta/storage";
 import { getDebugInfo } from "@lib/api/debug";
@@ -13,14 +13,14 @@ export default function About() {
 
     const versions = [
         {
-            label: Strings.PUPU,
+            label: Strings.BUNNY,
             version: debugInfo.bunny.version,
-            icon: { uri: ZencordIcon },
+            icon: { uri: PyoncordIcon },
         },
         {
             label: "Discord",
             version: `${debugInfo.discord.version} (${debugInfo.discord.build})`,
-            icon: "Discord",
+            icon: "ClydeIcon",
         },
         {
             label: "React",
@@ -60,22 +60,21 @@ export default function About() {
             version: debugInfo.device.manufacturer,
             icon: "WrenchIcon"
         },
-        ...(Platform.OS !== "ios" ? [{
+        {
             label: Strings.BRAND,
             version: debugInfo.device.brand,
-            icon: "MagicWandIcon"
-        }] : []),
+            icon: "PencilSparkleIcon"
+        },
         {
             label: Strings.MODEL,
             version: debugInfo.device.model,
             icon: "MobilePhoneIcon"
         },
-        // this is renamed now on android but i cant be bothered to find it
-        ...(Platform.OS !== "android" ? [{
-            label: Platform.select({ android: Strings.CODENAME, ios: Strings.MODELID })!,
+        {
+            label: Platform.select({ android: Strings.CODENAME, ios: Strings.MACHINE_ID })!,
             version: debugInfo.device.codename,
             icon: "TagIcon"
-        }] : []),
+        }
     ];
 
     return (

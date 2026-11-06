@@ -1,6 +1,6 @@
 import { isSafeMode, toggleSafeMode } from "@core/debug/safeMode";
 import { Strings } from "@core/i18n";
-import { ZencordIcon } from "@core/ui/settings";
+import { PyoncordIcon } from "@core/ui/settings";
 import About from "@core/ui/settings/pages/General/About";
 import { useProxy } from "@core/vendetta/storage";
 import { findAssetId } from "@lib/api/assets";
@@ -8,7 +8,7 @@ import { getDebugInfo } from "@lib/api/debug";
 import { BundleUpdaterManager } from "@lib/api/native/modules";
 import { settings } from "@lib/api/settings";
 import { openAlert } from "@lib/ui/alerts";
-import { DISCORD_SERVER, GITHUB, WEBSITE } from "@lib/utils/constants";
+import { DISCORD_SERVER, GITHUB } from "@lib/utils/constants";
 import { NavigationNative } from "@metro/common";
 import { AlertActionButton, AlertActions, AlertModal, Stack, TableRow, TableRowGroup, TableSwitchRow } from "@metro/common/components";
 import { Linking, ScrollView } from "react-native";
@@ -24,20 +24,20 @@ export default function General() {
             <Stack style={{ paddingVertical: 24, paddingHorizontal: 12 }} spacing={24}>
                 <TableRowGroup title={Strings.INFO}>
                     <TableRow
-                        label={Strings.PUPU}
-                        icon={<TableRow.Icon source={{ uri: ZencordIcon }} />}
+                        label={Strings.BUNNY}
+                        icon={<TableRow.Icon source={{ uri: PyoncordIcon }} />}
                         trailing={<TableRow.TrailingText text={debugInfo.bunny.version} />}
                     />
                     <TableRow
                         label={"Discord"}
-                        icon={<TableRow.Icon source={findAssetId("Discord")!} />}
+                        icon={<TableRow.Icon source={findAssetId("ClydeIcon")!} />}
                         trailing={<TableRow.TrailingText text={`${debugInfo.discord.version} (${debugInfo.discord.build})`} />}
                     />
                     <TableRow
                         arrow
                         label={Strings.ABOUT}
                         icon={<TableRow.Icon source={findAssetId("CircleInformationIcon-primary")!} />}
-                        onPress={() => navigation.push("PUPU_CUSTOM_PAGE", {
+                        onPress={() => navigation.push("BUNNY_CUSTOM_PAGE", {
                             title: Strings.ABOUT,
                             render: () => <About />,
                         })}
@@ -47,14 +47,8 @@ export default function General() {
                     <TableRow
                         arrow={true}
                         label={Strings.DISCORD_SERVER}
-                        icon={<TableRow.Icon source={findAssetId("Discord")!} />}
+                        icon={<TableRow.Icon source={findAssetId("ClydeIcon")!} />}
                         onPress={() => Linking.openURL(DISCORD_SERVER)}
-                    />
-                    <TableRow
-                        arrow={true}
-                        label={"Website"}
-                        icon={<TableRow.Icon source={findAssetId("GlobeEarthIcon") ?? findAssetId("CompassIcon") ?? findAssetId("LinkIcon")!} />}
-                        onPress={() => Linking.openURL(WEBSITE)}
                     />
                     <TableRow
                         arrow={true}
@@ -70,8 +64,8 @@ export default function General() {
                         onPress={() => BundleUpdaterManager.reload()}
                     />
                     <TableSwitchRow
-                        label={"Safe Mode"}
-                        subLabel={"Load ZenCord without loading add-ons"}
+                        label={Strings.SAFE_MODE}
+                        subLabel={settings.safeMode?.enabled ? Strings.RELOAD_IN_NORMAL_MODE_DESC : Strings.RELOAD_IN_SAFE_MODE_DESC}
                         icon={<TableRow.Icon source={findAssetId("ShieldIcon")!} />}
                         value={isSafeMode()}
                         onValueChange={(to: boolean) => {

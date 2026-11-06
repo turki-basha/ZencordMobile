@@ -12,7 +12,8 @@ export interface RowConfig {
     icon?: ImageURISource | number;
     IconComponent?: React.ReactNode,
     usePredicate?: () => boolean,
-    useTrailing?: () => string | JSX.Element
+    useTrailing?: () => string | JSX.Element,
+    rawTabsConfig?: Record<string, any>;
 }
 
 export const registeredSections = {} as {

@@ -242,7 +242,6 @@
   var modules_exports = {};
   __export(modules_exports, {
     BundleUpdaterManager: () => BundleUpdaterManager,
-    ImageLoader: () => ImageLoader,
     NativeCacheModule: () => NativeCacheModule,
     NativeClientInfoModule: () => NativeClientInfoModule,
     NativeDeviceModule: () => NativeDeviceModule,
@@ -261,7 +260,7 @@
     }
     return void 0;
   }
-  var nmp, NativeCacheModule, NativeFileModule, NativeClientInfoModule, NativeDeviceModule, NativeThemeModule, BundleUpdaterManager, ImageLoader;
+  var nmp, NativeCacheModule, NativeFileModule, NativeClientInfoModule, NativeDeviceModule, NativeThemeModule, BundleUpdaterManager;
   var init_modules = __esm({
     "src/lib/api/native/modules/index.ts"() {
       "use strict";
@@ -274,7 +273,6 @@
       NativeDeviceModule = getNativeModule("NativeDeviceModule", "RTNDeviceManager", "DCDDeviceManager");
       NativeThemeModule = getNativeModule("NativeThemeModule", "RTNThemeManager", "DCDTheme");
       BundleUpdaterManager = getNativeModule("BundleUpdaterManager");
-      ImageLoader = getNativeModule("ImageLoader");
     }
   });
 
@@ -290,20 +288,20 @@
     writeFile: () => writeFile
   });
   function clearFolder(_0) {
-    return _async_to_generator(function* (path, { prefix = "zencord/" } = {}) {
+    return _async_to_generator(function* (path, { prefix = "pyoncord/" } = {}) {
       if (typeof NativeFileModule.clearFolder !== "function")
         throw new Error("'fs.clearFolder' is not supported");
       return void (yield NativeFileModule.clearFolder("documents", `${prefix}${path}`));
     }).apply(this, arguments);
   }
   function removeFile(_0) {
-    return _async_to_generator(function* (path, { prefix = "zencord/" } = {}) {
+    return _async_to_generator(function* (path, { prefix = "pyoncord/" } = {}) {
       if (typeof NativeFileModule.removeFile !== "function")
         throw new Error("'fs.removeFile' is not supported");
       return void (yield NativeFileModule.removeFile("documents", `${prefix}${path}`));
     }).apply(this, arguments);
   }
-  function removeCacheFile(path, prefix = "zencord/") {
+  function removeCacheFile(path, prefix = "pyoncord/") {
     return _async_to_generator(function* () {
       if (typeof NativeFileModule.removeFile !== "function")
         throw new Error("'fs.removeFile' is not supported");
@@ -311,19 +309,19 @@
     })();
   }
   function fileExists(_0) {
-    return _async_to_generator(function* (path, { prefix = "zencord/" } = {}) {
+    return _async_to_generator(function* (path, { prefix = "pyoncord/" } = {}) {
       return yield NativeFileModule.fileExists(`${NativeFileModule.getConstants().DocumentsDirPath}/${prefix}${path}`);
     }).apply(this, arguments);
   }
   function writeFile(_0, _1) {
-    return _async_to_generator(function* (path, data, { prefix = "zencord/" } = {}) {
+    return _async_to_generator(function* (path, data, { prefix = "pyoncord/" } = {}) {
       if (typeof data !== "string")
         throw new Error("Argument 'data' must be a string");
       return void (yield NativeFileModule.writeFile("documents", `${prefix}${path}`, data, "utf8"));
     }).apply(this, arguments);
   }
   function readFile(_0) {
-    return _async_to_generator(function* (path, { prefix = "zencord/" } = {}) {
+    return _async_to_generator(function* (path, { prefix = "pyoncord/" } = {}) {
       try {
         return yield NativeFileModule.readFile(`${NativeFileModule.getConstants().DocumentsDirPath}/${prefix}${path}`, "utf8");
       } catch (err) {
@@ -334,7 +332,7 @@
     }).apply(this, arguments);
   }
   function downloadFile(_0, _1) {
-    return _async_to_generator(function* (url2, path, { prefix = "zencord/" } = {}) {
+    return _async_to_generator(function* (url2, path, { prefix = "pyoncord/" } = {}) {
       var response = yield fetch(url2);
       if (!response.ok) {
         throw new Error(`Failed to download file from ${url2}: ${response.status}`);
@@ -363,6 +361,149 @@
     "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_call_check.js"() {
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
+    }
+  });
+
+  // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_apply_descriptor_get.js
+  function _class_apply_descriptor_get(receiver, descriptor) {
+    if (descriptor.get)
+      return descriptor.get.call(receiver);
+    return descriptor.value;
+  }
+  var init_class_apply_descriptor_get = __esm({
+    "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_apply_descriptor_get.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+    }
+  });
+
+  // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_extract_field_descriptor.js
+  function _class_extract_field_descriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver))
+      throw new TypeError("attempted to " + action + " private field on non-instance");
+    return privateMap.get(receiver);
+  }
+  var init_class_extract_field_descriptor = __esm({
+    "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_extract_field_descriptor.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+    }
+  });
+
+  // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_private_field_get.js
+  function _class_private_field_get(receiver, privateMap) {
+    var descriptor = _class_extract_field_descriptor(receiver, privateMap, "get");
+    return _class_apply_descriptor_get(receiver, descriptor);
+  }
+  var init_class_private_field_get = __esm({
+    "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_private_field_get.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_class_apply_descriptor_get();
+      init_class_extract_field_descriptor();
+    }
+  });
+
+  // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_check_private_redeclaration.js
+  function _check_private_redeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+      throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+  }
+  var init_check_private_redeclaration = __esm({
+    "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_check_private_redeclaration.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+    }
+  });
+
+  // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_private_field_init.js
+  function _class_private_field_init(obj, privateMap, value) {
+    _check_private_redeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+  }
+  var init_class_private_field_init = __esm({
+    "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_private_field_init.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_check_private_redeclaration();
+    }
+  });
+
+  // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_apply_descriptor_set.js
+  function _class_apply_descriptor_set(receiver, descriptor, value) {
+    if (descriptor.set)
+      descriptor.set.call(receiver, value);
+    else {
+      if (!descriptor.writable) {
+        throw new TypeError("attempted to set read only private field");
+      }
+      descriptor.value = value;
+    }
+  }
+  var init_class_apply_descriptor_set = __esm({
+    "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_apply_descriptor_set.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+    }
+  });
+
+  // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_private_field_set.js
+  function _class_private_field_set(receiver, privateMap, value) {
+    var descriptor = _class_extract_field_descriptor(receiver, privateMap, "set");
+    _class_apply_descriptor_set(receiver, descriptor, value);
+    return value;
+  }
+  var init_class_private_field_set = __esm({
+    "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_private_field_set.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_class_apply_descriptor_set();
+      init_class_extract_field_descriptor();
+    }
+  });
+
+  // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_apply_descriptor_update.js
+  function _class_apply_descriptor_update(receiver, descriptor) {
+    if (descriptor.set) {
+      if (!descriptor.get)
+        throw new TypeError("attempted to read set only private field");
+      if (!("__destrWrapper" in descriptor)) {
+        descriptor.__destrWrapper = {
+          set value(v2) {
+            descriptor.set.call(receiver, v2);
+          },
+          get value() {
+            return descriptor.get.call(receiver);
+          }
+        };
+      }
+      return descriptor.__destrWrapper;
+    } else {
+      if (!descriptor.writable) {
+        throw new TypeError("attempted to set read only private field");
+      }
+      return descriptor;
+    }
+  }
+  var init_class_apply_descriptor_update = __esm({
+    "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_apply_descriptor_update.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+    }
+  });
+
+  // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_private_field_update.js
+  function _class_private_field_update(receiver, privateMap) {
+    var descriptor = _class_extract_field_descriptor(receiver, privateMap, "update");
+    return _class_apply_descriptor_update(receiver, descriptor);
+  }
+  var init_class_private_field_update = __esm({
+    "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_private_field_update.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_class_apply_descriptor_update();
+      init_class_extract_field_descriptor();
     }
   });
 
@@ -577,16 +718,16 @@
 
   // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_wrap_native_super.js
   function _wrap_native_super(Class) {
-    var _cache = typeof Map === "function" ? /* @__PURE__ */ new Map() : void 0;
+    var _cache2 = typeof Map === "function" ? /* @__PURE__ */ new Map() : void 0;
     _wrap_native_super = function _wrap_native_super2(Class2) {
       if (Class2 === null || !_is_native_function(Class2))
         return Class2;
       if (typeof Class2 !== "function")
         throw new TypeError("Super expression must either be null or a function");
-      if (typeof _cache !== "undefined") {
-        if (_cache.has(Class2))
-          return _cache.get(Class2);
-        _cache.set(Class2, Wrapper);
+      if (typeof _cache2 !== "undefined") {
+        if (_cache2.has(Class2))
+          return _cache2.get(Class2);
+        _cache2.set(Class2, Wrapper);
       }
       function Wrapper() {
         return _construct(Class2, arguments, _get_prototype_of(this).constructor);
@@ -1281,7 +1422,8 @@
         "util": findByPropsLazy("inspect", "isNullOrUndefined"),
         "moment": findByPropsLazy("isMoment"),
         "chroma-js": findByPropsLazy("brewer"),
-        "lodash": findByPropsLazy("forEachRight")
+        "lodash": findByPropsLazy("forEachRight"),
+        "react-native-webview": findByPropsLazy("WebView")
       };
     }
   });
@@ -2191,38 +2333,28 @@
     GITHUB: () => GITHUB,
     HTTP_REGEX: () => HTTP_REGEX,
     HTTP_REGEX_MULTI: () => HTTP_REGEX_MULTI,
-    NEXPID_PLUGINS_REPO_URL: () => NEXPID_PLUGINS_REPO_URL,
     OFFICIAL_PLUGINS_REPO_URL: () => OFFICIAL_PLUGINS_REPO_URL,
     VD_DISCORD_SERVER_ID: () => VD_DISCORD_SERVER_ID,
     VD_PLUGINS_CHANNEL_ID: () => VD_PLUGINS_CHANNEL_ID,
     VD_PROXY_PREFIX: () => VD_PROXY_PREFIX,
-    VD_THEMES_CHANNEL_ID: () => VD_THEMES_CHANNEL_ID,
-    WEBSITE: () => WEBSITE,
-    ZENCORD_DISCORD_SERVER_ID: () => ZENCORD_DISCORD_SERVER_ID,
-    ZENCORD_PLUGINS_CHANNEL_ID: () => ZENCORD_PLUGINS_CHANNEL_ID,
-    ZENCORD_THEMES_CHANNEL_ID: () => ZENCORD_THEMES_CHANNEL_ID
+    VD_THEMES_CHANNEL_ID: () => VD_THEMES_CHANNEL_ID
   });
-  var DISCORD_SERVER, WEBSITE, GITHUB, HTTP_REGEX, HTTP_REGEX_MULTI, BUNNY_PROXY_PREFIX, NEXPID_PLUGINS_REPO_URL, OFFICIAL_PLUGINS_REPO_URL, VD_PROXY_PREFIX, VD_DISCORD_SERVER_ID, VD_PLUGINS_CHANNEL_ID, VD_THEMES_CHANNEL_ID, ZENCORD_DISCORD_SERVER_ID, ZENCORD_PLUGINS_CHANNEL_ID, ZENCORD_THEMES_CHANNEL_ID;
+  var DISCORD_SERVER, GITHUB, HTTP_REGEX, HTTP_REGEX_MULTI, BUNNY_PROXY_PREFIX, OFFICIAL_PLUGINS_REPO_URL, VD_PROXY_PREFIX, VD_DISCORD_SERVER_ID, VD_PLUGINS_CHANNEL_ID, VD_THEMES_CHANNEL_ID;
   var init_constants = __esm({
     "src/lib/utils/constants.ts"() {
       "use strict";
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
-      DISCORD_SERVER = "https://discord.gg/EYzpnZuSba";
-      WEBSITE = "https://www.zencord.site/";
+      DISCORD_SERVER = "https://discord.gg/zencord";
       GITHUB = "https://github.com/turki-basha/ZencordMobile";
       HTTP_REGEX = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/;
       HTTP_REGEX_MULTI = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&//=]*)/g;
       BUNNY_PROXY_PREFIX = "https://bn-plugins.github.io/vd-proxy";
-      NEXPID_PLUGINS_REPO_URL = "https://revenge.nexpid.xyz";
-      OFFICIAL_PLUGINS_REPO_URL = "";
+      OFFICIAL_PLUGINS_REPO_URL = "https://bn-plugins.github.io/dist/repo.json";
       VD_PROXY_PREFIX = "https://vd-plugins.github.io/proxy";
       VD_DISCORD_SERVER_ID = "1015931589865246730";
       VD_PLUGINS_CHANNEL_ID = "1091880384561684561";
       VD_THEMES_CHANNEL_ID = "1091880434939482202";
-      ZENCORD_DISCORD_SERVER_ID = "1368145952266911755";
-      ZENCORD_PLUGINS_CHANNEL_ID = "1432796541210333284";
-      ZENCORD_THEMES_CHANNEL_ID = "1408405946434195540";
     }
   });
 
@@ -2378,147 +2510,9 @@
   var logger_exports = {};
   __export(logger_exports, {
     LoggerClass: () => LoggerClass,
-    connectToDebugger: () => connectToDebugger,
-    disconnectFromDebugger: () => disconnectFromDebugger,
-    isConnectedToDebugger: () => isConnectedToDebugger,
     logger: () => logger
   });
-  function serializeMessage(msg) {
-    return JSON.stringify(msg);
-  }
-  function sendLog(level, ...args) {
-    if (socket?.readyState === WebSocket.OPEN) {
-      var message = {
-        type: "log",
-        data: {
-          level,
-          message: args
-        }
-      };
-      socket.send(serializeMessage(message));
-    }
-  }
-  function patchConsoleAndLogger() {
-    originalConsoleLog = console.log;
-    console.log = function(...args) {
-      originalConsoleLog.apply(console, args);
-      sendLog("default", ...args);
-    };
-    originalConsoleError = console.error;
-    console.error = function(...args) {
-      originalConsoleError.apply(console, args);
-      sendLog("error", ...args);
-    };
-    originalConsoleWarn = console.warn;
-    console.warn = function(...args) {
-      originalConsoleWarn.apply(console, args);
-      sendLog("warn", ...args);
-    };
-    if (logger) {
-      originalLoggerLog = logger.log;
-      logger.log = function(...args) {
-        originalLoggerLog.apply(logger, args);
-        sendLog("default", ...args);
-      };
-      originalLoggerError = logger.error;
-      logger.error = function(...args) {
-        originalLoggerError.apply(logger, args);
-        sendLog("error", ...args);
-      };
-      originalLoggerWarn = logger.warn;
-      logger.warn = function(...args) {
-        originalLoggerWarn.apply(logger, args);
-        sendLog("warn", ...args);
-      };
-    }
-  }
-  function unpatchConsoleAndLogger() {
-    if (originalConsoleLog) {
-      console.log = originalConsoleLog;
-      originalConsoleLog = void 0;
-    }
-    if (originalConsoleError) {
-      console.error = originalConsoleError;
-      originalConsoleError = void 0;
-    }
-    if (originalConsoleWarn) {
-      console.warn = originalConsoleWarn;
-      originalConsoleWarn = void 0;
-    }
-    if (logger) {
-      if (originalLoggerLog) {
-        logger.log = originalLoggerLog;
-        originalLoggerLog = void 0;
-      }
-      if (originalLoggerError) {
-        logger.error = originalLoggerError;
-        originalLoggerError = void 0;
-      }
-      if (originalLoggerWarn) {
-        logger.warn = originalLoggerWarn;
-        originalLoggerWarn = void 0;
-      }
-    }
-  }
-  function connectToDebugger(url2) {
-    if (socket !== void 0 && socket.readyState !== WebSocket.CLOSED) {
-      unpatchConsoleAndLogger();
-      socket.close();
-    }
-    if (!url2) {
-      console.error("Invalid debugger URL!");
-      return;
-    }
-    try {
-      socket = new WebSocket(`ws://${url2}`);
-      socket.addEventListener("open", () => {
-        console.log("Connected to debugger.");
-        var hello = {
-          type: "hello",
-          data: {
-            version: VERSION
-          }
-        };
-        socket?.send(serializeMessage(hello));
-        patchConsoleAndLogger();
-      });
-      socket.addEventListener("message", (message) => {
-        try {
-          var data = JSON.parse(message.data);
-          if (data.type === "run" && data.data?.code) {
-            try {
-              (0, eval)(data.data.code);
-            } catch (e) {
-              console.error("Error executing remote code:", e);
-            }
-          }
-        } catch (e) {
-          console.error("Error processing message:", e);
-        }
-      });
-      socket.addEventListener("close", () => {
-        console.log("Disconnected from debugger.");
-        unpatchConsoleAndLogger();
-      });
-      socket.addEventListener("error", (err) => {
-        console.error(`Debugger error: ${err.message}`);
-        unpatchConsoleAndLogger();
-      });
-    } catch (e) {
-      console.error("Failed to connect to debugger:", e);
-    }
-  }
-  function disconnectFromDebugger() {
-    if (socket) {
-      unpatchConsoleAndLogger();
-      socket.close();
-      socket = void 0;
-    }
-  }
-  function isConnectedToDebugger() {
-    return socket?.readyState === WebSocket.OPEN;
-  }
-  var LoggerClass, logger, socket, originalConsoleLog, originalConsoleError, originalConsoleWarn, originalLoggerLog, originalLoggerError, originalLoggerWarn, VERSION;
+  var LoggerClass, logger;
   var init_logger = __esm({
     "src/lib/utils/logger.ts"() {
       "use strict";
@@ -2527,7 +2521,6 @@
       init_wrappers();
       LoggerClass = findByNameLazy("Logger");
       logger = new LoggerClass("ZenCord");
-      VERSION = 1;
     }
   });
 
@@ -2801,7 +2794,7 @@
     url: () => url,
     useToken: () => useToken
   });
-  var import_react_native2, constants, channels, i18n, clipboard, assets, invites, commands, navigation, toasts, messageUtil, navigationStack, NavigationNative, semver, tokens, useToken, openURL, url, Flux, FluxDispatcher, FluxUtils, React2, ReactNative;
+  var import_react_native2, constants, channels, i18n, openURL, url, clipboard, assets, invites, commands, navigation, toasts, messageUtil, navigationStack, NavigationNative, semver, tokens, useToken, Flux, FluxDispatcher, FluxUtils, React2, ReactNative;
   var init_common = __esm({
     "src/metro/common/index.ts"() {
       "use strict";
@@ -2814,18 +2807,6 @@
       constants = findByPropsLazy("Fonts", "Permissions");
       channels = findByPropsLazy("getVoiceChannelId");
       i18n = findByPropsLazy("Messages");
-      clipboard = findByPropsLazy("setString", "getString", "hasString");
-      assets = findByPropsLazy("registerAsset");
-      invites = findByPropsLazy("acceptInviteAndTransitionToInviteChannel");
-      commands = findByPropsLazy("getBuiltInCommands");
-      navigation = findByPropsLazy("pushLazy");
-      toasts = findByFilePathLazy("modules/toast/native/ToastActionCreators.tsx", true);
-      messageUtil = findByPropsLazy("sendBotMessage");
-      navigationStack = findByPropsLazy("createStackNavigator");
-      NavigationNative = findByPropsLazy("NavigationContainer");
-      semver = findByPropsLazy("parse", "clean");
-      tokens = findByPropsLazy("unsafe_rawColors", "colors");
-      ({ useToken } = lazyDestructure(() => findByProps("useToken")));
       openURL = (url2) => import_react_native2.Linking.openURL(url2);
       url = nativeModuleProxy.NativeLinkingModule || nativeModuleProxy.DCDLinkingManager ? {
         openURL,
@@ -2838,6 +2819,18 @@
         showLongPressUrlActionSheet: () => console.warn("url.showLongPressUrlActionSheet is not implemented"),
         handleMessageLinking: findByFilePathLazy("modules/links/native/handleContentLinking.tsx", true)
       } : findByPropsLazy("openURL", "openDeeplink");
+      clipboard = findByPropsLazy("setString", "getString", "hasString");
+      assets = findByPropsLazy("registerAsset");
+      invites = findByPropsLazy("acceptInviteAndTransitionToInviteChannel");
+      commands = findByPropsLazy("getBuiltInCommands");
+      navigation = findByPropsLazy("pushLazy");
+      toasts = findByFilePathLazy("modules/toast/native/ToastActionCreators.tsx", true);
+      messageUtil = findByPropsLazy("sendBotMessage");
+      navigationStack = findByPropsLazy("createStackNavigator");
+      NavigationNative = findByPropsLazy("NavigationContainer");
+      semver = findByPropsLazy("parse", "clean");
+      tokens = findByPropsLazy("unsafe_rawColors", "colors");
+      ({ useToken } = lazyDestructure(() => findByProps("useToken")));
       Flux = findByPropsLazy("connectStores");
       FluxDispatcher = findByProps("_interceptors");
       FluxUtils = findByProps("useStateFromStores");
@@ -2984,83 +2977,7 @@
         background
       };
     }
-    if (manifest.spec === 1 || manifest.theme_color_map && !manifest.spec) {
-      var semanticDefinitions1 = {};
-      var rawDefinitions = {};
-      var themeIndex = resolveType() === "light" ? 1 : 0;
-      if (manifest.theme_color_map) {
-        for (var [key2, colorArray] of Object.entries(manifest.theme_color_map)) {
-          if (!Array.isArray(colorArray) || colorArray.length < 2) {
-            console.warn(`[Parser] Invalid color array for ${key2}:`, colorArray);
-            continue;
-          }
-          var colorValue = colorArray[themeIndex];
-          if (!colorValue) {
-            console.warn(`[Parser] Missing color value for ${key2} at index ${themeIndex}`);
-            continue;
-          }
-          var normalized = normalizeToHex(colorValue);
-          if (normalized) {
-            semanticDefinitions1[key2] = {
-              value: normalized,
-              opacity: 1
-            };
-          }
-        }
-      }
-      var rawColors2 = manifest.colours || manifest.colors;
-      if (rawColors2) {
-        for (var [key3, colorValue1] of Object.entries(rawColors2)) {
-          if (typeof colorValue1 !== "string")
-            continue;
-          var normalized1 = normalizeToHex(colorValue1);
-          if (normalized1) {
-            var discordKey = convertEnmityToDiscordRawKey(key3);
-            rawDefinitions[discordKey] = normalized1;
-            if (discordKey !== key3) {
-              rawDefinitions[key3] = normalized1;
-            }
-          }
-        }
-      }
-      if (manifest.unsafe_colors) {
-        for (var [key4, colorValue2] of Object.entries(manifest.unsafe_colors)) {
-          if (typeof colorValue2 !== "string")
-            continue;
-          var normalized2 = normalizeToHex(colorValue2);
-          if (normalized2) {
-            rawDefinitions[key4] = normalized2;
-          }
-        }
-      }
-      if (import_react_native3.Platform.OS === "android")
-        applyAndroidAlphaKeys(rawDefinitions);
-      return {
-        spec: 2,
-        reference: resolveType(),
-        semantic: semanticDefinitions1,
-        raw: rawDefinitions,
-        background: manifest.background
-      };
-    }
     throw new Error("Invalid theme spec");
-  }
-  function convertEnmityToDiscordRawKey(enmityKey) {
-    var conversions = {
-      "PRIMARY_DARK": "PRIMARY_100",
-      "PRIMARY_DARK_100": "PRIMARY_100",
-      "PRIMARY_DARK_200": "PRIMARY_200",
-      "PRIMARY_DARK_300": "PRIMARY_300",
-      "PRIMARY_DARK_360": "PRIMARY_360",
-      "PRIMARY_DARK_400": "PRIMARY_400",
-      "PRIMARY_DARK_500": "PRIMARY_500",
-      "PRIMARY_DARK_600": "PRIMARY_600",
-      "PRIMARY_DARK_630": "PRIMARY_630",
-      "PRIMARY_DARK_700": "PRIMARY_700",
-      "PRIMARY_DARK_800": "PRIMARY_800",
-      "PRIMARY_DARK_900": "PRIMARY_900"
-    };
-    return conversions[enmityKey] || enmityKey;
   }
   function applyAndroidAlphaKeys(rawColors2) {
     if (!rawColors2)
@@ -3110,9 +3027,6 @@
   function normalizeToHex(colorString) {
     if (colorString === void 0)
       return void 0;
-    if (colorString.toLowerCase() === "transparent") {
-      return "#00000000";
-    }
     if (import_chroma_js.default.valid(colorString))
       return (0, import_chroma_js.default)(colorString).hex();
     var color2 = Number((0, import_react_native3.processColor)(colorString));
@@ -3230,10 +3144,10 @@
           children: ret
         });
       };
-      var patches3 = [
+      var patches2 = [
         typeof MessagesModule.default === "function" ? after("default", MessagesModule, patch) : after("render", MessagesModule.default, patch)
       ];
-      return () => patches3.forEach((x2) => x2());
+      return () => patches2.forEach((x2) => x2());
     } catch (e) {
       logger.error("Failed to patch chat background.", e);
       return () => {
@@ -3265,29 +3179,19 @@
     var callback = ([theme]) => theme === _colorRef.key ? [
       _colorRef.current.reference
     ] : void 0;
-    Object.defineProperty(themeTypes, "DARKER", {
-      configurable: true,
-      enumerable: true,
-      get: () => _colorRef.current?.reference === "darker" ? _colorRef.key : origDarker
-    });
-    Object.defineProperty(themeTypes, "LIGHT", {
-      configurable: true,
-      enumerable: true,
-      get: () => _colorRef.current?.reference === "light" ? _colorRef.key : origLight
-    });
     Object.keys(tokenReference.RawColor).forEach((key) => {
       Object.defineProperty(tokenReference.RawColor, key, {
         configurable: true,
         enumerable: true,
         get: () => {
           var ret = _colorRef.current?.raw[key];
-          if (ret)
-            return ret;
-          return origRawColor2[key];
+          return ret || _colorRef.origRaw[key];
         }
       });
     });
     var unpatches = [
+      before("isThemeDark", isThemeModule, callback),
+      before("isThemeLight", isThemeModule, callback),
       before("updateTheme", NativeThemeModule, callback),
       instead("resolveSemanticColor", tokenReference.default.meta ?? tokenReference.default.internal, (args, orig) => {
         if (!_colorRef.current)
@@ -3301,7 +3205,9 @@
           semanticDef = _colorRef.current.semantic[SEMANTIC_FALLBACK_MAP[name]];
         }
         if (semanticDef?.value) {
-          return semanticDef.opacity === 1 ? semanticDef.value : (0, import_chroma_js3.default)(semanticDef.value).alpha(semanticDef.opacity).hex();
+          if (semanticDef.opacity === 1)
+            return semanticDef.value;
+          return (0, import_chroma_js3.default)(semanticDef.value).alpha(semanticDef.opacity).hex();
         }
         var rawValue = _colorRef.current.raw[colorDef.raw];
         if (rawValue) {
@@ -3310,20 +3216,10 @@
         return orig(...args);
       }),
       () => {
-        Object.defineProperty(themeTypes, "DARKER", {
-          configurable: true,
-          writable: true,
-          value: origDarker
-        });
-        Object.defineProperty(themeTypes, "LIGHT", {
-          configurable: true,
-          writable: true,
-          value: origLight
-        });
         Object.defineProperty(tokenReference, "RawColor", {
           configurable: true,
           writable: true,
-          value: origRawColor2
+          value: _colorRef.origRaw
         });
       }
     ];
@@ -3337,7 +3233,7 @@
       colorDef[themeName]
     ];
   }
-  var import_chroma_js3, tokenReference, themeTypes, origRawColor2, origDarker, origLight, SEMANTIC_FALLBACK_MAP;
+  var import_chroma_js3, tokenReference, isThemeModule, SEMANTIC_FALLBACK_MAP;
   var init_resolver = __esm({
     "src/lib/addons/themes/colors/patches/resolver.ts"() {
       "use strict";
@@ -3347,14 +3243,11 @@
       init_modules();
       init_patcher();
       init_metro();
+      init_filters();
+      init_lazy2();
       import_chroma_js3 = __toESM(require_chroma_js());
       tokenReference = findByProps("SemanticColor");
-      themeTypes = findByProps("ThemeTypes")?.ThemeTypes;
-      origRawColor2 = {
-        ...tokenReference.RawColor
-      };
-      origDarker = themeTypes.DARKER;
-      origLight = themeTypes.LIGHT;
+      isThemeModule = createLazyModule(byMutableProp("isThemeDark"));
       SEMANTIC_FALLBACK_MAP = {
         "BG_BACKDROP": "BACKGROUND_FLOATING",
         "BG_BASE_PRIMARY": "BACKGROUND_PRIMARY",
@@ -3376,7 +3269,7 @@
       "ThemeStore",
       "SelectivelySyncedUserSettingsStore"
     ]);
-    var patches3 = [
+    var patches2 = [
       after("get", mmkvStorage, ([key], ret) => {
         if (!_colorRef.current || !patchedKeys.has(key))
           return;
@@ -3396,7 +3289,7 @@
         ];
       })
     ];
-    return () => patches3.forEach((p) => p());
+    return () => patches2.forEach((p) => p());
   }
   var mmkvStorage;
   var init_storage3 = __esm({
@@ -3420,16 +3313,16 @@
 
   // src/lib/addons/themes/colors/index.ts
   function initColors(manifest) {
-    if (manifest)
-      updateBunnyColor(manifest, {
-        update: false
-      });
-    var patches3 = [
+    var patches2 = [
       patchStorage(),
       patchDefinitionAndResolver(),
       patchChatBackground()
     ];
-    return () => patches3.forEach((p) => p());
+    if (manifest)
+      updateBunnyColor(manifest, {
+        update: false
+      });
+    return () => patches2.forEach((p) => p());
   }
   var init_colors = __esm({
     "src/lib/addons/themes/colors/index.ts"() {
@@ -3483,23 +3376,17 @@
       if (import_react_native5.Platform.OS === "android")
         applyAndroidAlphaKeys(rawColors2);
     }
-    if (data.spec === void 0) {
-      if (!("theme_color_map" in data)) {
-        data.spec = 2;
-      }
-    }
+    data.spec ??= 2;
     return data;
   }
   function validateTheme(themeJSON) {
     if (typeof themeJSON !== "object" || themeJSON === null)
       return false;
+    if (themeJSON.spec !== 2 && themeJSON.spec !== 3)
+      return false;
     if (themeJSON.spec === 3 && !themeJSON.main)
       return false;
-    if (themeJSON.spec === 2)
-      return true;
-    if (themeJSON.theme_color_map)
-      return true;
-    return themeJSON.spec === 2 || themeJSON.spec === 3;
+    return true;
   }
   function fetchTheme(url2, selected = false) {
     return _async_to_generator(function* () {
@@ -3575,8 +3462,6 @@
     return _async_to_generator(function* () {
       if (!isThemeSupported())
         return;
-      if (settings.safeMode?.enabled)
-        return;
       try {
         if (isPyonLoader()) {
           writeFile("../vendetta_theme.json", "null");
@@ -3603,7 +3488,6 @@
       init_storage2();
       init_utils();
       import_react_native5 = __toESM(require_react_native());
-      init_settings();
       init_colors();
       init_parser();
       init_preferences();
@@ -3619,24 +3503,13 @@
   function isPyonLoader() {
     return pyonLoaderIdentity != null;
   }
-  function isRa1nLoader() {
-    return rainLoaderIdentity != null;
-  }
   function polyfillVendettaLoaderIdentity() {
-    if (!isPyonLoader() || isVendettaLoader() || !isRa1nLoader())
+    if (!isPyonLoader() || isVendettaLoader())
       return null;
-    var loader;
-    if (isRa1nLoader() == true) {
-      loader = {
-        name: rainLoaderIdentity.loaderName,
-        features: {}
-      };
-    } else {
-      loader = {
-        name: pyonLoaderIdentity.loaderName,
-        features: {}
-      };
-    }
+    var loader = {
+      name: pyonLoaderIdentity.loaderName,
+      features: {}
+    };
     if (isLoaderConfigSupported())
       loader.features.loaderConfig = true;
     if (isSysColorsSupported()) {
@@ -3676,21 +3549,15 @@
     return polyfillVendettaLoaderIdentity();
   }
   function getLoaderName() {
-    if (globalThis.__ZENCORD_LOADER__)
-      return globalThis.__ZENCORD_LOADER__.loaderName || "ZenCord";
     if (isPyonLoader())
       return pyonLoaderIdentity.loaderName;
-    else if (isRa1nLoader())
-      return rainLoaderIdentity.loadername;
     else if (isVendettaLoader())
       return vendettaLoaderIdentity.name;
-    return "ZenCord";
+    return "Unknown";
   }
   function getLoaderVersion() {
     if (isPyonLoader())
       return pyonLoaderIdentity.loaderVersion;
-    else if (isRa1nLoader())
-      return rainLoaderIdentity.loaderVersion;
     return null;
   }
   function isLoaderConfigSupported() {
@@ -3698,8 +3565,6 @@
       return true;
     } else if (isVendettaLoader()) {
       return vendettaLoaderIdentity.features.loaderConfig;
-    } else if (isRa1nLoader()) {
-      return true;
     }
     return false;
   }
@@ -3708,8 +3573,6 @@
       return pyonLoaderIdentity.hasThemeSupport;
     } else if (isVendettaLoader()) {
       return vendettaLoaderIdentity.features.themes != null;
-    } else if (isRa1nLoader()) {
-      return false;
     }
     return false;
   }
@@ -3725,7 +3588,12 @@
     return null;
   }
   function getThemeFilePath() {
-    return "zencord/current-theme.json";
+    if (isPyonLoader()) {
+      return "pyoncord/current-theme.json";
+    } else if (isVendettaLoader()) {
+      return "vendetta_theme.json";
+    }
+    return null;
   }
   function isReactDevToolsPreloaded() {
     if (isPyonLoader()) {
@@ -3740,9 +3608,8 @@
     if (!isReactDevToolsPreloaded())
       return null;
     if (isPyonLoader()) {
-      globalThis.__zencord_rdt = globalThis.__REACT_DEVTOOLS__.exports;
       globalThis.__pyoncord_rdt = globalThis.__REACT_DEVTOOLS__.exports;
-      return "__zencord_rdt";
+      return "__pyoncord_rdt";
     }
     if (isVendettaLoader()) {
       return vendettaLoaderIdentity.features.devtools.prop;
@@ -3761,7 +3628,12 @@
     return null;
   }
   function isSysColorsSupported() {
-    return true;
+    if (isPyonLoader())
+      return pyonLoaderIdentity.isSysColorsSupported;
+    else if (isVendettaLoader()) {
+      return vendettaLoaderIdentity.features.syscolors != null;
+    }
+    return false;
   }
   function getSysColors() {
     if (!isSysColorsSupported())
@@ -3774,14 +3646,19 @@
     return null;
   }
   function getLoaderConfigPath() {
-    return "zencord/loader.json";
+    if (isPyonLoader()) {
+      return "pyoncord/loader.json";
+    } else if (isVendettaLoader()) {
+      return "vendetta_loader.json";
+    }
+    return "loader.json";
   }
   function isFontSupported() {
     if (isPyonLoader())
       return pyonLoaderIdentity.fontPatch === 2;
     return false;
   }
-  var pyonLoaderIdentity, rainLoaderIdentity, vendettaLoaderIdentity;
+  var pyonLoaderIdentity, vendettaLoaderIdentity;
   var init_loader = __esm({
     "src/lib/api/native/loader.ts"() {
       "use strict";
@@ -3789,7 +3666,6 @@
       init_promiseAllSettled();
       init_fs();
       pyonLoaderIdentity = globalThis.__PYON_LOADER__;
-      rainLoaderIdentity = globalThis.__RAIN_LOADER__;
       vendettaLoaderIdentity = globalThis.__vendetta_loader;
       getVendettaLoaderIdentity();
     }
@@ -3961,9 +3837,7 @@
     getModules: () => getModules,
     metroModules: () => metroModules,
     requireModule: () => requireModule,
-    subscribeModule: () => subscribeModule,
-    waitFor: () => waitFor,
-    waitForModule: () => waitForModule
+    subscribeModule: () => subscribeModule
   });
   function blacklistModule(id) {
     Object.defineProperty(metroModules, id, {
@@ -3972,7 +3846,7 @@
     blacklistedIds.add(id);
   }
   function isBadExports(exports) {
-    return !exports || exports === globalThis || exports.__proto__ === Object.prototype && Reflect.ownKeys(exports).length === 0 || exports.default?.[Symbol.toStringTag] === "IntlMessagesProxy";
+    return !exports || exports === globalThis || exports["<!@ pylix was here :fuyusquish: !@>"] === null || exports.__proto__ === Object.prototype && Reflect.ownKeys(exports).length === 0 || exports.default?.[Symbol.toStringTag] === "IntlMessagesProxy";
   }
   function onModuleRequire(moduleExports, id) {
     indexExportsFlags(id, moduleExports);
@@ -3988,11 +3862,11 @@
       "register",
       "get"
     ].every((x2) => moduleExports[x2])) {
-      instead2("register", moduleExports, (args, origFunc) => {
+      instead2("register", moduleExports, ([name, cb], origFunc) => {
         try {
-          return origFunc.apply(moduleExports, args);
+          return origFunc(name, cb);
         } catch (unused) {
-          return args[0];
+          return name;
         }
       });
       patchedNativeComponentRegistry = true;
@@ -4020,13 +3894,6 @@
       var inspect = (f) => typeof f === "function" && functionToString.apply(f, []);
       globalThis["__core-js_shared__"].inspectSource = inspect;
       patchedInspectSource = true;
-    }
-    if (moduleExports.isMoment) {
-      instead2("defineLocale", moduleExports, (args, orig) => {
-        var origLocale = moduleExports.locale();
-        orig(...args);
-        moduleExports.locale(origLocale);
-      });
     }
     var subs = moduleSubscriptions.get(Number(id));
     if (subs) {
@@ -4066,6 +3933,10 @@
     return moduleExports;
   }
   function* getModules(uniq, all = false) {
+    yield [
+      -1,
+      (init_redesign(), __toCommonJS(redesign_exports))
+    ];
     var cache = getMetroCache().findIndex[uniq];
     if (all && !cache?.[`_${ModulesMapInternal.FULL_LOOKUP}`])
       cache = void 0;
@@ -4091,10 +3962,6 @@
         exports1
       ];
     }
-    yield [
-      -1,
-      (init_redesign(), __toCommonJS(redesign_exports))
-    ];
   }
   function* getCachedPolyfillModules(name) {
     var cache = getMetroCache().polyfillIndex[name];
@@ -4119,96 +3986,12 @@
       }
     }
   }
-  function waitFor(filter, callback, options = {}) {
-    var { count = 1 } = options;
-    var currentCount = 0;
-    var unsubscribers = [];
-    var isActive = true;
-    var cleanup = () => {
-      if (!isActive)
-        return;
-      isActive = false;
-      unsubscribers.forEach((unsub) => unsub());
-      unsubscribers.length = 0;
-    };
-    function checkModule(id3) {
-      if (!isActive)
-        return true;
-      var exports = requireModule(id3);
-      if (isBadExports(exports))
-        return false;
-      var result = filter(exports);
-      if (!result)
-        return false;
-      callback(result, id3);
-      if (++currentCount >= count) {
-        cleanup();
-        return true;
-      }
-      return false;
-    }
-    if (filter.key) {
-      var cache = getMetroCache().findIndex[filter.key];
-      if (cache) {
-        var _loop2 = function(id3) {
-          if (id3[0] === "_")
-            return "continue";
-          var numId2 = Number(id3);
-          if (metroModules[numId2]?.isInitialized) {
-            if (checkModule(numId2))
-              return {
-                v: cleanup
-              };
-          } else {
-            var unsub = subscribeModule(numId2, () => {
-              checkModule(numId2);
-            });
-            unsubscribers.push(unsub);
-          }
-        };
-        for (var id in cache) {
-          var _ret = _loop2(id);
-          if (_type_of(_ret) === "object")
-            return _ret.v;
-        }
-      }
-    }
-    for (var id1 in metroModules) {
-      if (!isActive)
-        break;
-      var numId = Number(id1);
-      if (metroModules[numId]?.isInitialized && !metroModules[numId]?.hasError) {
-        if (checkModule(numId))
-          return cleanup;
-      }
-    }
-    if (isActive) {
-      var _loop1 = function(id22) {
-        var numId2 = Number(id22);
-        if (!metroModules[numId2]?.isInitialized) {
-          var unsub = subscribeModule(numId2, () => {
-            checkModule(numId2);
-          });
-          unsubscribers.push(unsub);
-        }
-      };
-      for (var id2 in metroModules)
-        _loop1(id2);
-    }
-    return cleanup;
-  }
-  function waitForModule(filter, options = {}) {
-    return new Promise((resolve) => {
-      waitFor(filter, (exports) => resolve(exports), options);
-    });
-  }
   var _loop, before2, instead2, metroModules, metroRequire, moduleSubscriptions, blacklistedIds, noopHandler, functionToString, patchedInspectSource, patchedImportTracker, patchedNativeComponentRegistry, _importingModuleId, key;
   var init_modules2 = __esm({
     "src/metro/internals/modules.ts"() {
       "use strict";
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
-      init_type_of();
       init_caches();
       init_enums();
       _loop = function(key) {
@@ -4260,20 +4043,22 @@
     indexExportsFlags: () => indexExportsFlags,
     initMetroCache: () => initMetroCache
   });
+  function getBuildNumber() {
+    try {
+      return NativeClientInfoModule?.Build ?? NativeClientInfoModule?.getConstants?.()?.Build ?? 0;
+    } catch (unused) {
+      return 0;
+    }
+  }
   function buildInitCache() {
     var cache = {
       _v: CACHE_VERSION,
-      _buildNumber: NativeClientInfoModule.getConstants().Build,
+      _buildNumber: getBuildNumber(),
       _modulesCount: Object.keys(globalThis.modules).length,
       flagsIndex: {},
       findIndex: {},
       polyfillIndex: {}
     };
-    setTimeout(() => {
-      for (var id in globalThis.modules) {
-        (init_modules2(), __toCommonJS(modules_exports2)).requireModule(id);
-      }
-    }, 100);
     _metroCache = cache;
     return cache;
   }
@@ -4288,7 +4073,7 @@
           _metroCache = null;
           throw "cache invalidated; cache version outdated";
         }
-        if (_metroCache._buildNumber !== NativeClientInfoModule.getConstants().Build) {
+        if (_metroCache._buildNumber !== getBuildNumber()) {
           _metroCache = null;
           throw "cache invalidated; version mismatch";
         }
@@ -4326,28 +4111,28 @@
         indexObject[moduleId] ??= extractExportsFlags(exports);
         saveCache();
       },
-      // Finish may not be called by single find
-      finish(notFound) {
-        if (allFind)
-          indexObject[`_${ModulesMapInternal.FULL_LOOKUP}`] = 1;
-        if (notFound)
-          indexObject[`_${ModulesMapInternal.NOT_FOUND}`] = 1;
+      finish(notFound = false) {
+        if (notFound) {
+          indexObject[`_${ModulesMapInternal.NOT_FOUND}`] = ModuleFlags.EXISTS;
+        } else if (allFind) {
+          indexObject[`_${ModulesMapInternal.FULL_LOOKUP}`] = ModuleFlags.EXISTS;
+        }
         saveCache();
       }
     };
   }
   function getPolyfillModuleCacher(name) {
-    var indexObject = _metroCache.polyfillIndex[name] ??= {};
+    var cache = _metroCache.polyfillIndex[name] ??= {};
     return {
       getModules() {
         return (init_modules2(), __toCommonJS(modules_exports2)).getCachedPolyfillModules(name);
       },
-      cacheId(moduleId) {
-        indexObject[moduleId] = 1;
+      cacheId(id) {
+        cache[id] ??= ModuleFlags.EXISTS;
         saveCache();
       },
       finish() {
-        indexObject[`_${ModulesMapInternal.FULL_LOOKUP}`] = 1;
+        cache[`_${ModulesMapInternal.FULL_LOOKUP}`] = ModuleFlags.EXISTS;
         saveCache();
       }
     };
@@ -4363,7 +4148,7 @@
       init_modules();
       init_dist();
       init_enums();
-      CACHE_VERSION = 106;
+      CACHE_VERSION = 110;
       ZENCORD_METRO_CACHE_PATH = "caches/zencord_metro_modules.json";
       _metroCache = null;
       getMetroCache = () => _metroCache;
@@ -4373,25 +4158,251 @@
     }
   });
 
-  // src/core/ui/reporter/utils/isStack.tsx
-  function isComponentStack(error) {
-    return "componentStack" in error && typeof error.componentStack === "string";
+  // src/core/debug/patches/patchErrorBoundary.tsx
+  function patchErrorBoundary() {
+    return () => {
+    };
   }
-  function hasStack(error) {
-    return !!error.stack;
-  }
-  var init_isStack = __esm({
-    "src/core/ui/reporter/utils/isStack.tsx"() {
+  var init_patchErrorBoundary = __esm({
+    "src/core/debug/patches/patchErrorBoundary.tsx"() {
       "use strict";
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
     }
   });
 
+  // globals:moment
+  var require_moment = __commonJS({
+    "globals:moment"(exports, module) {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      module.exports = require_depsModule()["moment"];
+    }
+  });
+
+  // src/core/fixes.ts
+  function onDispatch({ locale }) {
+    try {
+      import_moment.default.locale(locale.toLowerCase());
+    } catch (e) {
+      logger.error("Failed to fix timestamps...", e);
+    }
+    FluxDispatcher.unsubscribe("I18N_LOAD_SUCCESS", onDispatch);
+  }
+  var import_moment, fixes_default;
+  var init_fixes = __esm({
+    "src/core/fixes.ts"() {
+      "use strict";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_logger();
+      init_common();
+      import_moment = __toESM(require_moment());
+      fixes_default = () => {
+        FluxDispatcher.subscribe("I18N_LOAD_SUCCESS", onDispatch);
+      };
+    }
+  });
+
+  // src/core/i18n/default.json
+  var default_default;
+  var init_default = __esm({
+    "src/core/i18n/default.json"() {
+      default_default = {
+        ABOUT: "About",
+        ACTIONS: "Actions",
+        ARE_YOU_SURE_TO_CLEAR_DATA: "Are you sure you wish to clear the data of {name}?",
+        ARE_YOU_SURE_TO_DELETE_PLUGIN: "Are you sure you wish to delete {name}? This will clear all of the plugin's data.",
+        ARE_YOU_SURE_TO_DELETE_THEME: "Are you sure you wish to delete {name}?",
+        ASSET_BROWSER: "Asset Browser",
+        BRAND: "Brand",
+        BUNNY_URL: "ZenCord URL",
+        BUNNY: "ZenCord",
+        BYTECODE: "Bytecode",
+        CANCEL: "Cancel",
+        CLEAR_BUNDLE_DESC: "Clear the cached bundle. This will force a re-download of the bundle next app launch.",
+        CLEAR_BUNDLE: "Clear JS Bundle",
+        CLEAR_DATA_FAILED: "Failed to clear data for {name}",
+        CLEAR_DATA_SUCCESSFUL: "Cleared data for {name}",
+        CLEAR_DATA: "Clear Data",
+        CLEAR: "Clear",
+        CODENAME: "Codename",
+        COMMAND_DEBUG_DESC: "Send debug information",
+        COMMAND_DEBUG_OPT_EPHEMERALLY: "Send the message ephemerally",
+        COMMAND_EVAL_DESC: "Evaluate JavaScript code",
+        COMMAND_EVAL_OPT_ASYNC: "Whether to support 'await' in code, must explicitly return for result (default: false)",
+        COMMAND_EVAL_OPT_CODE: "The code to evaluate",
+        COMMAND_PLUGINS_DESC: "Send list of installed plugins",
+        COMMAND_PLUGINS_OPT_EPHEMERALLY: "Send the message ephemerally",
+        COMPONENT: "Component",
+        CONFIRMATION_LINK_IS_A_TYPE: "This link is a **{urlType, select, plugin {Plugin} theme {Theme} other {Add-on}}**, would you like to install it?",
+        CONNECT_TO_DEBUG_WEBSOCKET: "Connect to DevTools",
+        CONNECT_TO_REACT_DEVTOOLS: "Connect to React DevTools",
+        CONNECTED_TO_DEBUGGER: "Connected to DevTools",
+        CONNECTED_TO_REACT_DEVTOOLS: "Connected to React DevTools",
+        CONTINUE: "Continue",
+        COPIED_TO_CLIPBOARD: "Copied to clipboard",
+        COPY_URL: "Copy URL",
+        DEBUG: "Debug",
+        DEBUGGER_AUTOCONNECT_DESC: "Automatically connect to the DevTools during startup",
+        DEBUGGER_AUTOCONNECT: "Auto-connect to DevTools",
+        DEBUGGER_URL: "DevTools URL",
+        DELETE: "Delete",
+        DESC_EXTRACT_FONTS_FROM_THEME: 'Looks out for "fonts" field in your currently applied theme and install it.',
+        DEVELOPER_SETTINGS: "Developer Settings",
+        DEVELOPER: "Developer",
+        DISABLE_THEME: "Disable Theme",
+        DISABLE_UPDATES: "Disable Updates",
+        DISCONNECT_FROM_DEBUG_WEBSOCKET: "Disconnect from DevTools",
+        DISCONNECT_FROM_REACT_DEVTOOLS: "Disconnect from React DevTools",
+        DISCORD_SERVER: "Discord Server",
+        DONE: "Done",
+        ENABLE_EVAL_COMMAND_DESC: "Evaluate JavaScript directly from a command. Be cautious when using this command as it may pose a security risk. Make sure to know what you are doing.",
+        ENABLE_EVAL_COMMAND: "Enable /eval command",
+        ENABLE_UPDATES: "Enable Updates",
+        ERROR_BOUNDARY_TOOLS_LABEL: "ErrorBoundary Tools",
+        EXTRACT: "Extract",
+        FONT_NAME: "Font Name",
+        FONTS: "Fonts",
+        GENERAL: "General",
+        GITHUB: "GitHub",
+        HOLD_UP: "Hold Up",
+        INFO: "Info",
+        INSTALL_ADDON: "Install an add-on",
+        INSTALL_FONT: "Install a font",
+        INSTALL_PLUGIN: "Install a plugin",
+        INSTALL_REACT_DEVTOOLS: "Install React DevTools",
+        INSTALL_THEME: "Install a theme",
+        INSTALL: "Install",
+        LABEL_EXTRACT_FONTS_FROM_THEME: "Extract font from theme",
+        LINKS: "Links",
+        LOAD_FROM_CUSTOM_URL_DEC: "Load ZenCord from a custom endpoint",
+        LOAD_FROM_CUSTOM_URL: "Load from custom URL",
+        LOAD_REACT_DEVTOOLS: "Load React DevTools",
+        LOADER: "Loader",
+        MACHINE_ID: "Machine ID",
+        MANUFACTURER: "Manufacturer",
+        MESSAGE: "Message",
+        MISCELLANEOUS: "Miscellaneous",
+        MODAL_RELOAD_REQUIRED_DESC: "A reload is required to see the changes. Do you want to reload now?",
+        MODAL_RELOAD_REQUIRED: "Reload app?",
+        MODAL_THEME_REFETCHED_DESC: "A reload is required to see the changes. Do you want to reload now?",
+        MODAL_THEME_REFETCHED: "Theme refetched",
+        MODAL_UNPROXIED_PLUGIN_DESC: "The plugin you are trying to install has not been proxied/verified by staff. Are you sure you want to continue?",
+        MODAL_UNPROXIED_PLUGIN_HEADER: "Unproxied Plugin",
+        MODEL: "Model",
+        OPEN_IN_BROWSER: "Open in Browser",
+        OPERATING_SYSTEM: "Operating System",
+        OVERFLOW_PLUGIN_SETTINGS: "Plugin Settings",
+        PLATFORM: "Platform",
+        PLUGIN_REFETCH_FAILED: "Failed to refetch plugin",
+        PLUGIN_REFETCH_SUCCESSFUL: "Successfully refetched plugin",
+        PLUGINS: "Plugins",
+        REFETCH: "Refetch",
+        RELOAD_DISCORD: "Reload Discord",
+        RELOAD_IN_NORMAL_MODE_DESC: "Safe mode currently enabled, tap to reload in normal mode",
+        RELOAD_IN_NORMAL_MODE: "Reload in Normal Mode",
+        RELOAD_IN_SAFE_MODE_DESC: "Tap to reload Discord without loading addons",
+        RELOAD_IN_SAFE_MODE: "Reload in Safe Mode",
+        RELOAD: "Reload",
+        REMOVE: "Remove",
+        RESTART_REQUIRED_TO_TAKE_EFFECT: "Restart is required to take effect",
+        RETRY_RENDER: "Retry Render",
+        RETRY: "Retry",
+        SAFE_MODE_NOTICE_FONTS: "You are in safe mode, meaning fonts have been temporarily disabled. {enabled, select, true {If a font appears to be causing the issue, you can press below to disable it persistently.} other {}}",
+        SAFE_MODE_NOTICE_PLUGINS: "You are in safe mode, so plugins cannot be loaded. Disable any misbehaving plugins, then return to Normal Mode from the General settings page.",
+        SAFE_MODE_NOTICE_THEMES: "You are in safe mode, meaning themes have been temporarily disabled. {enabled, select, true {If a theme appears to be causing the issue, you can press below to disable it persistently.} other {}}",
+        SAFE_MODE: "Safe Mode",
+        SEARCH: "Search",
+        SEPARATOR: ", ",
+        SETTINGS_ACTIVATE_DISCORD_EXPERIMENTS_DESC: "Warning: Messing with this feature may lead to account termination. We are not responsible for what you do with this feature.",
+        SETTINGS_ACTIVATE_DISCORD_EXPERIMENTS: "Activate Discord Experiments",
+        STACK_TRACE: "Stack Trace",
+        SUCCESSFULLY_INSTALLED: "Successfully installed",
+        THEME_EXTRACTOR_DESC: "This pack overrides the following: {fonts}",
+        THEME_REFETCH_FAILED: "Failed to refetch theme",
+        THEME_REFETCH_SUCCESSFUL: "Successfully refetched theme",
+        THEMES_RELOAD_FOR_CHANGES: "Reload the app to fully apply changes",
+        THEMES: "Themes",
+        TOASTS_INSTALLED_PLUGIN: "Installed plugin",
+        TOASTS_PLUGIN_UPDATE: "{update, select, true {Enabled} other {Disabled}} updates for {name}",
+        UH_OH: "Uh Oh",
+        UNINSTALL_TITLE: "Uninstall {title}",
+        UNINSTALL: "Uninstall",
+        URL_PLACEHOLDER: "https://github.com/turki-basha/ZencordMobile",
+        VERSION: "Version",
+        VERSIONS: "Versions"
+      };
+    }
+  });
+
+  // src/core/i18n/index.ts
+  function initFetchI18nStrings() {
+    var cb = ({ locale }) => {
+      var languageMap = {
+        "es-ES": "es",
+        "es-419": "es_419",
+        "zh-TW": "zh-Hant",
+        "zh-CN": "zh-Hans",
+        "pt-PT": "pt",
+        "pt-BR": "pt_BR",
+        "sv-SE": "sv"
+      };
+      var resolvedLocale = _lastSetLocale = languageMap[locale] ?? locale;
+      if (resolvedLocale.startsWith("en-")) {
+        _currentLocale = null;
+        return;
+      }
+      if (!_loadedLocale.has(resolvedLocale)) {
+        _loadedLocale.add(resolvedLocale);
+        fetch(`https://raw.githubusercontent.com/pyoncord/i18n/main/resources/${resolvedLocale}/bunny.json`).then((r) => r.json()).then((strings) => _loadedStrings[resolvedLocale] = strings).then(() => resolvedLocale === _lastSetLocale && (_currentLocale = resolvedLocale)).catch((e) => console.error(`An error occured while fetching strings for ${resolvedLocale}: ${e}`));
+      } else {
+        _currentLocale = resolvedLocale;
+      }
+    };
+    FluxDispatcher.subscribe("I18N_LOAD_SUCCESS", cb);
+    return () => FluxDispatcher.unsubscribe("I18N_LOAD_SUCCESS", cb);
+  }
+  function formatString(key, val) {
+    var str = Strings[key];
+    return new IntlMessageFormat(str).format(val);
+  }
+  var IntlMessageFormat, _currentLocale, _lastSetLocale, _loadedLocale, _loadedStrings, Strings;
+  var init_i18n = __esm({
+    "src/core/i18n/index.ts"() {
+      "use strict";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_common();
+      init_wrappers();
+      init_default();
+      IntlMessageFormat = findByNameLazy("MessageFormat");
+      _currentLocale = null;
+      _lastSetLocale = null;
+      _loadedLocale = /* @__PURE__ */ new Set();
+      _loadedStrings = {};
+      Strings = new Proxy({}, {
+        get: (_t, prop) => {
+          if (_currentLocale && _loadedStrings[_currentLocale]?.[prop]) {
+            return _loadedStrings[_currentLocale]?.[prop];
+          }
+          return default_default[prop];
+        }
+      });
+    }
+  });
+
+  // src/assets/icons/zencord.png
+  var zencord_default;
+  var init_zencord = __esm({
+    "src/assets/icons/zencord.png"() {
+      zencord_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAYdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCA1LjEuMWK1UgwAAAC2ZVhJZklJKgAIAAAABQAaAQUAAQAAAEoAAAAbAQUAAQAAAFIAAAAoAQMAAQAAAAMAAAAxAQIAEAAAAFoAAABphwQAAQAAAGoAAAAAAAAAvm4AAOgDAAC+bgAA6AMAAFBhaW50Lk5FVCA1LjEuMQADAACQBwAEAAAAMDIzMAGgAwABAAAAAQAAAAWgBAABAAAAlAAAAAAAAAACAAEAAgAEAAAAUjk4AAIABwAEAAAAMDEwMAAAAABcs0MzPnTW7QAABiFJREFUeF7tmlmIlWUYx2emyRzTppz2Pc3QNqKijQqRQgoKSyGri4S5CLqRyIyi5SKCugmKLqK6EDNIsZKCCrKYmxYkK6gQi0Zpc8GZsdKc1HH6/c63nPOd41m+M/s35w8/vuWc877v83zv8rzPd5oaaqihhhqaxGoOjxNSg4ODrRymwYkwAw5BD/Q1Nzcf4VhVE84BGD2Fw81wI1wE58LpEDlgB2yENbClVkdMCGF8MyyCnVBJA7AV7oVjw59PfGHMLNgEtUpH3Q0TeqjnhBFt8DIchjT6Bs4LixleUbBdcgrYuBHzcljPEuiDtDoID4VFlaimRlPAMRyOAyeak+EsOB+chGZDG6yC9Uw6hzkOi6i3hYOT3iXwBlwB9egduJ+2/Rdc5lXiACr13glwAdh1ZsGc8Pps0AHtoENsYKQ/4UH4MM3MG9ang6eC9Z4COtj6LgQdfCno8Hp72XewkHbtDi7zShRIY6ZzuBOWweWgoT6BQkMr6QdYRkWbg8u8QkOjdfskOBVcwnSwhmrgmaCDdUSxg4cil8ZbadePwWVesQNoYAeHZ0Dj7er1aBC64GGwRxignAH2pOhpeu66rRN0uMvUcBlaTv/CYhzwcXCZV84BGK+3n4Xl4BMfiuz+v8JemAk6wTnCp19vFx6qbNML8DROSMxRkQNu4bAWbHBW5UNZhAO+DS4DtWC8XfA+yLLxygl8YTgXxXLsafiVuatsS1svBodiLG86/o/PXWVf54DLbSwd8A/syV1lX64+LrGxdMB++C13lX053A20YukA99C/gGt41mV8Y7AVq4VlQcN/huwkDsrL+S6xM7QHqO3QH5xmWto7m6Uwsjt2gGHrX8Fp5uUmK14KIweYSKxnJRiA9+BdcBg5oY7kXGLZ1vETuMWVtNtvA6J42Y9CYddGC7vd6xTaBreBQ8glxkDjergO5oI7PvcW9e4BNPgg7IIt8BV8GZ57z/H8EbijrFW2dQFzn20PZHgIr0BavQ9udGJxbVkzYB4sBdNYX8BuOATV5Hd2wefwEtwDc2E6JBzJ9VTYAGlkVunasIi8uLkcjviNFHoNTGaUlZ9DB1wNT8E+KKf98CRcBTOhlrJfhTQyRbY4LCKeA1Q32N3SyORGYRkloqsNQA98zeVn4LxRTo7nLr67GXr9bXC7rKw7bRjv5s+JMKfCxv8O+4LTmuU4N7FRq0xtVWqwn10WnNYkcw22Ia3m0Atythc6wHyZq0EaWfl8Cqs6yfEdw9AlUKlb+5nZX7NTFRXWOR/m5W6kk5OnQVHCAcYBxgNp5BNbAWaHy4rGuhJ0gq+zqukG6OQ3uQZWkHVad9ohoEzTmY7LiwpbYRWkla+hPoVrILHXVtxzAlwJPVCr/O5jYII0Ie7ZTuvaCNZdj/6A3NCJuy43PH8CzA1W7dJFcr12R/kBONHtBGMLx/xdYFyQ2IfXIENz1/0N8H14fRosADPX7u3TtjOSc90dTLJdiQJwwlIOq6HeF4pR4OILCMezMULhMKtHbtIOgCuCw2IogVUkV5tOHLC6uHEmDg0165UNs5EmHRybQzVeWYZlRe8Khmq88uGYoi9poOGl6eysSyf6prm12AF94PidDHIOaSt2gPlBd1qTQW7e2hMOYFIwPfYJTIbkSC4/WNwDlP+v2RScZlruYzqO5gAnwuchbVQ40eRS2F/iAIaBa7nDYCVkOV3ukr/9aD1AJ+idt8F3hkZivZClrLHB2luwo2pQwVrppsE/SxjOGjxEAY7RouGt0Z7jyWMUqUVHv+P+IMIAxN9abyGjKSd6jX+EB92bqvJwv1BogOeicRpbiE7QQYXovELcytrL/Gw0pPH27BUYX/J3mVEVzpwGr0O9O7q0Mtf4Jrj+j71oyE2wB0ZDGr8GzAMkZPcdKzmvmNIaaTmhr4NH6fb+WSqhsXTA3zDSK4vGrwcnvBLjx1R0R98bdMNIyW6/FhJvg8eNaJiprcfhAAy3NH4d+Bps/IoGtsOLUOllSVpFxrvdHf+iob7yegB8FbYXfHOjEWnph23wHJg7rEmpAqGREg22HW5PzdS6VFV6d1BO/ht0K3SHoXxDDTXUUEMNVVRT0/+M4LN4eqsYNQAAAABJRU5ErkJggg==";
+    }
+  });
+
   // src/lib/api/assets/index.ts
   var assets_exports = {};
   __export(assets_exports, {
-    filterAssets: () => filterAssets,
     findAsset: () => findAsset,
     findAssetId: () => findAssetId,
     iterateAssets: () => iterateAssets
@@ -4404,7 +4415,8 @@
         var assetId = requireModule(Number(id));
         if (typeof assetId !== "number" || yielded.has(assetId))
           continue;
-        yield getAssetById(assetId);
+        var resolvedAsset = getAssetById(assetId);
+        yield resolvedAsset;
         yielded.add(assetId);
       }
     }
@@ -4423,28 +4435,21 @@
     if (typeof param === "string" && _nameToAssetCache[param]) {
       return _nameToAssetCache[param];
     }
+    var filter;
+    if (typeof param === "string") {
+      filter = (a) => a?.name === param;
+    } else {
+      filter = param;
+    }
     for (var asset of iterateAssets()) {
-      if (typeof param === "string" && asset.name === param) {
-        _nameToAssetCache[param] = asset;
-        return asset;
-      } else if (typeof param === "function" && param(asset)) {
+      if (filter(asset)) {
+        if (typeof param === "string")
+          _nameToAssetCache[param] = asset;
         return asset;
       }
     }
   }
-  function filterAssets(param) {
-    var filteredAssets = [];
-    for (var asset of iterateAssets()) {
-      if (typeof param === "string" ? asset.name === param : param(asset)) {
-        filteredAssets.push(asset);
-      }
-    }
-    return filteredAssets;
-  }
-  function findAssetId(name) {
-    return findAsset(name)?.id;
-  }
-  var _nameToAssetCache;
+  var _nameToAssetCache, findAssetId;
   var init_assets = __esm({
     "src/lib/api/assets/index.ts"() {
       "use strict";
@@ -4455,649 +4460,67 @@
       init_modules2();
       init_patches();
       _nameToAssetCache = {};
+      findAssetId = (name) => findAsset(name)?.id;
     }
   });
 
-  // src/core/i18n/default.json
-  var default_default;
-  var init_default = __esm({
-    "src/core/i18n/default.json"() {
-      default_default = {
-        ABOUT: "About",
-        ACTIONS: "Actions",
-        ARE_YOU_SURE_TO_CLEAR_DATA: "Are you sure you wish to clear the data of {name}?",
-        ARE_YOU_SURE_TO_DELETE_PLUGIN: "Are you sure you wish to delete {name}? This will clear all of the plugin's data.",
-        ARE_YOU_SURE_TO_DELETE_THEME: "Are you sure you wish to delete {name}?",
-        ASSET_BROWSER: "Asset Browser",
-        BRAND: "Brand",
-        PUPU: "ZenCord",
-        PUPU_URL: "ZenCord URL",
-        BROWSER: "Addon Browser",
-        BYTECODE: "Bytecode",
-        CANCEL: "Cancel",
-        CLEAR: "Clear",
-        CLEAR_BUNDLE: "Clear JS Bundle",
-        CLEAR_BUNDLE_DESC: "Clear the cached bundle. This will force a re-download of the bundle next app launch.",
-        CLEAR_DATA: "Clear data",
-        CLEAR_DATA_FAILED: "Failed to clear data for {name}",
-        CLEAR_DATA_SUCCESSFUL: "Cleared data for {name}",
-        CODEBERG: "Codeberg",
-        CODENAME: "Codename",
-        COMMAND_DEBUG_DESC: "Send ZenCord debug info.",
-        COMMAND_DEBUG_OPT_EPHEMERALLY: "Send debug info ephemerally.",
-        COMMAND_EVAL_DESC: "Evaluate JavaScript code.",
-        COMMAND_EVAL_OPT_ASYNC: "Whether to support 'await' in code. Must explicitly return for result (default: false)",
-        COMMAND_EVAL_OPT_CODE: "The code to evaluate.",
-        COMMAND_PLUGINS_DESC: "Send list of installed plugins.",
-        COMMAND_PLUGINS_OPT_EPHEMERALLY: "Send plugins list ephemerally.",
-        COMPONENT: "Component",
-        CONFIRMATION_LINK_IS_A_TYPE: "This link is a **{urlType, select, plugin {Plugin} theme {Theme} other {Add-on}}**, would you like to install it?",
-        CONNECT_TO_DEBUG_WEBSOCKET: "Connect to debug WebSocket",
-        CONNECT_TO_REACT_DEVTOOLS: "Connect to React DevTools",
-        CONTINUE: "Continue",
-        COPIED_TO_CLIPBOARD: "Copied to clipboard",
-        COPY_URL: "Copy URL",
-        DEBUG: "Debug",
-        DEBUGGER_URL: "RainDevTools URL",
-        AUTO_DEBUGGER: "Automatically connect to RainDevTools",
-        DEVTOOLS_URL: "React DevTools URL",
-        AUTO_DEVTOOLS: "Automatically connect to React Devtools",
-        DELETE: "Delete",
-        DESC_EXTRACT_FONTS_FROM_THEME: 'Looks out for "fonts" field in your currently applied theme and install it.',
-        DEVELOPER: "Developer",
-        DEVELOPER_SETTINGS: "Developer Settings",
-        DISABLE_THEME: "Disable Theme",
-        DISABLE_UPDATES: "Disable Updates",
-        DISCORD_SERVER: "Discord Server",
-        DONE: "Done",
-        ENABLE_EVAL_COMMAND: "Enable /eval command",
-        ENABLE_EVAL_COMMAND_DESC: "Evaluate JavaScript directly from a command. Be cautious when using this command as it may pose a security risk. Make sure to know what you are doing.",
-        ENABLE_UPDATES: "Enable Updates",
-        ERROR_BOUNDARY_TOOLS_LABEL: "ErrorBoundary Tools",
-        EXTRACT: "Extract",
-        FONT_NAME: "Font Name",
-        FONTS: "Fonts",
-        GENERAL: "General",
-        GITHUB: "GitHub",
-        HOLD_UP: "Hold Up",
-        INFO: "Info",
-        INSTALL: "Install",
-        INSTALL_ADDON: "Install an add-on",
-        INSTALL_FONT: "Install a font",
-        INSTALL_PLUGIN: "Install a plugin",
-        INSTALL_REACT_DEVTOOLS: "Install React DevTools",
-        INSTALL_THEME: "Install a theme",
-        LABEL_EXTRACT_FONTS_FROM_THEME: "Extract font from theme",
-        LINKS: "Links",
-        LOAD_FROM_CUSTOM_URL: "Load from custom URL",
-        LOAD_FROM_CUSTOM_URL_DEC: "Load ZenCord from a custom endpoint.",
-        LOAD_REACT_DEVTOOLS: "Load React DevTools",
-        LOADER: "Loader",
-        MACHINE_ID: "Machine ID",
-        MANUFACTURER: "Manufacturer",
-        MESSAGE: "Message",
-        MISCELLANEOUS: "Miscellaneous",
-        MODAL_RELOAD_REQUIRED: "Reload app?",
-        MODAL_RELOAD_REQUIRED_DESC: "A reload is required to see the changes. Do you want to reload now?",
-        MODAL_THEME_REFETCHED: "Theme refetched",
-        MODAL_THEME_REFETCHED_DESC: "A reload is required to see the changes. Do you want to reload now?",
-        MODAL_UNPROXIED_PLUGIN_DESC: "The plugin you are trying to install has not been proxied/verified by staff. Are you sure you want to continue?",
-        MODAL_UNPROXIED_PLUGIN_HEADER: "Unproxied Plugin",
-        MODEL: "Model",
-        MODELID: "Model Identifier",
-        OPEN_IN_BROWSER: "Open in Browser",
-        OPERATING_SYSTEM: "Operating System",
-        OVERFLOW_PLUGIN_SETTINGS: "Plugin Settings",
-        PLATFORM: "Platform",
-        PLUGIN_REFETCH_FAILED: "Failed to refetch plugin",
-        PLUGIN_REFETCH_SUCCESSFUL: "Successfully refetched plugin",
-        PLUGINS: "Plugins",
-        REFETCH: "Refetch",
-        RELOAD: "Reload",
-        RELOAD_DISCORD: "Reload Discord",
-        RELOAD_IN_NORMAL_MODE: "Reload in Normal Mode",
-        RELOAD_IN_NORMAL_MODE_DESC: "Safe mode currently enabled, tap to reload in normal mode",
-        RELOAD_IN_SAFE_MODE: "Reload in Safe Mode",
-        RELOAD_IN_SAFE_MODE_DESC: "Tap to reload Discord without loading addons",
-        REMOVE: "Remove",
-        RESTART_REQUIRED_TO_TAKE_EFFECT: "Restart is required to take effect",
-        RETRY: "Retry",
-        RETRY_RENDER: "Retry Render",
-        SAFE_MODE: "Safe Mode",
-        SAFE_MODE_NOTICE_FONTS: "You are in safe mode, meaning fonts have been temporarily disabled. {enabled, select, true {If a font appears to be causing the issue, you can press below to disable it persistently.} other {}}",
-        SAFE_MODE_NOTICE_PLUGINS: "You are in safe mode, so plugins cannot be loaded. Disable any misbehaving plugins, then return to Normal Mode from the General settings page.",
-        SAFE_MODE_NOTICE_THEMES: "You are in safe mode, meaning themes have been temporarily disabled. {enabled, select, true {If a theme appears to be causing the issue, you can press below to disable it persistently.} other {}}",
-        SEARCH: "Search",
-        SEPARATOR: ", ",
-        SETTINGS_ACTIVATE_DISCORD_EXPERIMENTS: "Activate Discord Experiments",
-        SETTINGS_ACTIVATE_DISCORD_EXPERIMENTS_DESC: "Warning: Messing with this feature may lead to account termination. I heavily discourage using this and am not responsible for anything that happens if you use it",
-        STACK_TRACE: "Stack Trace",
-        SUCCESSFULLY_INSTALLED: "Successfully installed",
-        THEME_EXTRACTOR_DESC: "This pack overrides the following: {fonts}",
-        THEME_REFETCH_FAILED: "Failed to refetch theme",
-        THEME_REFETCH_SUCCESSFUL: "Successfully refetched theme",
-        THEMES: "Themes",
-        THEMES_RELOAD_FOR_CHANGES: "Reload the app to fully apply changes",
-        TOASTS_INSTALLED_PLUGIN: "Installed plugin",
-        TOASTS_PLUGIN_UPDATE: "{update, select, true {Enabled} other {Disabled}} updates for {name}",
-        UH_OH: "Uh Oh",
-        UNINSTALL: "Uninstall",
-        UNINSTALL_TITLE: "Uninstall {title}",
-        URL_PLACEHOLDER: "https://github.com/turki-basha/ZencordMobile",
-        VERSION: "Version",
-        VERSIONS: "Versions"
-      };
-    }
+  // src/lib/api/react/jsx.ts
+  var jsx_exports = {};
+  __export(jsx_exports, {
+    deleteJsxCreate: () => deleteJsxCreate,
+    onJsxCreate: () => onJsxCreate,
+    patchJsx: () => patchJsx
   });
-
-  // src/core/i18n/index.ts
-  function fetchLocale(locale) {
-    var resolvedLocale = _lastSetLocale = languageMap[locale] ?? locale;
-    logger.log("[i18n] fetchLocale called:", locale, "->", resolvedLocale);
-    if (!_loadedLocale.has(resolvedLocale)) {
-      _loadedLocale.add(resolvedLocale);
-      if (resolvedLocale.toLowerCase().startsWith("en")) {
-        logger.log("[i18n] Using local default.json for English locale");
-        _loadedStrings[resolvedLocale] = default_default;
-        _currentLocale = resolvedLocale;
-      } else {
-        fetch(`https://raw.githubusercontent.com/turki-basha/ZencordMobile/main/i18n/${resolvedLocale}.json`).then((r) => r.json()).then((strings) => {
-          logger.log("[i18n] Loaded strings for:", resolvedLocale);
-          _loadedStrings[resolvedLocale] = strings;
-          _currentLocale = resolvedLocale;
-        }).catch((e) => logger.error(`[i18n] Error fetching strings for ${resolvedLocale}: ${e}`));
-      }
-    } else {
-      _currentLocale = resolvedLocale;
-    }
+  function onJsxCreate(Component, callback) {
+    if (!callbacks.has(Component))
+      callbacks.set(Component, []);
+    callbacks.get(Component).push(callback);
   }
-  function initFetchI18nStrings() {
-    var attempts = 0;
-    var checkAndFetch = () => {
-      attempts++;
-      try {
-        var LocaleStore = findByStoreName("LocaleStore");
-        logger.log("[i18n] Attempt", attempts, "- LocaleStore:", !!LocaleStore);
-        if (!LocaleStore) {
-          logger.log("[i18n] LocaleStore not found yet");
-          return false;
-        }
-        if (LocaleStore?._isInitialized !== true) {
-          logger.log("[i18n] LocaleStore not initialized yet");
-          return false;
-        }
-        var locale = LocaleStore.locale;
-        if (locale) {
-          logger.log("[i18n] Using LocaleStore:", locale);
-          fetchLocale(locale);
-          return true;
-        }
-      } catch (e) {
-        logger.log("[i18n] Error:", e);
-      }
-      return false;
-    };
-    var tryTimes = () => {
-      if (checkAndFetch())
-        return;
-      if (attempts < 15) {
-        setTimeout(tryTimes, 500);
-      }
-    };
-    tryTimes();
-    var cb = (e) => {
-      if (e?.settings?.changes?.loading) {
-        logger.log("[i18n] Settings loading, skipping...");
-        return;
-      }
-      var locale = e?.settings?.changes?.protoToSave?.localization?.locale?.value;
-      logger.log("[i18n] Locale changed:", locale);
-      if (locale) {
-        logger.log("[i18n] Found locale in event:", locale);
-        fetchLocale(locale);
-      }
-    };
-    FluxDispatcher.subscribe("USER_SETTINGS_PROTO_UPDATE_EDIT_INFO", cb);
-    return () => {
-      FluxDispatcher.unsubscribe("USER_SETTINGS_PROTO_UPDATE_EDIT_INFO", cb);
-    };
-  }
-  function formatString(key, val) {
-    var str = Strings[key];
-    return new IntlMessageFormat(str).format(val);
-  }
-  var IntlMessageFormat, _currentLocale, _lastSetLocale, _loadedLocale, _loadedStrings, Strings, languageMap;
-  var init_i18n = __esm({
-    "src/core/i18n/index.ts"() {
-      "use strict";
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      init_logger();
-      init_common();
-      init_wrappers();
-      init_default();
-      IntlMessageFormat = findByNameLazy("MessageFormat");
-      _currentLocale = null;
-      _lastSetLocale = null;
-      _loadedLocale = /* @__PURE__ */ new Set();
-      _loadedStrings = {};
-      Strings = new Proxy({}, {
-        get: (_t, prop) => {
-          if (_currentLocale && _loadedStrings[_currentLocale]?.[prop]) {
-            return _loadedStrings[_currentLocale]?.[prop];
-          }
-          return default_default[prop];
-        }
-      });
-      languageMap = {
-        "ar-SA": "ar",
-        "bn-BD": "bn",
-        "ca-ES": "ca",
-        "de-DE": "de",
-        "es-ES": "es",
-        "es-419": "es",
-        "fa-IR": "fa",
-        "fi-FI": "fi",
-        "fr-FR": "fr",
-        "hi-IN": "hi",
-        "hr-HR": "hr",
-        "hu-HU": "hu",
-        "id-ID": "id",
-        "it-IT": "it",
-        "ja-JP": "ja",
-        "pl-PL": "pl",
-        "pt-BR": "pt_BR",
-        "ru-RU": "ru",
-        "sk-SK": "sk",
-        "sv-SE": "sv",
-        "tr-TR": "tr",
-        "vi-VN": "vi"
-      };
-    }
-  });
-
-  // src/lib/ui/toasts.ts
-  var toasts_exports = {};
-  __export(toasts_exports, {
-    showToast: () => showToast
-  });
-  var uuid4, showToast;
-  var init_toasts = __esm({
-    "src/lib/ui/toasts.ts"() {
-      "use strict";
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      init_i18n();
-      init_assets();
-      init_lazy();
-      init_common();
-      init_wrappers();
-      ({ uuid4 } = lazyDestructure(() => findByProps("uuid4")));
-      showToast = (content, asset) => toasts.open({
-        // ? In build 182205/44707, Discord changed their toasts, source is no longer used, rather icon, and a key is needed.
-        // TODO: We could probably have the developer specify a key themselves, but this works to fix toasts
-        key: `vd-toast-${uuid4()}`,
-        content,
-        source: asset,
-        icon: asset
-      });
-      showToast.showCopyToClipboard = (message = Strings.COPIED_TO_CLIPBOARD) => {
-        showToast(message, findAssetId("toast_copy_link"));
-      };
-    }
-  });
-
-  // src/lib/api/debug.ts
-  var debug_exports = {};
-  __export(debug_exports, {
-    connectRdt: () => connectRdt,
-    connectToDebugger: () => connectToDebugger2,
-    disconnectFromDebugger: () => disconnectFromDebugger2,
-    disconnectRdt: () => disconnectRdt,
-    getDebugInfo: () => getDebugInfo,
-    initDebugger: () => initDebugger,
-    isConnectedToDebugger: () => isConnectedToDebugger2,
-    patchLogHook: () => patchLogHook,
-    rdtClient: () => rdtClient,
-    rdtConnected: () => rdtConnected,
-    toggleSafeMode: () => toggleSafeMode,
-    useIsRdtConnected: () => useIsRdtConnected,
-    versionHash: () => versionHash
-  });
-  function toggleSafeMode() {
-    return _async_to_generator(function* () {
-      settings.safeMode = {
-        ...settings.safeMode,
-        enabled: !settings.safeMode?.enabled
-      };
-      if (isThemeSupported()) {
-        if (getThemeFromLoader()?.id)
-          settings.safeMode.currentThemeId = getThemeFromLoader().id;
-        if (settings.safeMode?.enabled) {
-          yield selectTheme(null);
-        } else if (settings.safeMode?.currentThemeId) {
-          yield selectTheme(themes[settings.safeMode?.currentThemeId]);
-        }
-      }
-      setTimeout(BundleUpdaterManager.reload, 400);
-    })();
-  }
-  function serializeMessage2(msg) {
-    return JSON.stringify(msg);
-  }
-  function sendLog2(level, ...args) {
-    if (socket2?.readyState === WebSocket.OPEN) {
-      var message = {
-        type: "log",
-        data: {
-          level,
-          message: args
-        }
-      };
-      socket2.send(serializeMessage2(message));
-    }
-  }
-  function patchConsoleAndLogger2() {
-    originalConsoleLog2 = console.log;
-    console.log = function(...args) {
-      originalConsoleLog2.apply(console, args);
-      sendLog2("default", ...args);
-    };
-    originalConsoleError2 = console.error;
-    console.error = function(...args) {
-      originalConsoleError2.apply(console, args);
-      sendLog2("error", ...args);
-    };
-    originalConsoleWarn2 = console.warn;
-    console.warn = function(...args) {
-      originalConsoleWarn2.apply(console, args);
-      sendLog2("warn", ...args);
-    };
-    if (logger) {
-      originalLoggerLog2 = logger.log;
-      logger.log = function(...args) {
-        originalLoggerLog2.apply(logger, args);
-        sendLog2("default", ...args);
-      };
-      originalLoggerError2 = logger.error;
-      logger.error = function(...args) {
-        originalLoggerError2.apply(logger, args);
-        sendLog2("error", ...args);
-      };
-      originalLoggerWarn2 = logger.warn;
-      logger.warn = function(...args) {
-        originalLoggerWarn2.apply(logger, args);
-        sendLog2("warn", ...args);
-      };
-    }
-  }
-  function unpatchConsoleAndLogger2() {
-    if (originalConsoleLog2) {
-      console.log = originalConsoleLog2;
-      originalConsoleLog2 = void 0;
-    }
-    if (originalConsoleError2) {
-      console.error = originalConsoleError2;
-      originalConsoleError2 = void 0;
-    }
-    if (originalConsoleWarn2) {
-      console.warn = originalConsoleWarn2;
-      originalConsoleWarn2 = void 0;
-    }
-    if (logger) {
-      if (originalLoggerLog2) {
-        logger.log = originalLoggerLog2;
-        originalLoggerLog2 = void 0;
-      }
-      if (originalLoggerError2) {
-        logger.error = originalLoggerError2;
-        originalLoggerError2 = void 0;
-      }
-      if (originalLoggerWarn2) {
-        logger.warn = originalLoggerWarn2;
-        originalLoggerWarn2 = void 0;
-      }
-    }
-  }
-  function connectToDebugger2(url2) {
-    if (socket2 !== void 0 && socket2.readyState !== WebSocket.CLOSED) {
-      unpatchConsoleAndLogger2();
-      socket2.close();
-    }
-    if (!url2) {
-      showToast("Invalid debugger URL!", findAssetId("Small"));
+  function deleteJsxCreate(Component, callback) {
+    if (!callbacks.has(Component))
       return;
+    var cbs = callbacks.get(Component);
+    cbs.splice(cbs.indexOf(callback), 1);
+    if (cbs.length === 0)
+      callbacks.delete(Component);
+  }
+  function patchJsx() {
+    if (callbacks.size === 0) {
+      return () => {
+      };
     }
-    try {
-      socket2 = new WebSocket(`ws://${url2}`);
-      socket2.addEventListener("open", () => {
-        showToast("Connected to debugger.", findAssetId("Check"));
-        var hello = {
-          type: "hello",
-          data: {
-            version: VERSION2
-          }
-        };
-        socket2?.send(serializeMessage2(hello));
-        patchConsoleAndLogger2();
-      });
-      socket2.addEventListener("message", (message) => {
-        try {
-          var data = JSON.parse(message.data);
-          if (data.type === "run" && data.data?.code) {
-            try {
-              (0, eval)(data.data.code);
-            } catch (e) {
-              console.error("Error executing remote code:", e);
-            }
-          }
-        } catch (e) {
-          try {
-            (0, eval)(message.data);
-          } catch (err) {
-            console.error(err);
-          }
-        }
-      });
-      socket2.addEventListener("close", () => {
-        showToast("Disconnected from debugger.", findAssetId("Small"));
-        unpatchConsoleAndLogger2();
-      });
-      socket2.addEventListener("error", (err) => {
-        console.log(`Debugger error: ${err.message}`);
-        showToast("An error occurred with the debugger connection!", findAssetId("Small"));
-        unpatchConsoleAndLogger2();
-      });
-    } catch (e) {
-      logger.error("Failed to connect to debugger:", e);
-      showToast("Failed to connect to debugger!", findAssetId("Small"));
-    }
-  }
-  function disconnectFromDebugger2() {
-    if (socket2) {
-      unpatchConsoleAndLogger2();
-      socket2.close();
-      socket2 = void 0;
-      showToast("Disconnected from debugger.", findAssetId("Check"));
-    }
-  }
-  function isConnectedToDebugger2() {
-    return socket2?.readyState === WebSocket.OPEN;
-  }
-  function bump() {
-    for (var x2 of changeHooks)
-      x2(rdtConnected);
-  }
-  function cleanupRdt() {
-    rdtClient = null;
-    rdtConnected = false;
-    bump();
-  }
-  function connectRdt(url2, quiet) {
-    if (!isReactDevToolsPreloaded() || rdtClient)
-      return;
-    var base = url2.split(":").slice(0, -1).join(":");
-    var ws = rdtClient = new WebSocket(`ws://${base}:${rdtPort}`);
-    ws.addEventListener("open", () => {
-      if (!quiet)
-        showToast("Connected to React DevTools", findAssetId("CheckmarkSmallIcon"));
-      rdtConnected = true;
-      bump();
-    });
-    ws.addEventListener("close", () => {
-      cleanupRdt();
-    });
-    ws.addEventListener("error", (e) => {
-      cleanupRdt();
-      var err = e?.message ?? e?.stack ?? String(e);
-      logger.error("React DevTools error:", err);
-      if (!quiet)
-        showToast(err, findAssetId("CircleXIcon-primary"));
-    });
-    var devTools = globalThis[getReactDevToolsProp() || "__vendetta_rdc"];
-    if (devTools?.connectToDevTools) {
-      devTools.connectToDevTools({
-        websocket: ws,
-        resolveRNStyle: import_react_native6.StyleSheet.flatten
-      });
-    }
-  }
-  function disconnectRdt() {
-    rdtClient?.close();
-  }
-  function useIsRdtConnected() {
-    var [connected, update] = React.useState(rdtConnected);
-    React.useEffect(() => {
-      changeHooks.add(update);
-      return () => void changeHooks.delete(update);
-    }, []);
-    return connected;
-  }
-  function patchLogHook() {
-    var unpatch = after("nativeLoggingHook", globalThis, (args) => {
-      if (socket2?.readyState === WebSocket.OPEN) {
-        sendLog2(args[1] === "error" ? "error" : args[1] === "warn" ? "warn" : "default", args[0]);
+    var callback = ([Component], ret) => {
+      if (typeof ret?.type === "undefined") {
+        ret.type = "RCTView";
+        return ret;
       }
-      logger.log(args[0]);
-    });
-    return () => {
-      socket2 && socket2.close();
-      unpatch();
+      var name = typeof Component === "function" ? Component.name : Component?.type?.name ?? Component?.render?.name;
+      if (name && callbacks.has(name)) {
+        var cbs = callbacks.get(name);
+        for (var cb of cbs) {
+          var _ret = cb(Component, ret);
+          if (_ret !== void 0)
+            ret = _ret;
+        }
+        return ret;
+      }
     };
+    var patches2 = [
+      after("jsx", jsxRuntime2, callback),
+      after("jsxs", jsxRuntime2, callback)
+    ];
+    return () => patches2.forEach((unpatch) => unpatch());
   }
-  function getDebugInfo() {
-    var hermesProps = globalThis.HermesInternal.getRuntimeProperties();
-    var hermesVer = hermesProps["OSS Release Version"];
-    var padding = "for RN ";
-    var PlatformConstants = import_react_native6.Platform.constants;
-    var rnVer = PlatformConstants.reactNativeVersion;
-    return {
-      vendetta: {
-        version: versionHash.split("-")[0],
-        loader: getLoaderName()
-      },
-      zencord: {
-        version: versionHash,
-        loader: {
-          name: getLoaderName(),
-          version: getLoaderVersion()
-        }
-      },
-      bunny: {
-        version: versionHash,
-        loader: {
-          name: getLoaderName(),
-          version: getLoaderVersion()
-        }
-      },
-      discord: {
-        version: NativeClientInfoModule.getConstants().Version,
-        build: NativeClientInfoModule.getConstants().Build
-      },
-      react: {
-        version: React.version,
-        nativeVersion: hermesVer.startsWith(padding) ? hermesVer.substring(padding.length) : `${rnVer.major}.${rnVer.minor}.${rnVer.patch}`
-      },
-      hermes: {
-        version: hermesVer,
-        buildType: hermesProps.Build,
-        bytecodeVersion: hermesProps["Bytecode Version"]
-      },
-      ...import_react_native6.Platform.select({
-        android: {
-          os: {
-            name: "Android",
-            version: PlatformConstants.Release,
-            sdk: PlatformConstants.Version
-          }
-        },
-        ios: {
-          os: {
-            name: PlatformConstants.systemName,
-            version: PlatformConstants.osVersion
-          }
-        }
-      }),
-      ...import_react_native6.Platform.select({
-        android: {
-          device: {
-            manufacturer: PlatformConstants.Manufacturer,
-            brand: PlatformConstants.Brand,
-            model: PlatformConstants.Model,
-            codename: NativeDeviceModule.device
-          }
-        },
-        ios: {
-          device: {
-            manufacturer: NativeDeviceModule.deviceManufacturer,
-            brand: NativeDeviceModule.deviceBrand,
-            model: NativeDeviceModule.deviceModel,
-            codename: NativeDeviceModule.device
-          }
-        }
-      })
-    };
-  }
-  function initDebugger() {
-    if (settings.autoDebugger) {
-      try {
-        connectToDebugger2(settings.debuggerUrl);
-      } catch (e) {
-        logger.error("Failed to connect to Debugger during startup:", e);
-      }
-    }
-    if (settings.autoDevTools) {
-      try {
-        if (settings.devToolsUrl) {
-          connectRdt(settings.devToolsUrl, true);
-        }
-      } catch (e) {
-        logger.error("Failed to connect to ReactDevTools during startup:", e);
-      }
-    }
-  }
-  var import_react_native6, socket2, originalConsoleLog2, originalConsoleError2, originalConsoleWarn2, originalLoggerLog2, originalLoggerError2, originalLoggerWarn2, VERSION2, rdtPort, rdtClient, rdtConnected, changeHooks, versionHash;
-  var init_debug = __esm({
-    "src/lib/api/debug.ts"() {
+  var callbacks, jsxRuntime2;
+  var init_jsx = __esm({
+    "src/lib/api/react/jsx.ts"() {
       "use strict";
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
-      init_async_to_generator();
-      init_themes();
-      init_assets();
-      init_loader();
-      init_modules();
       init_patcher();
-      init_settings();
-      init_logger();
-      init_toasts();
-      import_react_native6 = __toESM(require_react_native());
-      VERSION2 = 1;
-      rdtPort = 8097;
-      rdtClient = null;
-      rdtConnected = false;
-      changeHooks = /* @__PURE__ */ new Set();
-      versionHash = "v1.4.3";
+      init_metro();
+      callbacks = /* @__PURE__ */ new Map();
+      jsxRuntime2 = findByPropsLazy("jsx", "jsxs");
     }
   });
 
@@ -5105,7 +4528,7 @@
   function AlertModal2(props) {
     var forwardFailedModal = findByFilePath("modules/forwarding/native/ForwardFailedAlertModal.tsx");
     if (!forwardFailedModal && "extraContent" in props) {
-      props.content = /* @__PURE__ */ jsxs(import_react_native7.View, {
+      props.content = /* @__PURE__ */ jsxs(import_react_native6.View, {
         style: {
           gap: 16
         },
@@ -5115,7 +4538,7 @@
             color: "text-muted",
             children: props.content
           }),
-          /* @__PURE__ */ jsx(import_react_native7.View, {
+          /* @__PURE__ */ jsx(import_react_native6.View, {
             children: props.extraContent
           })
         ]
@@ -5126,7 +4549,7 @@
       ...props
     });
   }
-  var import_react_native7, _AlertModal, _AlertActionButton, AlertActionButton2;
+  var import_react_native6, _AlertModal, _AlertActionButton, AlertActionButton2;
   var init_AlertModal = __esm({
     "src/lib/ui/components/wrappers/AlertModal.tsx"() {
       "use strict";
@@ -5136,7 +4559,7 @@
       init_lazy();
       init_metro();
       init_components();
-      import_react_native7 = __toESM(require_react_native());
+      import_react_native6 = __toESM(require_react_native());
       ({ AlertModal: _AlertModal, AlertActionButton: _AlertActionButton } = lazyDestructure(() => findByProps("AlertModal", "AlertActions")));
       AlertActionButton2 = _AlertActionButton;
     }
@@ -5197,7 +4620,7 @@
   }
   function createThemedStyleSheet(sheet) {
     for (var key in sheet) {
-      sheet[key] = new Proxy(import_react_native8.StyleSheet.flatten(sheet[key]), {
+      sheet[key] = new Proxy(import_react_native7.StyleSheet.flatten(sheet[key]), {
         get(target, prop, receiver) {
           var res = Reflect.get(target, prop, receiver);
           return isSemanticColor(res) ? resolveSemanticColor(res) : res;
@@ -5206,7 +4629,7 @@
     }
     return sheet;
   }
-  var import_react_native8, Styles, ThemeContext, TextStyleSheet;
+  var import_react_native7, Styles, ThemeContext, TextStyleSheet;
   var init_styles = __esm({
     "src/lib/ui/styles.ts"() {
       "use strict";
@@ -5215,7 +4638,7 @@
       init_lazy();
       init_wrappers();
       init_color();
-      import_react_native8 = __toESM(require_react_native());
+      import_react_native7 = __toESM(require_react_native());
       Styles = findByPropsLazy("createStyles");
       ({ ThemeContext } = lazyDestructure(() => findByProps("ThemeContext"), {
         hint: "object"
@@ -5231,7 +4654,7 @@
         style,
         children
       });
-    return import_react_native9.Platform.select({
+    return import_react_native8.Platform.select({
       ios: /* @__PURE__ */ jsx(InputBasedCodeblock, {
         style,
         children
@@ -5243,7 +4666,7 @@
       })
     });
   }
-  var import_react_native9, useStyles, InputBasedCodeblock, TextBasedCodeblock;
+  var import_react_native8, useStyles, InputBasedCodeblock, TextBasedCodeblock;
   var init_Codeblock = __esm({
     "src/lib/ui/components/Codeblock.tsx"() {
       "use strict";
@@ -5253,7 +4676,7 @@
       init_common();
       init_color();
       init_styles();
-      import_react_native9 = __toESM(require_react_native());
+      import_react_native8 = __toESM(require_react_native());
       useStyles = createStyles({
         codeBlock: {
           fontFamily: constants.Fonts.CODE_NORMAL,
@@ -5267,7 +4690,7 @@
           padding: 10
         }
       });
-      InputBasedCodeblock = ({ style, children }) => /* @__PURE__ */ jsx(import_react_native9.TextInput, {
+      InputBasedCodeblock = ({ style, children }) => /* @__PURE__ */ jsx(import_react_native8.TextInput, {
         editable: false,
         multiline: true,
         style: [
@@ -5276,7 +4699,7 @@
         ],
         value: children
       });
-      TextBasedCodeblock = ({ selectable, style, children }) => /* @__PURE__ */ jsx(import_react_native9.Text, {
+      TextBasedCodeblock = ({ selectable, style, children }) => /* @__PURE__ */ jsx(import_react_native8.Text, {
         selectable,
         style: [
           useStyles().codeBlock,
@@ -5314,6 +4737,21 @@
     }
   });
 
+  // src/core/ui/reporter/utils/isStack.tsx
+  function isComponentStack(error) {
+    return "componentStack" in error && typeof error.componentStack === "string";
+  }
+  function hasStack(error) {
+    return !!error.stack;
+  }
+  var init_isStack = __esm({
+    "src/core/ui/reporter/utils/isStack.tsx"() {
+      "use strict";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+    }
+  });
+
   // src/core/ui/reporter/utils/parseComponentStack.tsx
   function parseComponentStack(componentStack) {
     return componentStack.split(/[\s|\n]+?in /).filter(Boolean);
@@ -5346,7 +4784,7 @@
       return;
     }
     return /* @__PURE__ */ jsx(Card, {
-      children: /* @__PURE__ */ jsxs(import_react_native10.View, {
+      children: /* @__PURE__ */ jsxs(import_react_native9.View, {
         style: {
           gap: 8
         },
@@ -5355,11 +4793,11 @@
             variant: "heading-lg/bold",
             children: "Component Stack"
           }),
-          /* @__PURE__ */ jsx(import_react_native10.View, {
+          /* @__PURE__ */ jsx(import_react_native9.View, {
             style: {
               gap: 4
             },
-            children: stack.map((component) => /* @__PURE__ */ jsxs(import_react_native10.View, {
+            children: stack.map((component) => /* @__PURE__ */ jsxs(import_react_native9.View, {
               style: {
                 flexDirection: "row"
               },
@@ -5384,7 +4822,7 @@
           collapsed && /* @__PURE__ */ jsx(Text, {
             children: "..."
           }),
-          /* @__PURE__ */ jsxs(import_react_native10.View, {
+          /* @__PURE__ */ jsxs(import_react_native9.View, {
             style: {
               gap: 8,
               flexDirection: "row",
@@ -5395,16 +4833,7 @@
               /* @__PURE__ */ jsx(Button, {
                 variant: "secondary",
                 text: `Show ${collapsed ? "more" : "less"}`,
-                icon: collapsed ? findAssetId("down_arrow") : /* @__PURE__ */ jsx(import_react_native10.Image, {
-                  style: {
-                    transform: [
-                      {
-                        rotate: `${collapsed ? 0 : 180}deg`
-                      }
-                    ]
-                  },
-                  source: findAssetId("down_arrow")
-                }),
+                icon: findAssetId(collapsed ? "ChevronSmallUpIcon" : "ChevronSmallDownIcon"),
                 onPress: () => setCollapsed((v2) => !v2)
               }),
               /* @__PURE__ */ jsx(Button, {
@@ -5419,7 +4848,7 @@
       })
     });
   }
-  var import_react, import_react_native10;
+  var import_react, import_react_native9;
   var init_ErrorComponentStackCard = __esm({
     "src/core/ui/reporter/components/ErrorComponentStackCard.tsx"() {
       "use strict";
@@ -5431,7 +4860,7 @@
       init_common();
       init_components();
       import_react = __toESM(require_react());
-      import_react_native10 = __toESM(require_react_native());
+      import_react_native9 = __toESM(require_react_native());
     }
   });
 
@@ -5548,7 +4977,7 @@
       return null;
     }
     return /* @__PURE__ */ jsx(Card, {
-      children: /* @__PURE__ */ jsxs(import_react_native11.View, {
+      children: /* @__PURE__ */ jsxs(import_react_native10.View, {
         style: {
           gap: 12
         },
@@ -5557,7 +4986,7 @@
             variant: "heading-lg/bold",
             children: "Call Stack"
           }),
-          /* @__PURE__ */ jsx(import_react_native11.View, {
+          /* @__PURE__ */ jsx(import_react_native10.View, {
             style: {
               gap: 4
             },
@@ -5569,7 +4998,7 @@
           collapsed && /* @__PURE__ */ jsx(Text, {
             children: "..."
           }),
-          /* @__PURE__ */ jsxs(import_react_native11.View, {
+          /* @__PURE__ */ jsxs(import_react_native10.View, {
             style: {
               gap: 8,
               flexDirection: "row",
@@ -5580,16 +5009,7 @@
               /* @__PURE__ */ jsx(Button, {
                 variant: "secondary",
                 text: `Show ${collapsed ? "more" : "less"}`,
-                icon: collapsed ? findAssetId("down_arrow") : /* @__PURE__ */ jsx(import_react_native11.Image, {
-                  style: {
-                    transform: [
-                      {
-                        rotate: `${collapsed ? 0 : 180}deg`
-                      }
-                    ]
-                  },
-                  source: findAssetId("down_arrow")
-                }),
+                icon: findAssetId(collapsed ? "ChevronSmallUpIcon" : "ChevronSmallDownIcon"),
                 onPress: () => setCollapsed((v2) => !v2)
               }),
               /* @__PURE__ */ jsx(Button, {
@@ -5606,7 +5026,7 @@
   }
   function Line(props) {
     var [collapsed, setCollapsed] = (0, import_react2.useState)(true);
-    return /* @__PURE__ */ jsxs(import_react_native11.Pressable, {
+    return /* @__PURE__ */ jsxs(import_react_native10.Pressable, {
       onPress: () => setCollapsed((v2) => !v2),
       children: [
         /* @__PURE__ */ jsx(Text, {
@@ -5635,7 +5055,7 @@
       ]
     }, props.id);
   }
-  var import_react2, import_react_native11;
+  var import_react2, import_react_native10;
   var init_ErrorStackCard = __esm({
     "src/core/ui/reporter/components/ErrorStackCard.tsx"() {
       "use strict";
@@ -5647,7 +5067,7 @@
       init_common();
       init_components();
       import_react2 = __toESM(require_react());
-      import_react_native11 = __toESM(require_react_native());
+      import_react_native10 = __toESM(require_react_native());
       init_ErrorCard();
     }
   });
@@ -5655,7 +5075,7 @@
   // src/core/ui/reporter/components/ErrorDetailsActionSheet.tsx
   function ErrorDetailsActionSheet(props) {
     return /* @__PURE__ */ jsx(ActionSheet, {
-      children: /* @__PURE__ */ jsxs(import_react_native12.View, {
+      children: /* @__PURE__ */ jsxs(import_react_native11.View, {
         style: {
           gap: 12,
           paddingVertical: 12
@@ -5679,7 +5099,7 @@
       })
     });
   }
-  var import_react_native12;
+  var import_react_native11;
   var init_ErrorDetailsActionSheet = __esm({
     "src/core/ui/reporter/components/ErrorDetailsActionSheet.tsx"() {
       "use strict";
@@ -5689,7 +5109,7 @@
       init_isStack();
       init_components2();
       init_components();
-      import_react_native12 = __toESM(require_react_native());
+      import_react_native11 = __toESM(require_react_native());
       init_ErrorComponentStackCard();
       init_ErrorStackCard();
     }
@@ -5802,15 +5222,15 @@
 
   // src/lib/ui/components/Search.tsx
   function SearchIcon() {
-    return /* @__PURE__ */ jsx(import_react_native13.Image, {
+    return /* @__PURE__ */ jsx(import_react_native12.Image, {
       style: {
         width: 16,
         height: 16
       },
-      source: findAssetId("icon-search")
+      source: findAssetId("MagnifyingGlassIcon")
     });
   }
-  var import_react_native13, Search_default;
+  var import_react_native12, Search_default;
   var init_Search = __esm({
     "src/lib/ui/components/Search.tsx"() {
       "use strict";
@@ -5821,7 +5241,7 @@
       init_assets();
       init_components();
       init_ErrorBoundary();
-      import_react_native13 = __toESM(require_react_native());
+      import_react_native12 = __toESM(require_react_native());
       Search_default = ({ onChangeText, placeholder, style, isRound }) => {
         var [query, setQuery] = React.useState("");
         var onChange = (value) => {
@@ -5829,7 +5249,7 @@
           onChangeText?.(value);
         };
         return /* @__PURE__ */ jsx(ErrorBoundary, {
-          children: /* @__PURE__ */ jsx(import_react_native13.View, {
+          children: /* @__PURE__ */ jsx(import_react_native12.View, {
             style,
             children: /* @__PURE__ */ jsx(TextInput, {
               grow: true,
@@ -5872,11 +5292,11 @@
           onPress: () => {
             setHidden(!hidden);
             if (!noAnimation)
-              import_react_native14.LayoutAnimation.configureNext(import_react_native14.LayoutAnimation.Presets.easeInEaseOut);
+              import_react_native13.LayoutAnimation.configureNext(import_react_native13.LayoutAnimation.Presets.easeInEaseOut);
           }
         }),
         !hidden && /* @__PURE__ */ jsx(Fragment, {
-          children: /* @__PURE__ */ jsx(import_react_native14.View, {
+          children: /* @__PURE__ */ jsx(import_react_native13.View, {
             style: !noPadding && {
               paddingHorizontal: 15
             },
@@ -5886,7 +5306,7 @@
       ]
     });
   }
-  var import_react_native14;
+  var import_react_native13;
   var init_Summary = __esm({
     "src/lib/ui/components/Summary.tsx"() {
       "use strict";
@@ -5895,7 +5315,7 @@
       init_jsxRuntime();
       init_assets();
       init_components();
-      import_react_native14 = __toESM(require_react_native());
+      import_react_native13 = __toESM(require_react_native());
     }
   });
 
@@ -5921,188 +5341,6 @@
     }
   });
 
-  // src/core/ui/reporter/components/ErrorBoundaryScreen.tsx
-  function ErrorBoundaryScreen(props) {
-    var styles = useStyles2();
-    var debugInfo = getDebugInfo();
-    return /* @__PURE__ */ jsx(ErrorBoundary, {
-      children: /* @__PURE__ */ jsx(SafeAreaProvider, {
-        children: /* @__PURE__ */ jsxs(SafeAreaView, {
-          style: styles.container,
-          children: [
-            /* @__PURE__ */ jsxs(import_react_native15.View, {
-              style: {
-                gap: 4
-              },
-              children: [
-                /* @__PURE__ */ jsx(Text, {
-                  variant: "display-lg",
-                  children: "Uh oh."
-                }),
-                /* @__PURE__ */ jsx(Text, {
-                  variant: "text-md/normal",
-                  children: "A crash occurred while rendering a component. This could be caused by a plugin, ZenCord, or Discord itself."
-                }),
-                /* @__PURE__ */ jsxs(Text, {
-                  variant: "text-sm/normal",
-                  color: "text-muted",
-                  children: [
-                    debugInfo.os.name,
-                    "; ",
-                    debugInfo.discord.build,
-                    " (",
-                    debugInfo.discord.version,
-                    "); ",
-                    debugInfo.bunny.version
-                  ]
-                })
-              ]
-            }),
-            /* @__PURE__ */ jsxs(import_react_native15.ScrollView, {
-              fadingEdgeLength: 64,
-              contentContainerStyle: {
-                gap: 12
-              },
-              children: [
-                /* @__PURE__ */ jsx(Codeblock, {
-                  selectable: true,
-                  children: props.error.message
-                }),
-                hasStack(props.error) && /* @__PURE__ */ jsx(ErrorStackCard, {
-                  error: props.error
-                }),
-                isComponentStack(props.error) ? /* @__PURE__ */ jsx(ErrorComponentStackCard, {
-                  componentStack: props.error.componentStack
-                }) : null
-              ]
-            }),
-            /* @__PURE__ */ jsxs(Card, {
-              style: {
-                gap: 6
-              },
-              children: [
-                /* @__PURE__ */ jsx(Button, {
-                  text: "Reload Discord",
-                  onPress: () => BundleUpdaterManager.reload()
-                }),
-                !settings.safeMode?.enabled && /* @__PURE__ */ jsx(Button, {
-                  text: "Reload in Safe Mode",
-                  onPress: () => toggleSafeMode()
-                }),
-                /* @__PURE__ */ jsx(Button, {
-                  variant: "destructive",
-                  text: "Retry Render",
-                  onPress: () => props.rerender()
-                })
-              ]
-            })
-          ]
-        })
-      })
-    });
-  }
-  var import_react_native15, useStyles2;
-  var init_ErrorBoundaryScreen = __esm({
-    "src/core/ui/reporter/components/ErrorBoundaryScreen.tsx"() {
-      "use strict";
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      init_jsxRuntime();
-      init_isStack();
-      init_debug();
-      init_modules();
-      init_settings();
-      init_components2();
-      init_styles();
-      init_common();
-      init_components();
-      import_react_native15 = __toESM(require_react_native());
-      init_ErrorComponentStackCard();
-      init_ErrorStackCard();
-      useStyles2 = createStyles({
-        container: {
-          flex: 1,
-          backgroundColor: tokens.colors.BG_BASE_SECONDARY,
-          paddingHorizontal: 16,
-          height: "100%",
-          gap: 12
-        }
-      });
-    }
-  });
-
-  // src/core/debug/patches/patchErrorBoundary.tsx
-  function getErrorBoundaryContext() {
-    var ctxt = findByNameLazy("ErrorBoundary")[_lazyContextSymbol];
-    return new Promise((resolve) => ctxt.getExports((exp) => resolve(exp.prototype)));
-  }
-  function patchErrorBoundary() {
-    return after.await("render", getErrorBoundaryContext(), function() {
-      if (!this.state.error)
-        return;
-      return /* @__PURE__ */ jsx(ErrorBoundaryScreen, {
-        error: this.state.error,
-        rerender: () => this.setState({
-          info: null,
-          error: null
-        })
-      });
-    });
-  }
-  var init_patchErrorBoundary = __esm({
-    "src/core/debug/patches/patchErrorBoundary.tsx"() {
-      "use strict";
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      init_jsxRuntime();
-      init_ErrorBoundaryScreen();
-      init_patcher();
-      init_lazy2();
-      init_wrappers();
-    }
-  });
-
-  // globals:moment
-  var require_moment = __commonJS({
-    "globals:moment"(exports, module) {
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      module.exports = require_depsModule()["moment"];
-    }
-  });
-
-  // src/core/fixes.ts
-  function onDispatch({ locale }) {
-    try {
-      import_moment.default.locale(locale.toLowerCase());
-    } catch (e) {
-      logger.error("Failed to fix timestamps...", e);
-    }
-    FluxDispatcher.unsubscribe("I18N_LOAD_SUCCESS", onDispatch);
-  }
-  var import_moment, fixes_default;
-  var init_fixes = __esm({
-    "src/core/fixes.ts"() {
-      "use strict";
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      init_logger();
-      init_common();
-      import_moment = __toESM(require_moment());
-      fixes_default = () => {
-        FluxDispatcher.subscribe("I18N_LOAD_SUCCESS", onDispatch);
-      };
-    }
-  });
-
-  // src/assets/icons/zencord.png
-  var zencord_default;
-  var init_zencord = __esm({
-    "src/assets/icons/zencord.png"() {
-      zencord_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAYdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCA1LjEuMWK1UgwAAAC2ZVhJZklJKgAIAAAABQAaAQUAAQAAAEoAAAAbAQUAAQAAAFIAAAAoAQMAAQAAAAMAAAAxAQIAEAAAAFoAAABphwQAAQAAAGoAAAAAAAAAvm4AAOgDAAC+bgAA6AMAAFBhaW50Lk5FVCA1LjEuMQADAACQBwAEAAAAMDIzMAGgAwABAAAAAQAAAAWgBAABAAAAlAAAAAAAAAACAAEAAgAEAAAAUjk4AAIABwAEAAAAMDEwMAAAAABcs0MzPnTW7QAABiFJREFUeF7tmlmIlWUYx2emyRzTppz2Pc3QNqKijQqRQgoKSyGri4S5CLqRyIyi5SKCugmKLqK6EDNIsZKCCrKYmxYkK6gQi0Zpc8GZsdKc1HH6/c63nPOd41m+M/s35w8/vuWc877v83zv8rzPd5oaaqihhhqaxGoOjxNSg4ODrRymwYkwAw5BD/Q1Nzcf4VhVE84BGD2Fw81wI1wE58LpEDlgB2yENbClVkdMCGF8MyyCnVBJA7AV7oVjw59PfGHMLNgEtUpH3Q0TeqjnhBFt8DIchjT6Bs4LixleUbBdcgrYuBHzcljPEuiDtDoID4VFlaimRlPAMRyOAyeak+EsOB+chGZDG6yC9Uw6hzkOi6i3hYOT3iXwBlwB9egduJ+2/Rdc5lXiACr13glwAdh1ZsGc8Pps0AHtoENsYKQ/4UH4MM3MG9ang6eC9Z4COtj6LgQdfCno8Hp72XewkHbtDi7zShRIY6ZzuBOWweWgoT6BQkMr6QdYRkWbg8u8QkOjdfskOBVcwnSwhmrgmaCDdUSxg4cil8ZbadePwWVesQNoYAeHZ0Dj7er1aBC64GGwRxignAH2pOhpeu66rRN0uMvUcBlaTv/CYhzwcXCZV84BGK+3n4Xl4BMfiuz+v8JemAk6wTnCp19vFx6qbNML8DROSMxRkQNu4bAWbHBW5UNZhAO+DS4DtWC8XfA+yLLxygl8YTgXxXLsafiVuatsS1svBodiLG86/o/PXWVf54DLbSwd8A/syV1lX64+LrGxdMB++C13lX053A20YukA99C/gGt41mV8Y7AVq4VlQcN/huwkDsrL+S6xM7QHqO3QH5xmWto7m6Uwsjt2gGHrX8Fp5uUmK14KIweYSKxnJRiA9+BdcBg5oY7kXGLZ1vETuMWVtNtvA6J42Y9CYddGC7vd6xTaBreBQ8glxkDjergO5oI7PvcW9e4BNPgg7IIt8BV8GZ57z/H8EbijrFW2dQFzn20PZHgIr0BavQ9udGJxbVkzYB4sBdNYX8BuOATV5Hd2wefwEtwDc2E6JBzJ9VTYAGlkVunasIi8uLkcjviNFHoNTGaUlZ9DB1wNT8E+KKf98CRcBTOhlrJfhTQyRbY4LCKeA1Q32N3SyORGYRkloqsNQA98zeVn4LxRTo7nLr67GXr9bXC7rKw7bRjv5s+JMKfCxv8O+4LTmuU4N7FRq0xtVWqwn10WnNYkcw22Ia3m0Atythc6wHyZq0EaWfl8Cqs6yfEdw9AlUKlb+5nZX7NTFRXWOR/m5W6kk5OnQVHCAcYBxgNp5BNbAWaHy4rGuhJ0gq+zqukG6OQ3uQZWkHVad9ohoEzTmY7LiwpbYRWkla+hPoVrILHXVtxzAlwJPVCr/O5jYII0Ie7ZTuvaCNZdj/6A3NCJuy43PH8CzA1W7dJFcr12R/kBONHtBGMLx/xdYFyQ2IfXIENz1/0N8H14fRosADPX7u3TtjOSc90dTLJdiQJwwlIOq6HeF4pR4OILCMezMULhMKtHbtIOgCuCw2IogVUkV5tOHLC6uHEmDg0165UNs5EmHRybQzVeWYZlRe8Khmq88uGYoi9poOGl6eysSyf6prm12AF94PidDHIOaSt2gPlBd1qTQW7e2hMOYFIwPfYJTIbkSC4/WNwDlP+v2RScZlruYzqO5gAnwuchbVQ40eRS2F/iAIaBa7nDYCVkOV3ukr/9aD1AJ+idt8F3hkZivZClrLHB2luwo2pQwVrppsE/SxjOGjxEAY7RouGt0Z7jyWMUqUVHv+P+IMIAxN9abyGjKSd6jX+EB92bqvJwv1BogOeicRpbiE7QQYXovELcytrL/Gw0pPH27BUYX/J3mVEVzpwGr0O9O7q0Mtf4Jrj+j71oyE2wB0ZDGr8GzAMkZPcdKzmvmNIaaTmhr4NH6fb+WSqhsXTA3zDSK4vGrwcnvBLjx1R0R98bdMNIyW6/FhJvg8eNaJiprcfhAAy3NH4d+Bps/IoGtsOLUOllSVpFxrvdHf+iob7yegB8FbYXfHOjEWnph23wHJg7rEmpAqGREg22HW5PzdS6VFV6d1BO/ht0K3SHoXxDDTXUUEMNVVRT0/+M4LN4eqsYNQAAAABJRU5ErkJggg==";
-    }
-  });
-
   // src/lib/ui/settings/patches/shared.tsx
   function wrapOnPress(onPress, navigation2, renderPromise, screenOptions, props) {
     return () => _async_to_generator(function* () {
@@ -6115,7 +5353,7 @@
         };
       }
       navigation2 ??= tabsNavigationRef.getRootNavigationRef();
-      navigation2.navigate("PUPU_CUSTOM_PAGE", {
+      navigation2.navigate("BUNNY_CUSTOM_PAGE", {
         ...screenOptions,
         render: () => /* @__PURE__ */ jsx(Component, {
           ...props
@@ -6155,13 +5393,55 @@
     React.useEffect(() => void (firstRender = true), []);
     return firstRender;
   }
+  function createHarnessBoundary() {
+    var _React_Component2, _HarnessBoundary;
+    return _HarnessBoundary = /* @__PURE__ */ function(_superClass) {
+      "use strict";
+      _inherits(HarnessBoundary, _superClass);
+      function HarnessBoundary() {
+        _class_call_check(this, HarnessBoundary);
+        var _this;
+        _this = _call_super(this, HarnessBoundary, arguments), _define_property(_this, "state", {
+          errored: false,
+          generation: 0
+        });
+        return _this;
+      }
+      _create_class(HarnessBoundary, [
+        {
+          key: "componentDidCatch",
+          value: function componentDidCatch(error) {
+            logger.warn("SettingHookHarness crashed, remounting it", error);
+            if (this.state.generation < 3)
+              this.setState((s) => ({
+                errored: false,
+                generation: s.generation + 1
+              }));
+          }
+        },
+        {
+          key: "render",
+          value: function render() {
+            if (this.state.errored)
+              return null;
+            return React.cloneElement(this.props.children, {
+              key: this.state.generation
+            });
+          }
+        }
+      ]);
+      return HarnessBoundary;
+    }(_React_Component2 = React.Component), _define_property(_HarnessBoundary, "getDerivedStateFromError", () => ({
+      errored: true
+    })), _HarnessBoundary;
+  }
   function patchTabsUI(unpatches) {
     var getRows = () => Object.values(registeredSections).flatMap((sect) => sect.map((row) => ({
       [row.key]: {
         type: "pressable",
-        // title and useTitle for compatibility across Discord versions
-        title: row.title,
+        // title was renamed to useTitle, both are here for compatibility (thanks kmiioo) https://codeberg.org/raincord/rain/pulls/52
         useTitle: row.title,
+        title: row.title,
         icon: row.icon,
         IconComponent: () => /* @__PURE__ */ jsx(TableRow.Icon, {
           source: row.icon
@@ -6169,7 +5449,8 @@
         usePredicate: row.usePredicate,
         useTrailing: row.useTrailing,
         onPress: wrapOnPress(row.onPress, null, row.render, row.title()),
-        withArrow: true
+        withArrow: true,
+        ...row.rawTabsConfig
       }
     }))).reduce((a, c2) => Object.assign(a, c2));
     var origRendererConfig = settingConstants.SETTING_RENDERER_CONFIG;
@@ -6181,37 +5462,19 @@
         ...rendererConfigValue,
         VendettaCustomPage: {
           type: "route",
-          title: () => "ZenCord",
-          useTitle: () => "ZenCord",
+          useTitle: () => Strings.BUNNY,
+          title: () => Strings.BUNNY,
           screen: {
             route: "VendettaCustomPage",
             getComponent: () => CustomPageRenderer
           }
         },
-        PUPU_CUSTOM_PAGE: {
-          type: "route",
-          title: () => "ZenCord",
-          useTitle: () => "ZenCord",
-          screen: {
-            route: "PUPU_CUSTOM_PAGE",
-            getComponent: () => CustomPageRenderer
-          }
-        },
         BUNNY_CUSTOM_PAGE: {
           type: "route",
-          title: () => "ZenCord",
-          useTitle: () => "ZenCord",
+          useTitle: () => Strings.BUNNY,
+          title: () => Strings.BUNNY,
           screen: {
             route: "BUNNY_CUSTOM_PAGE",
-            getComponent: () => CustomPageRenderer
-          }
-        },
-        ZENCORD_CUSTOM_PAGE: {
-          type: "route",
-          title: () => "ZenCord",
-          useTitle: () => "ZenCord",
-          screen: {
-            route: "ZENCORD_CUSTOM_PAGE",
             getComponent: () => CustomPageRenderer
           }
         },
@@ -6219,6 +5482,12 @@
       }),
       set: (v2) => rendererConfigValue = v2
     });
+    var HarnessBoundary = createHarnessBoundary();
+    var wrapHarness = (_2, ret) => /* @__PURE__ */ jsx(HarnessBoundary, {
+      children: ret
+    });
+    onJsxCreate("SettingHookHarness", wrapHarness);
+    unpatches.push(() => deleteJsxCreate("SettingHookHarness", wrapHarness));
     unpatches.push(() => {
       Object.defineProperty(settingConstants, "SETTING_RENDERER_CONFIG", {
         value: origRendererConfig,
@@ -6271,13 +5540,21 @@
       "use strict";
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
+      init_call_super();
+      init_class_call_check();
+      init_create_class();
+      init_define_property();
+      init_inherits();
       init_jsxRuntime();
       init_patcher();
+      init_jsx();
       init_components();
       init_wrappers();
       init_settings2();
+      init_i18n();
       init_shared();
       init_utils();
+      init_logger();
       settingConstants = findByPropsLazy("SETTING_RENDERER_CONFIG");
       createListModule = findByPropsLazy("createList");
       SettingsOverviewScreen = findByNameLazy("SettingsOverviewScreen", false);
@@ -6315,7 +5592,7 @@
   function isSafeMode() {
     return settings.safeMode?.enabled === true;
   }
-  function toggleSafeMode2() {
+  function toggleSafeMode() {
     return _async_to_generator(function* ({ to = !isSafeMode(), reload = true } = {}) {
       var enabled = (settings.safeMode ??= {
         enabled: to
@@ -6335,6 +5612,74 @@
       init_themes();
       init_modules();
       init_settings();
+    }
+  });
+
+  // src/lib/ui/toasts.ts
+  var toasts_exports = {};
+  __export(toasts_exports, {
+    patchToasts: () => patchToasts,
+    showToast: () => showToast
+  });
+  function toToastIcon(icon) {
+    if (typeof icon !== "number")
+      return icon;
+    var Icon = assetIcons.get(icon);
+    if (!Icon) {
+      Icon = ({ style, color: color2 }) => React2.createElement(ReactNative.Image, {
+        source: icon,
+        style: [
+          {
+            width: 18,
+            height: 18,
+            tintColor: color2
+          },
+          style
+        ]
+      });
+      assetIcons.set(icon, Icon);
+    }
+    return Icon;
+  }
+  function patchToasts() {
+    return instead("open", toasts, (args, orig) => {
+      var [options] = args;
+      if (toasts.open.length < 2 || args.length !== 1 || options == null || typeof options !== "object") {
+        return orig.apply(toasts, args);
+      }
+      var { key, content, text, source, icon, ...rest } = options;
+      return orig.call(toasts, key ?? `vd-toast-${uuid4()}`, {
+        ...rest,
+        text: text ?? content,
+        icon: toToastIcon(icon ?? source)
+      });
+    });
+  }
+  var uuid4, assetIcons, showToast;
+  var init_toasts = __esm({
+    "src/lib/ui/toasts.ts"() {
+      "use strict";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_i18n();
+      init_assets();
+      init_patcher();
+      init_lazy();
+      init_common();
+      init_wrappers();
+      ({ uuid4 } = lazyDestructure(() => findByProps("uuid4")));
+      assetIcons = /* @__PURE__ */ new Map();
+      showToast = (content, asset) => toasts.open({
+        // ? In build 182205/44707, Discord changed their toasts, source is no longer used, rather icon, and a key is needed.
+        // TODO: We could probably have the developer specify a key themselves, but this works to fix toasts
+        key: `vd-toast-${uuid4()}`,
+        content,
+        source: asset,
+        icon: asset
+      });
+      showToast.showCopyToClipboard = (message = Strings.COPIED_TO_CLIPBOARD) => {
+        showToast(message, findAssetId("LinkIcon"));
+      };
     }
   });
 
@@ -6367,13 +5712,230 @@
     }
   });
 
+  // src/lib/api/debug/devtools.ts
+  function connectDt(_url) {
+  }
+  function disconnectDt() {
+  }
+  function useIsDtConnected() {
+    return false;
+  }
+  var dtConnected;
+  var init_devtools = __esm({
+    "src/lib/api/debug/devtools.ts"() {
+      "use strict";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      dtConnected = false;
+    }
+  });
+
+  // src/lib/api/debug/react.ts
+  function bump() {
+    for (var x2 of changeHooks)
+      x2(rdtConnected);
+  }
+  function cleanup() {
+    rdtClient = null;
+    rdtConnected = false;
+    bump();
+  }
+  function connectRdt(url2, quiet) {
+    if (!isReactDevToolsPreloaded() || rdtClient)
+      return;
+    var base = url2.split(":").slice(0, -1);
+    var ws = rdtClient = new WebSocket(`ws://${base}:${rdtPort}`);
+    ws.addEventListener("open", () => {
+      if (!quiet)
+        showToast("Connected to React DevTools", findAssetId("CheckmarkSmallIcon"));
+      rdtConnected = true;
+      bump();
+    });
+    ws.addEventListener("close", () => {
+      cleanup();
+    });
+    ws.addEventListener("error", (e) => {
+      cleanup();
+      var err = e?.message ?? e?.stack ?? String(e);
+      logger.error("React DevTools error:", err);
+      if (!quiet)
+        showToast(err, findAssetId("CircleXIcon-primary"));
+    });
+    globalThis[getReactDevToolsProp() || "__vendetta_rdc"].connectToDevTools({
+      websocket: ws
+    });
+  }
+  function disconnectRdt() {
+    rdtClient?.close();
+  }
+  function useIsRdtConnected() {
+    var [connected, update] = React.useState(rdtConnected);
+    React.useEffect(() => {
+      changeHooks.add(update);
+      return () => void changeHooks.delete(update);
+    });
+    return connected;
+  }
+  var rdtPort, rdtClient, rdtConnected, changeHooks;
+  var init_react = __esm({
+    "src/lib/api/debug/react.ts"() {
+      "use strict";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_logger();
+      init_loader();
+      init_toasts();
+      init_assets();
+      rdtPort = 8097;
+      rdtClient = null;
+      rdtConnected = false;
+      changeHooks = /* @__PURE__ */ new Set();
+    }
+  });
+
+  // src/lib/api/debug/index.ts
+  var debug_exports = {};
+  __export(debug_exports, {
+    connectToDebugger: () => connectToDebugger,
+    connectToReactDevTools: () => connectToReactDevTools,
+    getDebugInfo: () => getDebugInfo,
+    initDebugger: () => initDebugger,
+    toggleSafeMode: () => toggleSafeMode2,
+    versionHash: () => versionHash
+  });
+  function toggleSafeMode2() {
+    return _async_to_generator(function* () {
+      settings.safeMode = {
+        ...settings.safeMode,
+        enabled: !settings.safeMode?.enabled
+      };
+      if (isThemeSupported()) {
+        if (getThemeFromLoader()?.id)
+          settings.safeMode.currentThemeId = getThemeFromLoader().id;
+        if (settings.safeMode?.enabled) {
+          yield selectTheme(null);
+        } else if (settings.safeMode?.currentThemeId) {
+          yield selectTheme(themes[settings.safeMode?.currentThemeId]);
+        }
+      }
+      setTimeout(BundleUpdaterManager.reload, 400);
+    })();
+  }
+  function connectToDebugger(url2, quiet) {
+    if (dtConnected)
+      return;
+    connectDt(url2, quiet);
+  }
+  function connectToReactDevTools(url2, quiet) {
+    if (!isReactDevToolsPreloaded() || rdtConnected)
+      return;
+    connectRdt(url2, quiet);
+  }
+  function getDebugInfo() {
+    var hermesProps = globalThis.HermesInternal.getRuntimeProperties();
+    var hermesVer = hermesProps["OSS Release Version"];
+    var padding = "for RN ";
+    var PlatformConstants = import_react_native14.Platform.constants;
+    var rnVer = PlatformConstants.reactNativeVersion;
+    return {
+      /**
+       * @deprecated use `bunny` field
+       * */
+      vendetta: {
+        version: versionHash.split("-")[0],
+        loader: getLoaderName()
+      },
+      bunny: {
+        version: versionHash,
+        loader: {
+          name: getLoaderName(),
+          version: getLoaderVersion()
+        }
+      },
+      discord: {
+        version: NativeClientInfoModule.getConstants().Version,
+        build: NativeClientInfoModule.getConstants().Build
+      },
+      react: {
+        version: React.version,
+        nativeVersion: hermesVer.startsWith(padding) ? hermesVer.substring(padding.length) : `${rnVer.major}.${rnVer.minor}.${rnVer.patch}`
+      },
+      hermes: {
+        version: hermesVer,
+        buildType: hermesProps.Build,
+        bytecodeVersion: hermesProps["Bytecode Version"]
+      },
+      ...import_react_native14.Platform.select({
+        android: {
+          os: {
+            name: "Android",
+            version: PlatformConstants.Release,
+            sdk: PlatformConstants.Version
+          }
+        },
+        ios: {
+          os: {
+            name: PlatformConstants.systemName,
+            version: PlatformConstants.osVersion
+          }
+        }
+      }),
+      ...import_react_native14.Platform.select({
+        android: {
+          device: {
+            manufacturer: PlatformConstants.Manufacturer,
+            brand: PlatformConstants.Brand,
+            model: PlatformConstants.Model,
+            codename: NativeDeviceModule.device
+          }
+        },
+        ios: {
+          device: {
+            manufacturer: NativeDeviceModule.deviceManufacturer,
+            brand: NativeDeviceModule.deviceBrand,
+            model: NativeDeviceModule.deviceModel,
+            codename: NativeDeviceModule.device
+          }
+        }
+      })
+    };
+  }
+  function initDebugger() {
+    if (!settings.enableAutoDebugger || !settings.debuggerUrl)
+      return;
+    try {
+      connectToDebugger(settings.debuggerUrl, true);
+      connectToReactDevTools(settings.debuggerUrl, true);
+    } catch (e) {
+      logger.error("Failed to connect to DevTools during startup:", e);
+    }
+  }
+  var import_react_native14, versionHash;
+  var init_debug = __esm({
+    "src/lib/api/debug/index.ts"() {
+      "use strict";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_async_to_generator();
+      init_themes();
+      init_loader();
+      init_modules();
+      init_settings();
+      import_react_native14 = __toESM(require_react_native());
+      init_devtools();
+      init_react();
+      init_logger();
+      versionHash = "v1.4.3";
+    }
+  });
+
   // src/core/ui/settings/pages/General/About.tsx
   function About() {
     var debugInfo = getDebugInfo();
     useProxy(settings);
     var versions = [
       {
-        label: Strings.PUPU,
+        label: Strings.BUNNY,
         version: debugInfo.bunny.version,
         icon: {
           uri: zencord_default
@@ -6382,7 +5944,7 @@
       {
         label: "Discord",
         version: `${debugInfo.discord.version} (${debugInfo.discord.build})`,
-        icon: "Discord"
+        icon: "ClydeIcon"
       },
       {
         label: "React",
@@ -6423,31 +5985,26 @@
         version: debugInfo.device.manufacturer,
         icon: "WrenchIcon"
       },
-      ...import_react_native16.Platform.OS !== "ios" ? [
-        {
-          label: Strings.BRAND,
-          version: debugInfo.device.brand,
-          icon: "MagicWandIcon"
-        }
-      ] : [],
+      {
+        label: Strings.BRAND,
+        version: debugInfo.device.brand,
+        icon: "PencilSparkleIcon"
+      },
       {
         label: Strings.MODEL,
         version: debugInfo.device.model,
         icon: "MobilePhoneIcon"
       },
-      // this is renamed now on android but i cant be bothered to find it
-      ...import_react_native16.Platform.OS !== "android" ? [
-        {
-          label: import_react_native16.Platform.select({
-            android: Strings.CODENAME,
-            ios: Strings.MODELID
-          }),
-          version: debugInfo.device.codename,
-          icon: "TagIcon"
-        }
-      ] : []
+      {
+        label: import_react_native15.Platform.select({
+          android: Strings.CODENAME,
+          ios: Strings.MACHINE_ID
+        }),
+        version: debugInfo.device.codename,
+        icon: "TagIcon"
+      }
     ];
-    return /* @__PURE__ */ jsx(import_react_native16.ScrollView, {
+    return /* @__PURE__ */ jsx(import_react_native15.ScrollView, {
       style: {
         flex: 1
       },
@@ -6481,7 +6038,7 @@
       })
     });
   }
-  var import_react_native16;
+  var import_react_native15;
   var init_About = __esm({
     "src/core/ui/settings/pages/General/About.tsx"() {
       "use strict";
@@ -6495,7 +6052,7 @@
       init_debug();
       init_settings();
       init_components();
-      import_react_native16 = __toESM(require_react_native());
+      import_react_native15 = __toESM(require_react_native());
     }
   });
 
@@ -6526,7 +6083,7 @@
     useProxy(settings);
     var debugInfo = getDebugInfo();
     var navigation2 = NavigationNative.useNavigation();
-    return /* @__PURE__ */ jsx(import_react_native17.ScrollView, {
+    return /* @__PURE__ */ jsx(import_react_native16.ScrollView, {
       style: {
         flex: 1
       },
@@ -6544,7 +6101,7 @@
             title: Strings.INFO,
             children: [
               /* @__PURE__ */ jsx(TableRow, {
-                label: Strings.PUPU,
+                label: Strings.BUNNY,
                 icon: /* @__PURE__ */ jsx(TableRow.Icon, {
                   source: {
                     uri: zencord_default
@@ -6557,7 +6114,7 @@
               /* @__PURE__ */ jsx(TableRow, {
                 label: "Discord",
                 icon: /* @__PURE__ */ jsx(TableRow.Icon, {
-                  source: findAssetId("Discord")
+                  source: findAssetId("ClydeIcon")
                 }),
                 trailing: /* @__PURE__ */ jsx(TableRow.TrailingText, {
                   text: `${debugInfo.discord.version} (${debugInfo.discord.build})`
@@ -6569,7 +6126,7 @@
                 icon: /* @__PURE__ */ jsx(TableRow.Icon, {
                   source: findAssetId("CircleInformationIcon-primary")
                 }),
-                onPress: () => navigation2.push("PUPU_CUSTOM_PAGE", {
+                onPress: () => navigation2.push("BUNNY_CUSTOM_PAGE", {
                   title: Strings.ABOUT,
                   render: () => /* @__PURE__ */ jsx(About, {})
                 })
@@ -6583,17 +6140,9 @@
                 arrow: true,
                 label: Strings.DISCORD_SERVER,
                 icon: /* @__PURE__ */ jsx(TableRow.Icon, {
-                  source: findAssetId("Discord")
+                  source: findAssetId("ClydeIcon")
                 }),
-                onPress: () => import_react_native17.Linking.openURL(DISCORD_SERVER)
-              }),
-              /* @__PURE__ */ jsx(TableRow, {
-                arrow: true,
-                label: "Website",
-                icon: /* @__PURE__ */ jsx(TableRow.Icon, {
-                  source: findAssetId("GlobeEarthIcon") ?? findAssetId("CompassIcon") ?? findAssetId("LinkIcon")
-                }),
-                onPress: () => import_react_native17.Linking.openURL(WEBSITE)
+                onPress: () => import_react_native16.Linking.openURL(DISCORD_SERVER)
               }),
               /* @__PURE__ */ jsx(TableRow, {
                 arrow: true,
@@ -6601,7 +6150,7 @@
                 icon: /* @__PURE__ */ jsx(TableRow.Icon, {
                   source: findAssetId("img_account_sync_github_white")
                 }),
-                onPress: () => import_react_native17.Linking.openURL(GITHUB)
+                onPress: () => import_react_native16.Linking.openURL(GITHUB)
               })
             ]
           }),
@@ -6616,14 +6165,14 @@
                 onPress: () => BundleUpdaterManager.reload()
               }),
               /* @__PURE__ */ jsx(TableSwitchRow, {
-                label: "Safe Mode",
-                subLabel: "Load ZenCord without loading add-ons",
+                label: Strings.SAFE_MODE,
+                subLabel: settings.safeMode?.enabled ? Strings.RELOAD_IN_NORMAL_MODE_DESC : Strings.RELOAD_IN_SAFE_MODE_DESC,
                 icon: /* @__PURE__ */ jsx(TableRow.Icon, {
                   source: findAssetId("ShieldIcon")
                 }),
                 value: isSafeMode(),
                 onValueChange: (to) => {
-                  toggleSafeMode2({
+                  toggleSafeMode({
                     to,
                     reload: false
                   });
@@ -6676,7 +6225,7 @@
       })
     });
   }
-  var import_react_native17;
+  var import_react_native16;
   var init_General = __esm({
     "src/core/ui/settings/pages/General/index.tsx"() {
       "use strict";
@@ -6696,7 +6245,7 @@
       init_constants();
       init_common();
       init_components();
-      import_react_native17 = __toESM(require_react_native());
+      import_react_native16 = __toESM(require_react_native());
     }
   });
 
@@ -6983,7 +6532,7 @@
             _bitflags: info.bitflags
           });
         };
-        var cleanup = () => {
+        var cleanup2 = () => {
           preparedCache.clear();
           preparedSearchCache.clear();
         };
@@ -7526,7 +7075,7 @@
           "single": single,
           "go": go,
           "prepare": prepare,
-          "cleanup": cleanup
+          "cleanup": cleanup2
         };
       });
     }
@@ -7563,7 +7112,7 @@
             state: error ? "error" : void 0,
             errorMessage: error || void 0
           }),
-          /* @__PURE__ */ jsx(import_react_native18.ScrollView, {
+          /* @__PURE__ */ jsx(import_react_native17.ScrollView, {
             horizontal: true,
             showsHorizontalScrollIndicator: false,
             style: {
@@ -7602,7 +7151,7 @@
     var [sortFn, setSortFn] = React.useState(() => null);
     var { bottom: bottomInset } = useSafeAreaInsets();
     var navigation2 = NavigationNative.useNavigation();
-    (0, import_react3.useEffect)(() => {
+    (0, import_react4.useEffect)(() => {
       if (props.OptionsActionSheetComponent) {
         navigation2.setOptions({
           headerRight: () => /* @__PURE__ */ jsx(IconButton, {
@@ -7616,7 +7165,7 @@
     }, [
       navigation2
     ]);
-    var results = (0, import_react3.useMemo)(() => {
+    var results = (0, import_react4.useMemo)(() => {
       var values = props.items;
       if (props.resolveItem)
         values = values.map(props.resolveItem).filter(isNotNil);
@@ -7632,7 +7181,7 @@
       sortFn,
       search
     ]);
-    var onInstallPress = (0, import_react3.useCallback)(() => {
+    var onInstallPress = (0, import_react4.useCallback)(() => {
       if (!props.installAction)
         return () => {
         };
@@ -7647,7 +7196,7 @@
       }
     }, []);
     if (results.length === 0 && !search) {
-      return /* @__PURE__ */ jsxs(import_react_native18.View, {
+      return /* @__PURE__ */ jsxs(import_react_native17.View, {
         style: {
           gap: 32,
           flexGrow: 1,
@@ -7655,18 +7204,17 @@
           alignItems: "center"
         },
         children: [
-          /* @__PURE__ */ jsxs(import_react_native18.View, {
+          /* @__PURE__ */ jsxs(import_react_native17.View, {
             style: {
               gap: 8,
               alignItems: "center"
             },
             children: [
-              /* @__PURE__ */ jsx(import_react_native18.Image, {
+              /* @__PURE__ */ jsx(import_react_native17.Image, {
                 source: findAssetId("empty_quick_switcher")
               }),
               /* @__PURE__ */ jsx(Text, {
                 variant: "text-lg/semibold",
-                color: "text-default",
                 children: "Oops! Nothing to see here\u2026 yet!"
               })
             ]
@@ -7680,12 +7228,12 @@
         ]
       });
     }
-    var headerElement = /* @__PURE__ */ jsxs(import_react_native18.View, {
+    var headerElement = /* @__PURE__ */ jsxs(import_react_native17.View, {
       style: {
         paddingBottom: 8
       },
       children: [
-        settings.safeMode?.enabled && /* @__PURE__ */ jsxs(import_react_native18.View, {
+        settings.safeMode?.enabled && /* @__PURE__ */ jsxs(import_react_native17.View, {
           style: {
             marginBottom: 10
           },
@@ -7697,7 +7245,7 @@
             props.safeModeHint?.footer
           ]
         }),
-        /* @__PURE__ */ jsxs(import_react_native18.View, {
+        /* @__PURE__ */ jsxs(import_react_native17.View, {
           style: {
             flexDirection: "row",
             gap: 8
@@ -7738,19 +7286,18 @@
           extraData: search,
           estimatedItemSize: 136,
           ListHeaderComponent: headerElement,
-          ListEmptyComponent: () => /* @__PURE__ */ jsxs(import_react_native18.View, {
+          ListEmptyComponent: () => /* @__PURE__ */ jsxs(import_react_native17.View, {
             style: {
               gap: 12,
               padding: 12,
               alignItems: "center"
             },
             children: [
-              /* @__PURE__ */ jsx(import_react_native18.Image, {
+              /* @__PURE__ */ jsx(import_react_native17.Image, {
                 source: findAssetId("devices_not_found")
               }),
               /* @__PURE__ */ jsx(Text, {
                 variant: "text-lg/semibold",
-                color: "text-default",
                 children: "Hmmm... could not find that!"
               })
             ]
@@ -7760,7 +7307,7 @@
             paddingHorizontal: 12,
             paddingBottom: 90
           },
-          ItemSeparatorComponent: () => /* @__PURE__ */ jsx(import_react_native18.View, {
+          ItemSeparatorComponent: () => /* @__PURE__ */ jsx(import_react_native17.View, {
             style: {
               height: 8
             }
@@ -7779,7 +7326,7 @@
       ]
     });
   }
-  var import_fuzzysort, import_react3, import_react_native18, showSimpleActionSheet, hideActionSheet;
+  var import_fuzzysort, import_react4, import_react_native17, showSimpleActionSheet, hideActionSheet;
   var init_AddonPage = __esm({
     "src/core/ui/components/AddonPage.tsx"() {
       "use strict";
@@ -7798,8 +7345,8 @@
       init_components2();
       init_dist();
       import_fuzzysort = __toESM(require_fuzzysort());
-      import_react3 = __toESM(require_react());
-      import_react_native18 = __toESM(require_react_native());
+      import_react4 = __toESM(require_react());
+      import_react_native17 = __toESM(require_react_native());
       ({ showSimpleActionSheet, hideActionSheet } = lazyDestructure(() => findByProps("showSimpleActionSheet")));
     }
   });
@@ -7832,6 +7379,218 @@
           padding: 4
         }
       });
+    }
+  });
+
+  // src/core/ui/settings/pages/Plugins/components/PluginCard.tsx
+  function getHighlightColor() {
+    return (0, import_chroma_js4.default)(tokens.unsafe_rawColors.YELLOW_300).alpha(0.3).hex();
+  }
+  function Title() {
+    var styles = usePluginCardStyles();
+    var { plugin, result } = useCardContext();
+    var highlightedNode = result[0].highlight((m2, i) => /* @__PURE__ */ jsx(Text, {
+      style: {
+        backgroundColor: getHighlightColor()
+      },
+      children: m2
+    }, i));
+    var icon = plugin.icon && findAssetId(plugin.icon);
+    var textNode = /* @__PURE__ */ jsx(Text, {
+      numberOfLines: 1,
+      variant: "heading-lg/semibold",
+      children: highlightedNode.length ? highlightedNode : plugin.name
+    });
+    return /* @__PURE__ */ jsxs(import_react_native18.View, {
+      style: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 6
+      },
+      children: [
+        icon && /* @__PURE__ */ jsx(import_react_native18.Image, {
+          style: styles.smallIcon,
+          source: icon
+        }),
+        textNode
+      ]
+    });
+  }
+  function Authors() {
+    var { plugin, result } = useCardContext();
+    var styles = usePluginCardStyles();
+    if (!plugin.authors)
+      return null;
+    var highlightedNode = result[2].highlight((m2, i) => /* @__PURE__ */ jsx(Text, {
+      style: {
+        backgroundColor: getHighlightColor()
+      },
+      children: m2
+    }, i));
+    var badges = plugin.getBadges();
+    var authorText = highlightedNode.length > 0 ? highlightedNode : plugin.authors.map((a) => a.name).join(", ");
+    return /* @__PURE__ */ jsxs(import_react_native18.View, {
+      style: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        flexShrink: 1,
+        gap: 4
+      },
+      children: [
+        /* @__PURE__ */ jsxs(Text, {
+          variant: "text-sm/semibold",
+          color: "text-muted",
+          children: [
+            "by ",
+            authorText
+          ]
+        }),
+        badges.length > 0 && /* @__PURE__ */ jsx(import_react_native18.View, {
+          style: styles.badgesContainer,
+          children: badges.map((b3, i) => /* @__PURE__ */ jsx(import_react_native18.Image, {
+            source: b3.source,
+            style: styles.badgeIcon
+          }, i))
+        })
+      ]
+    });
+  }
+  function Description() {
+    var { plugin, result } = useCardContext();
+    var highlightedNode = result[1].highlight((m2, i) => /* @__PURE__ */ jsx(Text, {
+      style: {
+        backgroundColor: getHighlightColor()
+      },
+      children: m2
+    }, i));
+    return /* @__PURE__ */ jsx(Text, {
+      variant: "text-md/medium",
+      children: highlightedNode.length ? highlightedNode : plugin.description
+    });
+  }
+  function PluginCard({ result, item: plugin }) {
+    plugin.usePluginState();
+    var [, forceUpdate] = import_react5.default.useReducer((x2) => x2 + 1, 0);
+    var [isToggling, setIsToggling] = import_react5.default.useState(false);
+    var cardContextValue = (0, import_react5.useMemo)(() => ({
+      plugin,
+      result
+    }), [
+      plugin,
+      result
+    ]);
+    var handleToggle = () => _async_to_generator(function* () {
+      if (isToggling)
+        return;
+      setIsToggling(true);
+      try {
+        yield plugin.toggle(!plugin.isEnabled());
+      } finally {
+        setIsToggling(false);
+        forceUpdate();
+      }
+    })();
+    return /* @__PURE__ */ jsx(CardContext.Provider, {
+      value: cardContextValue,
+      children: /* @__PURE__ */ jsx(Card, {
+        children: /* @__PURE__ */ jsxs(Stack, {
+          spacing: 16,
+          children: [
+            /* @__PURE__ */ jsxs(import_react_native18.View, {
+              style: {
+                flexDirection: "row",
+                justifyContent: "space-between"
+              },
+              children: [
+                /* @__PURE__ */ jsxs(import_react_native18.View, {
+                  style: {
+                    flexShrink: 1
+                  },
+                  children: [
+                    /* @__PURE__ */ jsx(Title, {}),
+                    /* @__PURE__ */ jsx(Authors, {})
+                  ]
+                }),
+                /* @__PURE__ */ jsx(import_react_native18.View, {
+                  children: /* @__PURE__ */ jsxs(Stack, {
+                    spacing: 12,
+                    direction: "horizontal",
+                    children: [
+                      /* @__PURE__ */ jsx(Actions, {}),
+                      /* @__PURE__ */ jsx(import_react_native18.TouchableOpacity, {
+                        activeOpacity: 0.8,
+                        onPress: handleToggle,
+                        disabled: isToggling,
+                        style: {
+                          opacity: isToggling ? 0.5 : 1
+                        },
+                        children: /* @__PURE__ */ jsx(import_react_native18.View, {
+                          pointerEvents: "none",
+                          children: /* @__PURE__ */ jsx(TableSwitch, {
+                            value: plugin.isEnabled()
+                          })
+                        })
+                      })
+                    ]
+                  })
+                })
+              ]
+            }),
+            /* @__PURE__ */ jsx(Description, {})
+          ]
+        })
+      })
+    });
+  }
+  var import_chroma_js4, import_react5, import_react_native18, CardContext, useCardContext, Actions;
+  var init_PluginCard = __esm({
+    "src/core/ui/settings/pages/Plugins/components/PluginCard.tsx"() {
+      "use strict";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_async_to_generator();
+      init_jsxRuntime();
+      init_usePluginCardStyles();
+      init_assets();
+      init_common();
+      init_components();
+      init_sheets();
+      import_chroma_js4 = __toESM(require_chroma_js());
+      import_react5 = __toESM(require_react());
+      import_react_native18 = __toESM(require_react_native());
+      CardContext = /* @__PURE__ */ (0, import_react5.createContext)(null);
+      useCardContext = () => (0, import_react5.useContext)(CardContext);
+      Actions = () => {
+        var { plugin } = useCardContext();
+        var navigation2 = NavigationNative.useNavigation();
+        return /* @__PURE__ */ jsxs(import_react_native18.View, {
+          style: {
+            flexDirection: "row",
+            gap: 6
+          },
+          children: [
+            /* @__PURE__ */ jsx(IconButton, {
+              size: "sm",
+              variant: "secondary",
+              icon: findAssetId("WrenchIcon"),
+              disabled: !plugin.getPluginSettingsComponent(),
+              onPress: () => navigation2.push("BUNNY_CUSTOM_PAGE", {
+                title: plugin.name,
+                render: plugin.getPluginSettingsComponent()
+              })
+            }),
+            /* @__PURE__ */ jsx(IconButton, {
+              size: "sm",
+              variant: "secondary",
+              icon: findAssetId("CircleInformationIcon-primary"),
+              onPress: () => void showSheet("PluginInfoActionSheet", plugin.resolveSheetComponent(), {
+                plugin,
+                navigation: navigation2
+              })
+            })
+          ]
+        });
+      };
     }
   });
 
@@ -7870,8 +7629,10 @@
             var pluginManifest;
             try {
               pluginManifest = yield (yield this.pluginFetch(id + "manifest.json")).json();
-            } catch (unused) {
-              throw new Error(`Failed to fetch manifest for ${id}`);
+            } catch (e) {
+              logger.error(`Failed to fetch manifest for ${id}`, e);
+              throw new Error(`Failed to fetch manifest for ${id}
+${e?.stack ?? e}`);
             }
             var pluginJs;
             if (existingPlugin?.manifest.hash !== pluginManifest.hash) {
@@ -7929,27 +7690,25 @@
             if (!id.endsWith("/"))
               id += "/";
             var plugin = plugins[id];
-            if (plugin.id.includes("xxjust") == true || plugin.id.includes("DevNjay") == true) {
-              return;
-            }
             if (!plugin)
               throw new Error("Attempted to start non-existent plugin");
             try {
               if (!settings.safeMode?.enabled) {
                 var pluginRet = yield this.evalPlugin(plugin);
                 pluginInstance[id] = pluginRet;
-                pluginRet.onLoad?.();
+                yield pluginRet.onLoad?.();
               }
               plugin.enabled = true;
             } catch (e) {
               logger.error(`Plugin ${plugin.id} errored whilst loading, and will be unloaded`, e);
               try {
-                pluginInstance[plugin.id]?.onUnload?.();
+                yield pluginInstance[plugin.id]?.onUnload?.();
               } catch (e2) {
                 logger.error(`Plugin ${plugin.id} errored whilst unloading`, e2);
               }
               delete pluginInstance[id];
               plugin.enabled = false;
+              throw e;
             }
           }).call(this);
         },
@@ -7990,7 +7749,7 @@
             yield awaitStorage(settings, plugins);
             var allIds = Object.keys(plugins);
             if (!settings.safeMode?.enabled) {
-              allSettled(allIds.filter((pl) => plugins[pl].enabled).map((pl) => _async_to_generator(function* () {
+              yield allSettled(allIds.filter((pl) => plugins[pl].enabled).map((pl) => _async_to_generator(function* () {
                 return plugins[pl].update && (yield this.fetchPlugin(pl).catch((e) => logger.error(e.message))), yield this.startPlugin(pl);
               }).call(this)));
               allIds.filter((pl) => !plugins[pl].enabled && plugins[pl].update).forEach((pl) => this.fetchPlugin(pl));
@@ -8008,12 +7767,12 @@
 
   // src/core/plugins/quickinstall/forumPost.tsx
   function useExtractThreadContent(thread, _firstMessage = null, actionSheet3 = false) {
-    if (thread.guild_id !== ZENCORD_DISCORD_SERVER_ID)
+    if (thread.guild_id !== VD_DISCORD_SERVER_ID)
       return;
     var postType;
-    if (thread.parent_id === ZENCORD_PLUGINS_CHANNEL_ID) {
+    if (thread.parent_id === VD_PLUGINS_CHANNEL_ID) {
       postType = "Plugin";
-    } else if (thread.parent_id === ZENCORD_THEMES_CHANNEL_ID && isThemeSupported()) {
+    } else if (thread.parent_id === VD_THEMES_CHANNEL_ID && isThemeSupported()) {
       postType = "Theme";
     } else
       return;
@@ -8045,7 +7804,7 @@
       try {
         yield postMap[postType].installOrRemove(url2);
       } catch (e) {
-        showToast(e.message, findAssetId("Small"));
+        showToast(e.message, findAssetId("XSmallIcon"));
       } finally {
         setIsInstalling(false);
       }
@@ -8115,7 +7874,7 @@
                 variant: installed ? "secondary" : "primary",
                 text: installed ? Strings.UNINSTALL : Strings.INSTALL,
                 onPress: installOrRemove,
-                icon: findAssetId(installed ? "ic_message_delete" : "DownloadIcon"),
+                icon: findAssetId(installed ? "TrashIcon" : "DownloadIcon"),
                 style: {
                   marginLeft: 8
                 }
@@ -8125,11 +7884,11 @@
         });
       });
       forumPost_default = () => {
-        var patches3 = [
+        var patches2 = [
           // actionSheetPatch(),
           installButtonPatch()
         ];
-        return () => patches3.map((p) => p());
+        return () => patches2.map((p) => p());
       };
     }
   });
@@ -8224,9 +7983,9 @@
   }
   function installWithToast(type, url2) {
     (type === "plugin" ? VdPluginManager.installPlugin.bind(VdPluginManager) : installTheme)(url2).then(() => {
-      showToast(Strings.SUCCESSFULLY_INSTALLED, findAssetId("Check"));
+      showToast(Strings.SUCCESSFULLY_INSTALLED, findAssetId("DownloadIcon"));
     }).catch((e) => {
-      showToast(e.message, findAssetId("Small"));
+      showToast(e.message, findAssetId("XSmallIcon"));
     });
   }
   var import_react_native19, showSimpleActionSheet2, handleClick, getChannelId, getChannel, url_default;
@@ -8256,8 +8015,8 @@
       ({ getChannelId } = lazyDestructure(() => channels));
       ({ getChannel } = lazyDestructure(() => findByProps("getChannel")));
       url_default = () => {
-        var patches3 = new Array();
-        patches3.push(after("showSimpleActionSheet", showSimpleActionSheet2, (args) => {
+        var patches2 = new Array();
+        patches2.push(after("showSimpleActionSheet", showSimpleActionSheet2, (args) => {
           if (args[0].key !== "LongPressUrl")
             return;
           var { header: { title: url2 }, options } = args[0];
@@ -8269,7 +8028,7 @@
             onPress: () => installWithToast(urlType, url2)
           });
         }));
-        patches3.push(instead("handleClick", handleClick, function(args, orig) {
+        patches2.push(instead("handleClick", handleClick, function(args, orig) {
           return _async_to_generator(function* () {
             var { href: url2 } = args[0];
             var urlType = typeFromUrl(url2);
@@ -8290,7 +8049,7 @@
             });
           }).call(this);
         }));
-        return () => patches3.forEach((p) => p());
+        return () => patches2.forEach((p) => p());
       };
     }
   });
@@ -8313,19 +8072,14 @@
       quickinstall_default = defineCorePlugin({
         manifest: {
           id: "bunny.quickinstall",
+          name: "QuickInstall",
           version: "1.0.0",
-          type: "plugin",
-          spec: 3,
-          main: "",
-          display: {
-            name: "QuickInstall",
-            description: "Quickly install Vendetta plugins and themes",
-            authors: [
-              {
-                name: "Vendetta Team"
-              }
-            ]
-          }
+          description: "Quickly install Vendetta plugins and themes",
+          authors: [
+            {
+              name: "Vendetta Team"
+            }
+          ]
         },
         start() {
           patches = [
@@ -8340,400 +8094,9 @@
     }
   });
 
-  // src/lib/api/react/jsx.ts
-  var jsx_exports = {};
-  __export(jsx_exports, {
-    deleteJsxCreate: () => deleteJsxCreate,
-    onJsxCreate: () => onJsxCreate,
-    patchJsx: () => patchJsx
-  });
-  function onJsxCreate(Component, callback) {
-    if (!callbacks.has(Component))
-      callbacks.set(Component, []);
-    callbacks.get(Component).push(callback);
-  }
-  function deleteJsxCreate(Component, callback) {
-    if (!callbacks.has(Component))
-      return;
-    var cbs = callbacks.get(Component);
-    cbs.splice(cbs.indexOf(callback), 1);
-    if (cbs.length === 0)
-      callbacks.delete(Component);
-  }
-  function patchJsx() {
-    var callback = ([Component], ret) => {
-      if (typeof ret.type === "undefined") {
-        ret.type = "RCTView";
-        return ret;
-      }
-      if (typeof Component === "function" && callbacks.has(Component.name)) {
-        var cbs = callbacks.get(Component.name);
-        for (var cb of cbs) {
-          var _ret = cb(Component, ret);
-          if (_ret !== void 0)
-            ret = _ret;
-        }
-        return ret;
-      }
-    };
-    var patches3 = [
-      after("jsx", jsxRuntime2, callback),
-      after("jsxs", jsxRuntime2, callback)
-    ];
-    return () => patches3.forEach((unpatch) => unpatch());
-  }
-  var callbacks, jsxRuntime2;
-  var init_jsx = __esm({
-    "src/lib/api/react/jsx.ts"() {
-      "use strict";
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      init_patcher();
-      init_metro();
-      callbacks = /* @__PURE__ */ new Map();
-      jsxRuntime2 = findByPropsLazy("jsx", "jsxs");
-    }
-  });
-
-  // src/core/plugins/badges/index.tsx
-  var badges_exports = {};
-  __export(badges_exports, {
-    default: () => badges_default
-  });
-  var useBadgesModule, badgesCache, badgeProps, pendingRequests, badges_default;
-  var init_badges = __esm({
-    "src/core/plugins/badges/index.tsx"() {
-      "use strict";
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      init_async_to_generator();
-      init_patcher();
-      init_jsx();
-      init_metro();
-      init_plugins2();
-      init_common();
-      useBadgesModule = findByNameLazy("useBadges", false);
-      badgesCache = /* @__PURE__ */ new Map();
-      badgeProps = /* @__PURE__ */ new Map();
-      pendingRequests = /* @__PURE__ */ new Set();
-      badges_default = defineCorePlugin({
-        manifest: {
-          id: "zencord.badges",
-          version: "1.2.0",
-          type: "plugin",
-          spec: 3,
-          main: "",
-          display: {
-            name: "ZenCord Badges",
-            description: "Adds ZenCord and custom badges to user profiles",
-            authors: [
-              {
-                name: "ZenCord Team"
-              }
-            ]
-          }
-        },
-        start() {
-          onJsxCreate("ProfileBadge", (component, ret) => {
-            if (ret.props.id?.startsWith("rain-") || ret.props.id?.startsWith("zencord-")) {
-              var cachedProps = badgeProps.get(ret.props.id);
-              if (cachedProps) {
-                ret.props.source = cachedProps.source;
-                ret.props.label = cachedProps.label;
-                ret.props.id = cachedProps.id;
-              }
-            }
-          });
-          onJsxCreate("RenderedBadge", (component, ret) => {
-            if (ret.props.id?.startsWith("rain-") || ret.props.id?.startsWith("zencord-")) {
-              var cachedProps = badgeProps.get(ret.props.id);
-              if (cachedProps) {
-                Object.assign(ret.props, cachedProps);
-              }
-            }
-          });
-          var fetchAndProcessBadges = (userId) => _async_to_generator(function* () {
-            if (pendingRequests.has(userId))
-              return;
-            pendingRequests.add(userId);
-            try {
-              var allBadges = [];
-              try {
-                var zencordRes = yield fetch("https://raw.githubusercontent.com/turki-basha/ZenCord/main/badges.json");
-                if (zencordRes.ok) {
-                  var zData = yield zencordRes.json();
-                  if (Array.isArray(zData[userId])) {
-                    zData[userId].forEach((b3) => {
-                      if (b3.badge) {
-                        allBadges.push({
-                          label: b3.tooltip || b3.type || "ZenCord Badge",
-                          url: b3.badge
-                        });
-                      }
-                    });
-                  }
-                }
-              } catch (unused) {
-              }
-              badgesCache.set(userId, allBadges);
-              allBadges.forEach((badge, i) => {
-                var badgeId = `zencord-${userId}-${i}`;
-                badgeProps.set(badgeId, {
-                  id: badgeId,
-                  source: {
-                    uri: badge.url
-                  },
-                  label: badge.label,
-                  userId
-                });
-              });
-              FluxDispatcher.dispatch({
-                type: "USER_UPDATE",
-                user: {
-                  id: userId
-                }
-              });
-            } finally {
-              pendingRequests.delete(userId);
-            }
-          })();
-          after("default", useBadgesModule, ([user], result) => {
-            if (!user)
-              return;
-            var userId = user.userId;
-            var cached = badgesCache.get(userId);
-            if (!cached) {
-              if (!pendingRequests.has(userId)) {
-                fetchAndProcessBadges(userId);
-              }
-              return;
-            }
-            cached.forEach((badge, i) => {
-              var badgeId = `zencord-${userId}-${i}`;
-              result.unshift({
-                id: badgeId,
-                description: badge.label,
-                icon: " _"
-              });
-            });
-          });
-        }
-      });
-    }
-  });
-
-  // src/core/plugins/notrack/index.ts
-  var notrack_exports = {};
-  __export(notrack_exports, {
-    default: () => notrack_default
-  });
-  function patchNetwork() {
-    var analyticsTest = /client-analytics\.braintreegateway\.com|discord\.com\/api\/v9\/(science|track)|app\.adjust\..*|.*\.ingest\.sentry\.io/;
-    try {
-      var unpatch = instead("send", XMLHttpRequest.prototype, function(args, orig) {
-        if (this.__sentry_xhr__?.url && analyticsTest.test(this.__sentry_xhr__.url)) {
-          return void 0;
-        }
-        return orig.apply(this, args);
-      });
-      return unpatch;
-    } catch (e) {
-      return () => false;
-    }
-  }
-  function patchConsole() {
-    var sentrified = {};
-    try {
-      Object.keys(console).forEach((key) => {
-        var consoleFunc = console[key];
-        if (consoleFunc) {
-          sentrified[key] = consoleFunc;
-          var originalFunc = consoleFunc.__sentry_original__;
-          console[key] = originalFunc ?? consoleFunc;
-        }
-      });
-    } catch (e) {
-      logger.log("Failed to de-sentrify console functions!", e);
-    }
-    return () => {
-      Object.keys(sentrified).forEach((key) => {
-        if (sentrified[key]) {
-          console[key] = sentrified[key];
-        }
-      });
-    };
-  }
-  function patchMiscellaneous() {
-    var miscPatches = [
-      // Global analytics utilities
-      AnalyticsUtils?.AnalyticsActionHandlers && noop("handleTrack", AnalyticsUtils.AnalyticsActionHandlers),
-      AnalyticsUtils?.AnalyticsActionHandlers && noop("handleFingerprint", AnalyticsUtils.AnalyticsActionHandlers),
-      // Super properties tracking
-      SuperPropUtils && noop("track", SuperPropUtils),
-      // Voice state metadata tracking
-      VoiceStateUtils && noop("trackWithMetadata", VoiceStateUtils),
-      // Crash reporter
-      CrashReportUtils && noop("submitLiveCrashReport", CrashReportUtils),
-      // Metrics
-      MetricsUtils?._metrics && noop("push", MetricsUtils._metrics)
-    ].filter(Boolean);
-    return () => miscPatches.forEach((p) => p());
-  }
-  function patchSentry() {
-    var sentryPatches = [];
-    if (Sentry.initializer) {
-      sentryPatches.push(noop("initSentry", Sentry.initializer));
-    }
-    if (Sentry.main && Sentry.main.addBreadcrumb) {
-      sentryPatches.push(noop("addBreadcrumb", Sentry.main));
-    }
-    if (Sentry.client) {
-      try {
-        Sentry.client.getOptions().enabled = false;
-        Sentry.client.close();
-        if (Sentry.main) {
-          if (Sentry.main.getStackTop) {
-            Sentry.main.getStackTop().scope.clear();
-          }
-          if (Sentry.main.getScope) {
-            Sentry.main.getScope().clear();
-          }
-        }
-      } catch (e) {
-      }
-    }
-    return () => {
-      try {
-        sentryPatches.forEach((p) => p());
-        if (Sentry.client) {
-          Sentry.client.getOptions().enabled = true;
-          Sentry.client.open();
-        }
-      } catch (e) {
-      }
-    };
-  }
-  var patches2, AnalyticsUtils, SuperPropUtils, VoiceStateUtils, CrashReportUtils, MetricsUtils, sentryGlobal, sentryHub, sentryClient, Sentry, noop, notrack_default;
-  var init_notrack = __esm({
-    "src/core/plugins/notrack/index.ts"() {
-      "use strict";
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      init_plugins2();
-      init_metro();
-      init_patcher();
-      init_logger();
-      patches2 = [];
-      AnalyticsUtils = findByProps("AnalyticsActionHandlers");
-      SuperPropUtils = findByProps("encodeProperties", "track");
-      VoiceStateUtils = findByProps("getVoiceStateMetadata");
-      CrashReportUtils = findByProps("submitLiveCrashReport");
-      MetricsUtils = findByProps("_metrics");
-      sentryGlobal = globalThis.__SENTRY__;
-      sentryHub = sentryGlobal?.hub;
-      sentryClient = sentryHub?.getClient();
-      Sentry = {
-        initializer: findByProps("initSentry"),
-        main: sentryHub,
-        client: sentryClient
-      };
-      noop = (prop, parent) => {
-        try {
-          return instead(prop, parent, () => void 0);
-        } catch (e) {
-          return () => false;
-        }
-      };
-      notrack_default = defineCorePlugin({
-        manifest: {
-          id: "bunny.notrack",
-          version: "1.0.0",
-          type: "plugin",
-          spec: 3,
-          main: "",
-          display: {
-            name: "NoTrack",
-            description: "Disables Discord's telemetry",
-            authors: [
-              {
-                name: "maisymoe"
-              }
-            ]
-          }
-        },
-        start() {
-          patches2 = [
-            patchNetwork(),
-            patchConsole(),
-            patchMiscellaneous(),
-            patchSentry()
-          ].filter(Boolean);
-          logger.log("NoTrack: Enabled - all telemetry tracking disabled");
-        },
-        stop() {
-          patches2.forEach((p) => p?.());
-          patches2 = [];
-          logger.log("NoTrack: Disabled - telemetry tracking restored");
-        }
-      });
-    }
-  });
-
-  // src/core/plugins/messagefix/index.ts
-  var messagefix_exports = {};
-  __export(messagefix_exports, {
-    default: () => messagefix_default
-  });
-  var MessageActions, originalSendMessage, messagefix_default;
-  var init_messagefix = __esm({
-    "src/core/plugins/messagefix/index.ts"() {
-      "use strict";
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      init_plugins2();
-      init_metro();
-      init_logger();
-      MessageActions = findByProps("sendMessage");
-      messagefix_default = defineCorePlugin({
-        manifest: {
-          id: "bunny.messagefix",
-          version: "1.0.0",
-          type: "plugin",
-          spec: 3,
-          main: "",
-          display: {
-            name: "MessageFix",
-            description: "Ensures messages include the required nonce parameter",
-            authors: [
-              {
-                name: "Win8.1VMUser"
-              },
-              {
-                name: "kmmiio99o.dev"
-              }
-            ]
-          }
-        },
-        start() {
-          originalSendMessage = MessageActions.sendMessage;
-          MessageActions.sendMessage = function(channelId, message, replyRef, options) {
-            options = options || {};
-            options.nonce = options.nonce || (BigInt(Date.now() - 14200704e5) << 22n).toString();
-            return originalSendMessage.call(this, channelId, message, replyRef, options);
-          };
-          logger.log("MessageFix: Enabled - adding nonce to all messages");
-        },
-        stop() {
-          if (originalSendMessage)
-            MessageActions.sendMessage = originalSendMessage;
-          logger.log("MessageFix: Disabled");
-        }
-      });
-    }
-  });
-
   // src/core/plugins/index.ts
   function defineCorePlugin(instance) {
+    instance[Symbol.for("zencord.core.plugin")] = true;
     instance[Symbol.for("bunny.core.plugin")] = true;
     return instance;
   }
@@ -8744,11 +8107,7 @@
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
       getCorePlugins = () => ({
-        "bunny.quickinstall": (init_quickinstall(), __toCommonJS(quickinstall_exports)),
-        "bunny.badges": (init_badges(), __toCommonJS(badges_exports)),
-        "zencord.badges": (init_badges(), __toCommonJS(badges_exports)),
-        "bunny.notrack": (init_notrack(), __toCommonJS(notrack_exports)),
-        "bunny.messagefix": (init_messagefix(), __toCommonJS(messagefix_exports))
+        "zencord.quickinstall": (init_quickinstall(), __toCommonJS(quickinstall_exports))
       });
     }
   });
@@ -8875,11 +8234,6 @@
         ],
         execute([ephemeral], ctx) {
           var info = getDebugInfo();
-          if (info.device.codename === void 0) {
-            info.device.codename = "";
-          } else {
-            info.device.codename = "(" + info.device.codename + ")";
-          }
           var content = [
             "**ZenCord Debug Info**",
             `> ZenCord: ${info.bunny.version} (${info.bunny.loader.name} ${info.bunny.loader.version})`,
@@ -8887,12 +8241,12 @@
             `> React: ${info.react.version} (RN ${info.react.nativeVersion})`,
             `> Hermes: ${info.hermes.version} (bcv${info.hermes.bytecodeVersion})`,
             `> System: ${info.os.name} ${info.os.version} ${info.os.sdk ? `(SDK ${info.os.sdk})` : ""}`.trimEnd(),
-            `> Device: ${info.device.model} ${info.device.codename}`
+            `> Device: ${info.device.model} (${info.device.codename})`
           ].join("\n");
           if (ephemeral?.value) {
             messageUtil.sendBotMessage(ctx.channel.id, content);
           } else {
-            var fixNonce = (BigInt(Date.now() - 14200704e5) << 22n).toString();
+            var fixNonce = Date.now().toString();
             messageUtil.sendMessage(ctx.channel.id, {
               content
             }, void 0, {
@@ -8949,7 +8303,7 @@
           if (ephemeral?.value) {
             messageUtil.sendBotMessage(ctx.channel.id, content);
           } else {
-            var fixNonce = (BigInt(Date.now() - 14200704e5) << 22n).toString();
+            var fixNonce = Date.now().toString();
             messageUtil.sendMessage(ctx.channel.id, {
               content
             }, void 0, {
@@ -9101,7 +8455,7 @@
   __export(react_exports, {
     jsx: () => jsx_exports
   });
-  var init_react = __esm({
+  var init_react2 = __esm({
     "src/lib/api/react/index.ts"() {
       "use strict";
       init_asyncIteratorSymbol();
@@ -9134,7 +8488,7 @@
       init_flux();
       init_native();
       init_patcher();
-      init_react();
+      init_react2();
       init_settings();
       init_storage2();
     }
@@ -9476,17 +8830,17 @@
         registeredPlugins.set(id, instance.manifest);
         corePluginInstances.set(id, instance);
       }
-      updateAllRepository();
+      yield updateAllRepository();
     })();
   }
   function initPlugins() {
     return _async_to_generator(function* () {
       yield awaitStorage2(pluginRepositories, pluginSettings);
-      allSettled([
+      yield allSettled([
         ...registeredPlugins.keys()
       ].map((id) => _async_to_generator(function* () {
         if (isPluginEnabled(id)) {
-          startPlugin(id);
+          yield startPlugin(id);
         }
       })()));
     })();
@@ -9516,208 +8870,6 @@
       });
       fetchJS = (repoUrl, path) => _fetch(repoUrl, path).then((r) => r.text());
       fetchJSON = (repoUrl, path) => _fetch(repoUrl, path).then((r) => r.json());
-    }
-  });
-
-  // src/core/ui/settings/pages/Plugins/components/PluginCard.tsx
-  function getHighlightColor() {
-    return (0, import_chroma_js4.default)(tokens.unsafe_rawColors.YELLOW_300).alpha(0.3).hex();
-  }
-  function Title() {
-    var styles = usePluginCardStyles();
-    var { plugin, result } = useCardContext();
-    var highlightedNode = result[0].highlight((m2, i) => /* @__PURE__ */ jsx(Text, {
-      style: {
-        backgroundColor: getHighlightColor()
-      },
-      children: m2
-    }, i));
-    var icon = plugin.icon && findAssetId(plugin.icon);
-    var textNode = /* @__PURE__ */ jsx(Text, {
-      numberOfLines: 1,
-      variant: "heading-lg/semibold",
-      children: highlightedNode.length ? highlightedNode : plugin.name
-    });
-    return /* @__PURE__ */ jsxs(import_react_native20.View, {
-      style: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 6
-      },
-      children: [
-        icon && /* @__PURE__ */ jsx(import_react_native20.Image, {
-          style: styles.smallIcon,
-          source: icon
-        }),
-        textNode
-      ]
-    });
-  }
-  function Authors() {
-    var { plugin, result } = useCardContext();
-    var styles = usePluginCardStyles();
-    if (!plugin.authors)
-      return null;
-    var highlightedNode = result[2].highlight((m2, i) => /* @__PURE__ */ jsx(Text, {
-      style: {
-        backgroundColor: getHighlightColor()
-      },
-      children: m2
-    }, i));
-    var badges = plugin.getBadges();
-    var authorText = highlightedNode.length > 0 ? highlightedNode : plugin.authors.map((a) => a.name).join(", ");
-    return /* @__PURE__ */ jsxs(import_react_native20.View, {
-      style: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-        flexShrink: 1,
-        gap: 4
-      },
-      children: [
-        /* @__PURE__ */ jsxs(Text, {
-          variant: "text-sm/semibold",
-          color: "text-muted",
-          children: [
-            "by ",
-            authorText
-          ]
-        }),
-        badges.length > 0 && /* @__PURE__ */ jsx(import_react_native20.View, {
-          style: styles.badgesContainer,
-          children: badges.map((b3, i) => /* @__PURE__ */ jsx(import_react_native20.Image, {
-            source: b3.source,
-            style: styles.badgeIcon
-          }, i))
-        })
-      ]
-    });
-  }
-  function Description() {
-    var { plugin, result } = useCardContext();
-    var highlightedNode = result[1].highlight((m2, i) => /* @__PURE__ */ jsx(Text, {
-      style: {
-        backgroundColor: getHighlightColor()
-      },
-      children: m2
-    }, i));
-    return /* @__PURE__ */ jsx(Text, {
-      variant: "text-md/medium",
-      children: highlightedNode.length ? highlightedNode : plugin.description
-    });
-  }
-  function PluginCard({ result, item: plugin }) {
-    plugin.usePluginState();
-    var [, forceUpdate] = React.useReducer(() => ({}), 0);
-    var cardContextValue = (0, import_react4.useMemo)(() => ({
-      plugin,
-      result
-    }), [
-      plugin,
-      result
-    ]);
-    var core = isCorePlugin(plugin.id);
-    return /* @__PURE__ */ jsx(CardContext.Provider, {
-      value: cardContextValue,
-      children: /* @__PURE__ */ jsx(Card, {
-        children: /* @__PURE__ */ jsxs(Stack, {
-          spacing: 16,
-          children: [
-            /* @__PURE__ */ jsxs(import_react_native20.View, {
-              style: {
-                flexDirection: "row",
-                justifyContent: "space-between"
-              },
-              children: [
-                /* @__PURE__ */ jsxs(import_react_native20.View, {
-                  style: {
-                    flexShrink: 1
-                  },
-                  children: [
-                    /* @__PURE__ */ jsx(Title, {}),
-                    /* @__PURE__ */ jsx(Authors, {})
-                  ]
-                }),
-                /* @__PURE__ */ jsx(import_react_native20.View, {
-                  children: /* @__PURE__ */ jsxs(Stack, {
-                    spacing: 12,
-                    direction: "horizontal",
-                    children: [
-                      /* @__PURE__ */ jsx(Actions, {}),
-                      /* @__PURE__ */ jsx(import_react_native20.View, {
-                        style: core ? {
-                          opacity: 0.5
-                        } : void 0,
-                        children: /* @__PURE__ */ jsx(TableSwitch, {
-                          value: core ? true : plugin.isEnabled(),
-                          disabled: core,
-                          onValueChange: (v2) => {
-                            if (!core) {
-                              plugin.toggle(v2);
-                              forceUpdate();
-                            }
-                          }
-                        })
-                      })
-                    ]
-                  })
-                })
-              ]
-            }),
-            /* @__PURE__ */ jsx(Description, {})
-          ]
-        })
-      })
-    });
-  }
-  var import_chroma_js4, import_react4, import_react_native20, CardContext, useCardContext, Actions;
-  var init_PluginCard = __esm({
-    "src/core/ui/settings/pages/Plugins/components/PluginCard.tsx"() {
-      "use strict";
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      init_jsxRuntime();
-      init_usePluginCardStyles();
-      init_assets();
-      init_common();
-      init_components();
-      init_sheets();
-      import_chroma_js4 = __toESM(require_chroma_js());
-      import_react4 = __toESM(require_react());
-      import_react_native20 = __toESM(require_react_native());
-      init_plugins4();
-      CardContext = /* @__PURE__ */ (0, import_react4.createContext)(null);
-      useCardContext = () => (0, import_react4.useContext)(CardContext);
-      Actions = () => {
-        var { plugin } = useCardContext();
-        var navigation2 = NavigationNative.useNavigation();
-        return /* @__PURE__ */ jsxs(import_react_native20.View, {
-          style: {
-            flexDirection: "row",
-            gap: 6
-          },
-          children: [
-            /* @__PURE__ */ jsx(IconButton, {
-              size: "sm",
-              variant: "secondary",
-              icon: findAssetId("WrenchIcon"),
-              disabled: !plugin.getPluginSettingsComponent(),
-              onPress: () => navigation2.push("PUPU_CUSTOM_PAGE", {
-                title: plugin.name,
-                render: plugin.getPluginSettingsComponent()
-              })
-            }),
-            /* @__PURE__ */ jsx(IconButton, {
-              size: "sm",
-              variant: "secondary",
-              icon: findAssetId("CircleInformationIcon-primary"),
-              onPress: () => void showSheet("PluginInfoActionSheet", plugin.resolveSheetComponent(), {
-                plugin,
-                navigation: navigation2
-              })
-            })
-          ]
-        });
-      };
     }
   });
 
@@ -9758,23 +8910,23 @@
         _loop2(author);
       authorTextNode.pop();
     }
-    return /* @__PURE__ */ jsxs(import_react_native21.View, {
+    return /* @__PURE__ */ jsxs(import_react_native20.View, {
       style: {
         gap: 4
       },
       children: [
-        /* @__PURE__ */ jsx(import_react_native21.View, {
+        /* @__PURE__ */ jsx(import_react_native20.View, {
           children: /* @__PURE__ */ jsx(Text, {
             variant: "heading-xl/semibold",
             children: plugin.name
           })
         }),
-        /* @__PURE__ */ jsx(import_react_native21.View, {
+        /* @__PURE__ */ jsx(import_react_native20.View, {
           style: {
             flexDirection: "row",
             flexShrink: 1
           },
-          children: authors?.length && /* @__PURE__ */ jsxs(import_react_native21.View, {
+          children: authors?.length && /* @__PURE__ */ jsxs(import_react_native20.View, {
             style: {
               flexDirection: "row",
               gap: 8,
@@ -9804,7 +8956,7 @@
       ]
     });
   }
-  var import_react_native21, showUserProfileActionSheet, maybeFetchUser;
+  var import_react_native20, showUserProfileActionSheet, maybeFetchUser;
   var init_TitleComponent = __esm({
     "src/core/ui/settings/pages/Plugins/sheets/TitleComponent.tsx"() {
       "use strict";
@@ -9816,7 +8968,7 @@
       init_common();
       init_components();
       init_stores();
-      import_react_native21 = __toESM(require_react_native());
+      import_react_native20 = __toESM(require_react_native());
       showUserProfileActionSheet = findByNameLazy("showUserProfileActionSheet");
       ({ getUser: maybeFetchUser } = lazyDestructure(() => findByProps("getUser", "fetchProfile")));
     }
@@ -9839,109 +8991,14 @@
   }
   function PluginInfoActionSheet({ plugin, navigation: navigation2 }) {
     plugin.usePluginState();
-    var [loading, setLoading] = (0, import_react5.useState)(false);
-    var isVendettaPlugin = plugin.id.includes("/");
-    var isCorePlugin2 = plugin.id.startsWith("bunny.") || plugin.id.startsWith("vendetta.");
-    var copyPluginUrl = () => {
-      var url2 = plugin.id;
-      if (isVendettaPlugin) {
-        url2 = plugin.id;
-      } else {
-        try {
-          var pluginAny = plugin;
-          var repoUrl = (
-            //@ts-expect-error
-            pluginAny._manifest?.parentRepository || //@ts-expect-error
-            pluginAny.manifest?.parentRepository
-          );
-          url2 = repoUrl ? `${repoUrl}/builds/${plugin.id}` : plugin.id;
-        } catch (e) {
-          url2 = plugin.id;
-        }
-      }
-      clipboard.setString(url2);
-      showToast("Copied to clipboard!", findAssetId("toast_copy_link"));
-    };
-    var refetchPlugin = () => _async_to_generator(function* () {
-      setLoading(true);
-      try {
-        if (isVendettaPlugin) {
-          var vdPlugin = VdPluginManager.plugins[plugin.id];
-          if (vdPlugin.enabled)
-            VdPluginManager.stopPlugin(plugin.id, false);
-          yield VdPluginManager.fetchPlugin(plugin.id);
-          if (vdPlugin.enabled)
-            yield VdPluginManager.startPlugin(plugin.id);
-          showToast("Plugin refreshed successfully");
-        } else {
-          showToast("Plugin refreshed successfully");
-        }
-      } catch (e) {
-        showToast("Failed to refresh plugin");
-      } finally {
-        setLoading(false);
-      }
-    })();
-    var clearPluginData = () => {
-      showConfirmationAlert({
-        title: "Clear Data",
-        content: "Are you sure you want to clear all data for this plugin? This action cannot be undone.",
-        confirmText: "Clear",
-        confirmColor: "red",
-        cancelText: "Cancel",
-        onConfirm: () => _async_to_generator(function* () {
-          hideSheet("PluginInfoActionSheet");
-          try {
-            if (isVendettaPlugin) {
-              var vdPlugin = VdPluginManager.plugins[plugin.id];
-              if (vdPlugin.enabled)
-                VdPluginManager.stopPlugin(plugin.id, false);
-              yield purgeStorage(plugin.id);
-              if (vdPlugin.enabled)
-                yield VdPluginManager.startPlugin(plugin.id);
-            } else {
-              yield purgeStorage2(`plugins/storage/${plugin.id}.json`);
-            }
-            showToast("Plugin data cleared successfully");
-          } catch (e) {
-            showToast("Failed to clear plugin data");
-          }
-        })()
-      });
-    };
-    var uninstallPluginHandler = () => {
-      if (isCorePlugin2) {
-        showToast("Core plugins cannot be uninstalled");
-        return;
-      }
-      showConfirmationAlert({
-        title: "Uninstall Plugin",
-        content: "Are you sure you want to uninstall this plugin? This action cannot be undone.",
-        confirmText: "Uninstall",
-        confirmColor: "red",
-        cancelText: "Cancel",
-        onConfirm: () => _async_to_generator(function* () {
-          hideSheet("PluginInfoActionSheet");
-          try {
-            if (isVendettaPlugin) {
-              yield VdPluginManager.removePlugin(plugin.id);
-            } else {
-            }
-            showToast("Plugin uninstalled successfully");
-          } catch (e) {
-            showToast(`Failed to uninstall plugin: ${e instanceof Error ? e.message : String(e)}`);
-          }
-        })()
-      });
-    };
     return /* @__PURE__ */ jsx(ActionSheet, {
-      children: /* @__PURE__ */ jsxs(import_react_native22.ScrollView, {
+      children: /* @__PURE__ */ jsxs(import_react_native21.ScrollView, {
         contentContainerStyle: {
           gap: 12,
           marginBottom: 12
         },
         children: [
-          /* @__PURE__ */ jsx(import_react_native22.View, {
+          /* @__PURE__ */ jsxs(import_react_native21.View, {
             style: {
               flexDirection: "row",
               alignItems: "center",
@@ -9950,18 +9007,53 @@
               justifyContent: "space-between",
               width: "100%"
             },
-            children: /* @__PURE__ */ jsx(TitleComponent, {
-              plugin
-            })
+            children: [
+              /* @__PURE__ */ jsx(TitleComponent, {
+                plugin
+              }),
+              /* @__PURE__ */ jsx(ContextMenu, {
+                items: [
+                  {
+                    label: "Details",
+                    iconSource: findAssetId("CircleInformationIcon-primary"),
+                    action: () => {
+                    }
+                  },
+                  // {
+                  //     label: true ? "Disable Updates" : "Enable Updates",
+                  //     iconSource: true ? findAssetId("ClockXIcon") : findAssetId("ClockIcon"),
+                  //     action: () => {
+                  //     }
+                  // },
+                  {
+                    label: "Clear Data",
+                    iconSource: findAssetId("FileIcon"),
+                    variant: "destructive",
+                    action: () => {
+                    }
+                  },
+                  {
+                    label: "Uninstall",
+                    iconSource: findAssetId("TrashIcon"),
+                    variant: "destructive",
+                    action: () => {
+                    }
+                  }
+                ],
+                children: (props) => /* @__PURE__ */ jsx(IconButton, {
+                  ...props,
+                  icon: findAssetId("MoreHorizontalIcon"),
+                  variant: "secondary",
+                  size: "sm"
+                })
+              })
+            ]
           }),
-          /* @__PURE__ */ jsxs(import_react_native22.View, {
+          /* @__PURE__ */ jsxs(import_react_native21.View, {
             style: {
               flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: 22,
-              paddingHorizontal: 4
+              justifyContent: "space-around",
+              alignContent: "center"
             },
             children: [
               /* @__PURE__ */ jsx(PluginInfoIconButton, {
@@ -9970,36 +9062,26 @@
                 disabled: !plugin.getPluginSettingsComponent(),
                 icon: findAssetId("WrenchIcon"),
                 onPress: () => {
-                  navigation2.push("PUPU_CUSTOM_PAGE", {
+                  navigation2.push("BUNNY_CUSTOM_PAGE", {
                     title: plugin.name,
                     render: plugin.getPluginSettingsComponent()
                   });
                 }
               }),
-              !isCorePlugin2 && /* @__PURE__ */ jsx(PluginInfoIconButton, {
+              /* @__PURE__ */ jsx(PluginInfoIconButton, {
                 label: "Refetch",
                 variant: "secondary",
                 icon: findAssetId("RetryIcon"),
-                onPress: refetchPlugin,
-                disabled: loading
+                onPress: () => {
+                  startPlugin(plugin.id);
+                }
               }),
-              !isCorePlugin2 && /* @__PURE__ */ jsx(PluginInfoIconButton, {
+              /* @__PURE__ */ jsx(PluginInfoIconButton, {
                 label: "Copy URL",
                 variant: "secondary",
                 icon: findAssetId("LinkIcon"),
-                onPress: copyPluginUrl
-              }),
-              /* @__PURE__ */ jsx(PluginInfoIconButton, {
-                label: "Clear Data",
-                variant: "secondary",
-                icon: findAssetId("FileIcon"),
-                onPress: clearPluginData
-              }),
-              !isCorePlugin2 && /* @__PURE__ */ jsx(PluginInfoIconButton, {
-                label: "Uninstall",
-                variant: "secondary",
-                icon: findAssetId("TrashIcon"),
-                onPress: uninstallPluginHandler
+                onPress: () => {
+                }
               })
             ]
           }),
@@ -10007,10 +9089,9 @@
             children: [
               /* @__PURE__ */ jsx(Text, {
                 variant: "text-md/semibold",
-                color: "text-primary",
+                color: "text-strong",
                 style: {
-                  marginBottom: 4,
-                  color: "text-strong"
+                  marginBottom: 4
                 },
                 children: "Description"
               }),
@@ -10024,25 +9105,18 @@
       })
     });
   }
-  var import_react5, import_react_native22;
+  var import_react_native21;
   var init_PluginInfoActionSheet = __esm({
     "src/core/ui/settings/pages/Plugins/sheets/PluginInfoActionSheet.tsx"() {
       "use strict";
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
-      init_async_to_generator();
       init_jsxRuntime();
+      init_plugins4();
+      init_assets();
       init_sheets();
       init_components();
-      init_common();
-      init_toasts();
-      init_alerts2();
-      init_plugins();
-      init_storage();
-      init_storage2();
-      init_assets();
-      import_react5 = __toESM(require_react());
-      import_react_native22 = __toESM(require_react_native());
+      import_react_native21 = __toESM(require_react_native());
       init_TitleComponent();
     }
   });
@@ -10058,7 +9132,7 @@
         return [
           {
             source: {
-              uri: PupuIcon
+              uri: zencord_default
             }
           }
         ];
@@ -10071,16 +9145,17 @@
         ]);
       },
       toggle(start) {
-        try {
-          start ? enablePlugin(manifest.id, true) : disablePlugin(manifest.id);
-        } catch (e) {
-          console.error(e);
-        }
+        return _async_to_generator(function* () {
+          try {
+            start ? yield enablePlugin(manifest.id, true) : disablePlugin(manifest.id);
+          } catch (e) {
+            console.error(`Failed to toggle (${start ? "enable" : "disable"}) plugin`, e);
+            showToast(`Failed to toggle (${start ? "enable" : "disable"}) plugin: ${e?.message ?? e}`, findAssetId("XSmallIcon"));
+          }
+        })();
       },
       resolveSheetComponent() {
-        return Promise.resolve({
-          default: (init_PluginInfoActionSheet(), __toCommonJS(PluginInfoActionSheet_exports)).default
-        });
+        return Promise.resolve().then(() => (init_PluginInfoActionSheet(), PluginInfoActionSheet_exports));
       },
       getPluginSettingsComponent() {
         return getPluginSettingsComponent(manifest.id);
@@ -10092,9 +9167,197 @@
       "use strict";
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
+      init_async_to_generator();
       init_settings3();
       init_plugins4();
       init_storage2();
+      init_assets();
+      init_toasts();
+    }
+  });
+
+  // src/core/ui/settings/pages/Plugins/sheets/VdPluginInfoActionSheet.tsx
+  var VdPluginInfoActionSheet_exports = {};
+  __export(VdPluginInfoActionSheet_exports, {
+    default: () => PluginInfoActionSheet2
+  });
+  function PluginInfoActionSheet2({ plugin, navigation: navigation2 }) {
+    plugin.usePluginState();
+    var vdPlugin = VdPluginManager.plugins[plugin.id];
+    var SettingsComponent = plugin.getPluginSettingsComponent();
+    return /* @__PURE__ */ jsx(ActionSheet, {
+      children: /* @__PURE__ */ jsxs(import_react_native22.ScrollView, {
+        children: [
+          /* @__PURE__ */ jsxs(import_react_native22.View, {
+            style: {
+              flexDirection: "row",
+              alignItems: "center",
+              paddingVertical: 24
+            },
+            children: [
+              /* @__PURE__ */ jsx(Text, {
+                variant: "heading-xl/semibold",
+                children: plugin.name
+              }),
+              /* @__PURE__ */ jsx(import_react_native22.View, {
+                style: {
+                  marginLeft: "auto"
+                },
+                children: SettingsComponent && /* @__PURE__ */ jsx(Button, {
+                  size: "md",
+                  text: "Configure",
+                  variant: "secondary",
+                  icon: findAssetId("WrenchIcon"),
+                  onPress: () => {
+                    hideSheet("PluginInfoActionSheet");
+                    navigation2.push("BUNNY_CUSTOM_PAGE", {
+                      title: plugin.name,
+                      render: SettingsComponent
+                    });
+                  }
+                })
+              })
+            ]
+          }),
+          /* @__PURE__ */ jsxs(ActionSheetRow.Group, {
+            children: [
+              /* @__PURE__ */ jsx(ActionSheetRow, {
+                label: Strings.REFETCH,
+                icon: /* @__PURE__ */ jsx(TableRow.Icon, {
+                  source: findAssetId("RetryIcon")
+                }),
+                onPress: () => _async_to_generator(function* () {
+                  if (vdPlugin.enabled)
+                    VdPluginManager.stopPlugin(plugin.id, false);
+                  try {
+                    yield VdPluginManager.fetchPlugin(plugin.id);
+                    showToast(Strings.PLUGIN_REFETCH_SUCCESSFUL, findAssetId("DownloadIcon"));
+                  } catch (unused) {
+                    showToast(Strings.PLUGIN_REFETCH_FAILED, findAssetId("XSmallIcon"));
+                  }
+                  if (vdPlugin.enabled)
+                    yield VdPluginManager.startPlugin(plugin.id);
+                  hideSheet("PluginInfoActionSheet");
+                })()
+              }),
+              /* @__PURE__ */ jsx(ActionSheetRow, {
+                label: Strings.COPY_URL,
+                icon: /* @__PURE__ */ jsx(TableRow.Icon, {
+                  source: findAssetId("LinkIcon")
+                }),
+                onPress: () => {
+                  clipboard.setString(plugin.id);
+                  showToast.showCopyToClipboard();
+                }
+              }),
+              /* @__PURE__ */ jsx(ActionSheetRow, {
+                label: vdPlugin.update ? Strings.DISABLE_UPDATES : Strings.ENABLE_UPDATES,
+                icon: /* @__PURE__ */ jsx(TableRow.Icon, {
+                  source: findAssetId("DownloadIcon")
+                }),
+                onPress: () => {
+                  vdPlugin.update = !vdPlugin.update;
+                  showToast(formatString("TOASTS_PLUGIN_UPDATE", {
+                    update: vdPlugin.update,
+                    name: plugin.name
+                  }), findAssetId("DownloadIcon"));
+                }
+              }),
+              /* @__PURE__ */ jsx(ActionSheetRow, {
+                label: Strings.CLEAR_DATA,
+                icon: /* @__PURE__ */ jsx(TableRow.Icon, {
+                  variant: "danger",
+                  source: findAssetId("CopyIcon")
+                }),
+                variant: "danger",
+                onPress: () => showConfirmationAlert({
+                  title: Strings.HOLD_UP,
+                  content: formatString("ARE_YOU_SURE_TO_CLEAR_DATA", {
+                    name: plugin.name
+                  }),
+                  confirmText: Strings.CLEAR,
+                  cancelText: Strings.CANCEL,
+                  confirmColor: "red",
+                  onConfirm: () => _async_to_generator(function* () {
+                    if (vdPlugin.enabled)
+                      VdPluginManager.stopPlugin(plugin.id, false);
+                    try {
+                      yield VdPluginManager.fetchPlugin(plugin.id);
+                      showToast(Strings.PLUGIN_REFETCH_SUCCESSFUL, findAssetId("DownloadIcon"));
+                    } catch (unused) {
+                      showToast(Strings.PLUGIN_REFETCH_FAILED, findAssetId("XSmallIcon"));
+                    }
+                    var message;
+                    try {
+                      purgeStorage(plugin.id);
+                      message = [
+                        "CLEAR_DATA_SUCCESSFUL",
+                        "TrashIcon"
+                      ];
+                    } catch (unused) {
+                      message = [
+                        "CLEAR_DATA_FAILED",
+                        "XSmallIcon"
+                      ];
+                    }
+                    showToast(formatString(message[0], {
+                      name: plugin.name
+                    }), findAssetId(message[1]));
+                    if (vdPlugin.enabled)
+                      yield VdPluginManager.startPlugin(plugin.id);
+                    hideSheet("PluginInfoActionSheet");
+                  })()
+                })
+              }),
+              /* @__PURE__ */ jsx(ActionSheetRow, {
+                label: Strings.DELETE,
+                icon: /* @__PURE__ */ jsx(TableRow.Icon, {
+                  variant: "danger",
+                  source: findAssetId("TrashIcon")
+                }),
+                variant: "danger",
+                onPress: () => showConfirmationAlert({
+                  title: Strings.HOLD_UP,
+                  content: formatString("ARE_YOU_SURE_TO_DELETE_PLUGIN", {
+                    name: plugin.name
+                  }),
+                  confirmText: Strings.DELETE,
+                  cancelText: Strings.CANCEL,
+                  confirmColor: "red",
+                  onConfirm: () => {
+                    try {
+                      VdPluginManager.removePlugin(plugin.id);
+                    } catch (e) {
+                      showToast(String(e), findAssetId("XSmallIcon"));
+                    }
+                    hideSheet("PluginInfoActionSheet");
+                  }
+                })
+              })
+            ]
+          })
+        ]
+      })
+    });
+  }
+  var import_react_native22;
+  var init_VdPluginInfoActionSheet = __esm({
+    "src/core/ui/settings/pages/Plugins/sheets/VdPluginInfoActionSheet.tsx"() {
+      "use strict";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_async_to_generator();
+      init_jsxRuntime();
+      init_i18n();
+      init_alerts2();
+      init_plugins();
+      init_storage();
+      init_assets();
+      init_common();
+      init_components();
+      init_sheets();
+      init_toasts();
+      import_react_native22 = __toESM(require_react_native());
     }
   });
 
@@ -10115,12 +9378,24 @@
         useProxy(VdPluginManager.plugins[vdPlugin.id]);
       },
       toggle(start) {
-        start ? VdPluginManager.startPlugin(vdPlugin.id) : VdPluginManager.stopPlugin(vdPlugin.id);
+        return _async_to_generator(function* () {
+          console.log(`[Toggle] Target state: ${start ? "Enabled" : "Disabled"} for ${vdPlugin.id}`);
+          try {
+            if (start) {
+              yield VdPluginManager.startPlugin(vdPlugin.id);
+            } else {
+              VdPluginManager.stopPlugin(vdPlugin.id);
+            }
+            console.log(`[Toggle] Success for ${vdPlugin.id}`);
+          } catch (e) {
+            console.error(`[Toggle] Failed for ${vdPlugin.id}`, e);
+            showToast(`Failed to toggle: ${e?.message ?? e}`, findAssetId("XSmallIcon"));
+            throw e;
+          }
+        })();
       },
       resolveSheetComponent() {
-        return Promise.resolve({
-          default: (init_PluginInfoActionSheet(), __toCommonJS(PluginInfoActionSheet_exports)).default
-        });
+        return Promise.resolve().then(() => (init_VdPluginInfoActionSheet(), VdPluginInfoActionSheet_exports));
       },
       getPluginSettingsComponent() {
         return VdPluginManager.getSettings(vdPlugin.id);
@@ -10132,8 +9407,5379 @@
       "use strict";
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
+      init_async_to_generator();
       init_plugins();
       init_storage();
+      init_toasts();
+      init_assets();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js
+  var React4, QueryClientContext, useQueryClient, QueryClientProvider;
+  var init_QueryClientProvider = __esm({
+    "node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js"() {
+      "use client";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      React4 = __toESM(require_react(), 1);
+      init_jsxRuntime();
+      QueryClientContext = React4.createContext(void 0);
+      useQueryClient = (queryClient2) => {
+        var client = React4.useContext(QueryClientContext);
+        if (queryClient2)
+          return queryClient2;
+        if (!client)
+          throw new Error("No QueryClient set, use QueryClientProvider to set one");
+        return client;
+      };
+      QueryClientProvider = ({ client, children }) => {
+        React4.useEffect(() => {
+          client.mount();
+          return () => {
+            client.unmount();
+          };
+        }, [
+          client
+        ]);
+        return /* @__PURE__ */ jsx(QueryClientContext.Provider, {
+          value: client,
+          children
+        });
+      };
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/timeoutManager.js
+  function systemSetTimeoutZero(callback) {
+    setTimeout(callback, 0);
+  }
+  var _provider, _providerCalled, defaultTimeoutProvider, TimeoutManager, timeoutManager;
+  var init_timeoutManager = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/timeoutManager.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_class_call_check();
+      init_class_private_field_get();
+      init_class_private_field_init();
+      init_class_private_field_set();
+      init_create_class();
+      defaultTimeoutProvider = {
+        setTimeout: (callback, delay) => setTimeout(callback, delay),
+        clearTimeout: (timeoutId) => clearTimeout(timeoutId),
+        setInterval: (callback, delay) => setInterval(callback, delay),
+        clearInterval: (intervalId) => clearInterval(intervalId)
+      };
+      TimeoutManager = (_provider = /* @__PURE__ */ new WeakMap(), _providerCalled = /* @__PURE__ */ new WeakMap(), /* @__PURE__ */ function() {
+        "use strict";
+        function _class5() {
+          _class_call_check(this, _class5);
+          _class_private_field_init(this, _provider, {
+            writable: true,
+            value: defaultTimeoutProvider
+          });
+          _class_private_field_init(this, _providerCalled, {
+            writable: true,
+            value: false
+          });
+        }
+        _create_class(_class5, [
+          {
+            /**
+            * `setTimeoutProvider` can be used to set a custom implementation of the
+            * `setTimeout`, `clearTimeout`, `setInterval`, `clearInterval` functions,
+            * called a `TimeoutProvider`.
+            *
+            * This may be useful if you notice event loop performance issues with
+            * thousands of queries. A custom TimeoutProvider could also support timer
+            * delays longer than the global `setTimeout` maximum delay value of about
+            * 24 days.
+            *
+            * It is important to call `setTimeoutProvider` before creating a
+            * QueryClient or queries, so that the same provider is used consistently
+            * for all timers in the application, since different TimeoutProviders
+            * cannot cancel each others' timers.
+            * @param provider - The `TimeoutProvider` to use for all timers from now on.
+            * @example
+            * ```ts
+            * import { timeoutManager, QueryClient } from '@tanstack/query-core'
+            * import { CustomTimeoutProvider } from './CustomTimeoutProvider'
+            *
+            * timeoutManager.setTimeoutProvider(new CustomTimeoutProvider())
+            *
+            * export const queryClient = new QueryClient()
+            * ```
+            */
+            key: "setTimeoutProvider",
+            value: function setTimeoutProvider(provider) {
+              if (true) {
+                if (_class_private_field_get(this, _providerCalled) && provider !== _class_private_field_get(this, _provider))
+                  console.error(`[timeoutManager]: Switching provider after calls to previous provider might result in unexpected behavior.`, {
+                    previous: _class_private_field_get(this, _provider),
+                    provider
+                  });
+              }
+              _class_private_field_set(this, _provider, provider);
+              if (true)
+                _class_private_field_set(this, _providerCalled, false);
+            }
+          },
+          {
+            /**
+            * `setTimeout` schedules a callback to run after approximately `delay`
+            * milliseconds, like the global `setTimeout` function. The callback can be
+            * canceled with `clearTimeout`.
+            *
+            * It returns a timer ID, which may be a number or an object that can be
+            * coerced to a number via `Symbol.toPrimitive`.
+            * @param callback - The function to call when the timeout elapses.
+            * @param delay - The time to wait before calling `callback`, in milliseconds.
+            * @returns The timer ID, to pass to {@link TimeoutManager#clearTimeout}.
+            * @example
+            * ```ts
+            * import { timeoutManager } from '@tanstack/query-core'
+            *
+            * const timeoutId = timeoutManager.setTimeout(
+            *   () => console.log('ran at:', new Date()),
+            *   1000,
+            * )
+            *
+            * const timeoutIdNumber: number = Number(timeoutId)
+            * ```
+            */
+            key: "setTimeout",
+            value: function setTimeout1(callback, delay) {
+              if (true)
+                _class_private_field_set(this, _providerCalled, true);
+              return _class_private_field_get(this, _provider).setTimeout(callback, delay);
+            }
+          },
+          {
+            /**
+            * `clearTimeout` cancels a timeout callback scheduled with `setTimeout`,
+            * like the global `clearTimeout` function. It should be called with a
+            * timer ID returned by `setTimeout`.
+            * @param timeoutId - The timer ID returned by `setTimeout`, or `undefined`.
+            * @example
+            * ```ts
+            * import { timeoutManager } from '@tanstack/query-core'
+            *
+            * const timeoutId = timeoutManager.setTimeout(
+            *   () => console.log('ran at:', new Date()),
+            *   1000,
+            * )
+            *
+            * timeoutManager.clearTimeout(timeoutId)
+            * ```
+            */
+            key: "clearTimeout",
+            value: function clearTimeout1(timeoutId) {
+              _class_private_field_get(this, _provider).clearTimeout(timeoutId);
+            }
+          },
+          {
+            /**
+            * `setInterval` schedules a callback to be called approximately every
+            * `delay` milliseconds, like the global `setInterval` function.
+            *
+            * Like `setTimeout`, it returns a timer ID, which may be a number or an
+            * object that can be coerced to a number via `Symbol.toPrimitive`.
+            * @param callback - The function to call on every interval.
+            * @param delay - The time between calls, in milliseconds.
+            * @returns The timer ID, to pass to {@link TimeoutManager#clearInterval}.
+            * @example
+            * ```ts
+            * import { timeoutManager } from '@tanstack/query-core'
+            *
+            * const intervalId = timeoutManager.setInterval(
+            *   () => console.log('ran at:', new Date()),
+            *   1000,
+            * )
+            * ```
+            */
+            key: "setInterval",
+            value: function setInterval1(callback, delay) {
+              if (true)
+                _class_private_field_set(this, _providerCalled, true);
+              return _class_private_field_get(this, _provider).setInterval(callback, delay);
+            }
+          },
+          {
+            /**
+            * `clearInterval` can be used to cancel an interval, like the global
+            * `clearInterval` function. It should be called with an interval ID
+            * returned by `setInterval`.
+            * @param intervalId - The timer ID returned by `setInterval`, or `undefined`.
+            * @example
+            * ```ts
+            * import { timeoutManager } from '@tanstack/query-core'
+            *
+            * const intervalId = timeoutManager.setInterval(
+            *   () => console.log('ran at:', new Date()),
+            *   1000,
+            * )
+            *
+            * timeoutManager.clearInterval(intervalId)
+            * ```
+            */
+            key: "clearInterval",
+            value: function clearInterval1(intervalId) {
+              _class_private_field_get(this, _provider).clearInterval(intervalId);
+            }
+          }
+        ]);
+        return _class5;
+      }());
+      timeoutManager = new TimeoutManager();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/utils.js
+  function noop() {
+  }
+  function functionalUpdate(updater, input) {
+    return typeof updater === "function" ? updater(input) : updater;
+  }
+  function isValidTimeout(value) {
+    return typeof value === "number" && value >= 0 && value !== Infinity;
+  }
+  function timeUntilStale(updatedAt, staleTime) {
+    return Math.max(updatedAt + (staleTime || 0) - Date.now(), 0);
+  }
+  function resolveQueryValue(value, query) {
+    return typeof value === "function" ? value(query) : value;
+  }
+  function matchQuery(filters, query) {
+    var { type = "all", exact, fetchStatus, predicate, queryKey, stale } = filters;
+    if (queryKey) {
+      if (exact) {
+        if (query.queryHash !== hashQueryKeyByOptions(queryKey, query.options))
+          return false;
+      } else if (!partialMatchKey(query.queryKey, queryKey))
+        return false;
+    }
+    if (type !== "all") {
+      var isActive = query.isActive();
+      if (type === "active" && !isActive)
+        return false;
+      if (type === "inactive" && isActive)
+        return false;
+    }
+    if (typeof stale === "boolean" && query.isStale() !== stale)
+      return false;
+    if (fetchStatus && fetchStatus !== query.state.fetchStatus)
+      return false;
+    if (predicate && !predicate(query))
+      return false;
+    return true;
+  }
+  function matchMutation(filters, mutation) {
+    var { exact, status, predicate, mutationKey } = filters;
+    if (mutationKey) {
+      if (!mutation.options.mutationKey)
+        return false;
+      if (exact) {
+        if (hashKey(mutation.options.mutationKey) !== hashKey(mutationKey))
+          return false;
+      } else if (!partialMatchKey(mutation.options.mutationKey, mutationKey))
+        return false;
+    }
+    if (status && mutation.state.status !== status)
+      return false;
+    if (predicate && !predicate(mutation))
+      return false;
+    return true;
+  }
+  function hashQueryKeyByOptions(queryKey, options) {
+    return (options?.queryKeyHashFn || hashKey)(queryKey);
+  }
+  function hashKey(queryKey) {
+    return JSON.stringify(queryKey, (_2, val) => isPlainObject(val) ? Object.keys(val).sort().reduce((result, key) => {
+      result[key] = val[key];
+      return result;
+    }, {}) : val);
+  }
+  function partialMatchKey(a, b3) {
+    if (a === b3)
+      return true;
+    if (typeof a !== typeof b3)
+      return false;
+    if (a && b3 && typeof a === "object" && typeof b3 === "object") {
+      if (Array.isArray(a) && Array.isArray(b3)) {
+        if (b3.length > a.length)
+          return false;
+        for (var i = 0; i < b3.length; i++)
+          if (!partialMatchKey(a[i], b3[i]))
+            return false;
+        return true;
+      }
+      var bKeys = Object.keys(b3);
+      for (var key of bKeys)
+        if (!partialMatchKey(a[key], b3[key]))
+          return false;
+      return true;
+    }
+    return false;
+  }
+  function replaceEqualDeep(a, b3, depth = 0) {
+    if (a === b3)
+      return a;
+    if (depth > 500)
+      return b3;
+    var array = isPlainArray(a) && isPlainArray(b3);
+    if (!array && !(isPlainObject(a) && isPlainObject(b3)))
+      return b3;
+    var aSize = (array ? a : Object.keys(a)).length;
+    var bItems = array ? b3 : Object.keys(b3);
+    var bSize = bItems.length;
+    var copy = array ? new Array(bSize) : {};
+    var equalItems = 0;
+    for (var i = 0; i < bSize; i++) {
+      var key = array ? i : bItems[i];
+      var aItem = a[key];
+      var bItem = b3[key];
+      if (aItem === bItem) {
+        copy[key] = aItem;
+        if (array ? i < aSize : hasOwn.call(a, key))
+          equalItems++;
+        continue;
+      }
+      if (aItem === null || bItem === null || typeof aItem !== "object" || typeof bItem !== "object") {
+        copy[key] = bItem;
+        continue;
+      }
+      var v2 = replaceEqualDeep(aItem, bItem, depth + 1);
+      copy[key] = v2;
+      if (v2 === aItem)
+        equalItems++;
+    }
+    return aSize === bSize && equalItems === aSize ? a : copy;
+  }
+  function shallowEqualObjects(a, b3) {
+    if (!b3 || Object.keys(a).length !== Object.keys(b3).length)
+      return false;
+    for (var key of Object.keys(a))
+      if (!hasOwn.call(b3, key) || a[key] !== b3[key])
+        return false;
+    return true;
+  }
+  function isPlainArray(value) {
+    return Array.isArray(value) && value.length === Object.keys(value).length;
+  }
+  function isPlainObject(o) {
+    if (!hasObjectPrototype(o))
+      return false;
+    var objectPrototype = Object.getPrototypeOf(o);
+    var ctor = objectPrototype?.constructor;
+    if (ctor === void 0)
+      return true;
+    if (typeof ctor !== "function")
+      return false;
+    var prot = ctor.prototype;
+    if (!hasObjectPrototype(prot))
+      return false;
+    if (!prot.hasOwnProperty("isPrototypeOf"))
+      return false;
+    if (objectPrototype !== Object.prototype)
+      return false;
+    return true;
+  }
+  function hasObjectPrototype(o) {
+    return Object.prototype.toString.call(o) === "[object Object]";
+  }
+  function sleep(timeout) {
+    return new Promise((resolve) => {
+      timeoutManager.setTimeout(resolve, timeout);
+    });
+  }
+  function replaceData(prevData, data, options) {
+    if (typeof options.structuralSharing === "function")
+      return options.structuralSharing(prevData, data);
+    else if (options.structuralSharing !== false) {
+      if (true)
+        try {
+          return replaceEqualDeep(prevData, data);
+        } catch (error) {
+          console.error(`Structural sharing requires data to be JSON serializable. To fix this, turn off structuralSharing or return JSON-serializable data from your queryFn. [${options.queryHash}]: ${error}`);
+          throw error;
+        }
+      return replaceEqualDeep(prevData, data);
+    }
+    return data;
+  }
+  function addToEnd(items, item, max = 0) {
+    var newItems = [
+      ...items,
+      item
+    ];
+    return max && newItems.length > max ? newItems.slice(-max) : newItems;
+  }
+  function addToStart(items, item, max = 0) {
+    var newItems = [
+      item,
+      ...items
+    ];
+    return max && newItems.length > max ? newItems.slice(0, max) : newItems;
+  }
+  function ensureQueryFn(options, fetchOptions) {
+    if (true) {
+      if (options.queryFn === skipToken)
+        console.error(`Attempted to invoke queryFn when set to skipToken. This is likely a configuration error. Query hash: '${options.queryHash}'`);
+    }
+    if (!options.queryFn && fetchOptions?.initialPromise)
+      return () => fetchOptions.initialPromise;
+    if (!options.queryFn || options.queryFn === skipToken)
+      return () => Promise.reject(/* @__PURE__ */ new Error(`Missing queryFn: '${options.queryHash}'`));
+    return options.queryFn;
+  }
+  function shouldThrowError(throwOnError, params) {
+    if (typeof throwOnError === "function")
+      return throwOnError(...params);
+    return !!throwOnError;
+  }
+  function addConsumeAwareSignal(object, getSignal, onCancelled, internalSignal) {
+    var consumed = false;
+    var signal;
+    Object.defineProperties(object, {
+      [fetchSignal]: {
+        value: internalSignal
+      },
+      signal: {
+        enumerable: true,
+        get: () => {
+          signal ??= getSignal();
+          if (consumed)
+            return signal;
+          consumed = true;
+          if (signal.aborted)
+            onCancelled();
+          else
+            signal.addEventListener("abort", onCancelled, {
+              once: true
+            });
+          return signal;
+        }
+      }
+    });
+    return object;
+  }
+  var isServer, hasOwn, skipToken, fetchSignal;
+  var init_utils2 = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/utils.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_timeoutManager();
+      isServer = typeof globalThis === "undefined" || "Deno" in globalThis;
+      hasOwn = Object.prototype.hasOwnProperty;
+      skipToken = Symbol();
+      fetchSignal = Symbol();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/environmentManager.js
+  var isServerFn, isServer2;
+  var init_environmentManager = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/environmentManager.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_utils2();
+      isServerFn = () => isServer;
+      isServer2 = () => isServerFn();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/subscribable.js
+  var Subscribable;
+  var init_subscribable = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/subscribable.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_class_call_check();
+      init_create_class();
+      Subscribable = /* @__PURE__ */ function() {
+        "use strict";
+        function Subscribable2() {
+          _class_call_check(this, Subscribable2);
+          this.listeners = /* @__PURE__ */ new Set();
+          this.subscribe = this.subscribe.bind(this);
+        }
+        _create_class(Subscribable2, [
+          {
+            /**
+            * Registers a listener to be called on every update this object notifies about. Returns a function
+            * that removes the listener again — call it to stop listening. The base class never drops a listener
+            * on its own, though some subclasses clear all of theirs in `destroy()`.
+            * @param listener - Called on each update, with whatever the subclass passes to its subscribers.
+            * @returns A function that removes the listener.
+            * @example
+            * ```ts
+            * const unsubscribe = subscribable.subscribe(() => {
+            *   // react to the update
+            * })
+            *
+            * unsubscribe()
+            * ```
+            */
+            key: "subscribe",
+            value: function subscribe(listener) {
+              this.listeners.add(listener);
+              this.onSubscribe();
+              return () => {
+                this.listeners.delete(listener);
+                this.onUnsubscribe();
+              };
+            }
+          },
+          {
+            /**
+            * Returns `true` while at least one listener is registered, `false` once they have all unsubscribed.
+            * @returns `true` if at least one listener is registered.
+            */
+            key: "hasListeners",
+            value: function hasListeners() {
+              return this.listeners.size > 0;
+            }
+          },
+          {
+            /**
+            * Called after a listener is added. Does nothing here; subclasses override it, e.g. to start
+            * tracking what they observe once the first listener subscribes.
+            */
+            key: "onSubscribe",
+            value: function onSubscribe() {
+            }
+          },
+          {
+            /**
+            * Called after a listener is removed. Does nothing here; subclasses override it, e.g. to clean up
+            * once the last listener unsubscribes.
+            */
+            key: "onUnsubscribe",
+            value: function onUnsubscribe() {
+            }
+          }
+        ]);
+        return Subscribable2;
+      }();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/focusManager.js
+  var _focused, _cleanup, _setup, FocusManager, focusManager;
+  var init_focusManager = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/focusManager.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_call_super();
+      init_class_call_check();
+      init_class_private_field_get();
+      init_class_private_field_init();
+      init_class_private_field_set();
+      init_create_class();
+      init_inherits();
+      init_subscribable();
+      FocusManager = (_focused = /* @__PURE__ */ new WeakMap(), _cleanup = /* @__PURE__ */ new WeakMap(), _setup = /* @__PURE__ */ new WeakMap(), /* @__PURE__ */ function(Subscribable2) {
+        "use strict";
+        _inherits(_class5, Subscribable2);
+        function _class5() {
+          _class_call_check(this, _class5);
+          var _this;
+          _this = _call_super(this, _class5), _class_private_field_init(_this, _focused, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _cleanup, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _setup, {
+            writable: true,
+            value: void 0
+          });
+          _class_private_field_set(_this, _setup, (onFocus) => {
+            if (typeof globalThis !== "undefined" && globalThis.addEventListener) {
+              var listener = () => onFocus();
+              globalThis.addEventListener("visibilitychange", listener, false);
+              return () => {
+                globalThis.removeEventListener("visibilitychange", listener);
+              };
+            }
+          });
+          return _this;
+        }
+        _create_class(_class5, [
+          {
+            key: "onSubscribe",
+            value: function onSubscribe() {
+              if (!_class_private_field_get(this, _cleanup))
+                this.setEventListener(_class_private_field_get(this, _setup));
+            }
+          },
+          {
+            key: "onUnsubscribe",
+            value: function onUnsubscribe() {
+              var _this, _this1, _ref;
+              if (!this.hasListeners()) {
+                (_this = _class_private_field_get(_ref = _this1 = this, _cleanup)) === null || _this === void 0 ? void 0 : _this.call(_this1);
+                _class_private_field_set(this, _cleanup, void 0);
+              }
+            }
+          },
+          {
+            /**
+            * `setEventListener` can be used to set a custom event listener that will
+            * be used to determine the focus state. The provided `setup` function
+            * receives a `setFocused` callback: call it with a `boolean` to manually
+            * set the focus state, or with no arguments to re-evaluate the current
+            * focus state and notify subscribers.
+            * @param setup - Receives the `setFocused` callback, registers the event listener, and may return
+            * a cleanup function that is called when the listener is replaced or no longer needed.
+            * @example
+            * ```ts
+            * import { focusManager } from '@tanstack/query-core'
+            *
+            * focusManager.setEventListener((handleFocus) => {
+            *   const listener = () => handleFocus()
+            *   // Listen to visibilitychange
+            *   if (typeof window !== 'undefined' && window.addEventListener) {
+            *     window.addEventListener('visibilitychange', listener, false)
+            *   }
+            *
+            *   return () => {
+            *     // Be sure to unsubscribe if a new handler is set
+            *     window.removeEventListener('visibilitychange', listener)
+            *   }
+            * })
+            * ```
+            */
+            key: "setEventListener",
+            value: function setEventListener(setup) {
+              var _this, _this1, _ref;
+              _class_private_field_set(this, _setup, setup);
+              (_this = _class_private_field_get(_ref = _this1 = this, _cleanup)) === null || _this === void 0 ? void 0 : _this.call(_this1);
+              _class_private_field_set(this, _cleanup, setup((focused) => {
+                if (typeof focused === "boolean")
+                  this.setFocused(focused);
+                else
+                  this.onFocus();
+              }));
+            }
+          },
+          {
+            /**
+            * `setFocused` can be used to manually set the focus state. Set `undefined`
+            * to fall back to the default focus check.
+            * @param focused - The focus state, or `undefined` to use the default focus check.
+            * @example
+            * ```ts
+            * import { focusManager } from '@tanstack/query-core'
+            *
+            * // Set focused
+            * focusManager.setFocused(true)
+            *
+            * // Set unfocused
+            * focusManager.setFocused(false)
+            *
+            * // Fallback to the default focus check
+            * focusManager.setFocused(undefined)
+            * ```
+            */
+            key: "setFocused",
+            value: function setFocused(focused) {
+              if (_class_private_field_get(this, _focused) !== focused) {
+                _class_private_field_set(this, _focused, focused);
+                this.onFocus();
+              }
+            }
+          },
+          {
+            /**
+            * `onFocus` notifies all subscribed listeners with the current focus state.
+            */
+            key: "onFocus",
+            value: function onFocus() {
+              var isFocused = this.isFocused();
+              this.listeners.forEach((listener) => {
+                listener(isFocused);
+              });
+            }
+          },
+          {
+            /**
+            * `isFocused` can be used to get the current focus state.
+            * @returns The focus state set with `setFocused`, or otherwise whether the document is visible.
+            */
+            key: "isFocused",
+            value: function isFocused() {
+              if (typeof _class_private_field_get(this, _focused) === "boolean")
+                return _class_private_field_get(this, _focused);
+              return globalThis.document?.visibilityState !== "hidden";
+            }
+          }
+        ]);
+        return _class5;
+      }(Subscribable));
+      focusManager = new FocusManager();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/notifyManager.js
+  function createNotifyManager() {
+    var queue = [];
+    var transactions = 0;
+    var notifyFn = (callback) => {
+      callback();
+    };
+    var batchNotifyFn = (callback) => {
+      callback();
+    };
+    var scheduleFn = defaultScheduler;
+    var schedule = (callback) => {
+      if (transactions)
+        queue.push(callback);
+      else
+        scheduleFn(() => {
+          notifyFn(callback);
+        });
+    };
+    var flush = () => {
+      var originalQueue = queue;
+      queue = [];
+      if (originalQueue.length)
+        scheduleFn(() => {
+          batchNotifyFn(() => {
+            originalQueue.forEach((callback) => {
+              notifyFn(callback);
+            });
+          });
+        });
+    };
+    return {
+      /**
+      * Batches all updates scheduled inside the passed callback.
+      * This is mainly used internally to optimize query client updating.
+      * Batches can be nested; the queue is only flushed once the outermost `batch` call finishes.
+      * The return value of `callback` is passed through.
+      * @param callback - The function to run in the batch.
+      * @returns The return value of `callback`.
+      */
+      batch: (callback) => {
+        var result;
+        transactions++;
+        try {
+          result = callback();
+        } finally {
+          transactions--;
+          if (!transactions)
+            flush();
+        }
+        return result;
+      },
+      /**
+      * All calls to the wrapped function will be batched.
+      * @param callback - The function to wrap.
+      * @returns A function that schedules a call to `callback` with the given arguments.
+      */
+      batchCalls: (callback) => {
+        return (...args) => {
+          schedule(() => {
+            callback(...args);
+          });
+        };
+      },
+      /**
+      * Schedules a function to be run on the next batch.
+      * By default, the batch is run with a `setTimeout`, but this can be configured via `setScheduler`.
+      */
+      schedule,
+      /**
+      * Use this method to set a custom notify function.
+      * This can be used to for example wrap notifications with `React.act` while running tests.
+      * @param fn - Receives each notification callback and must call it.
+      */
+      setNotifyFunction: (fn) => {
+        notifyFn = fn;
+      },
+      /**
+      * Use this method to set a custom function to batch notifications together into a single tick.
+      * Framework adapters use this to plug in their own batching primitive, so that a single query
+      * update only triggers one re-render instead of one per subscriber.
+      * @param fn - Receives a function that runs a batch of notifications and must call it.
+      * @example
+      * ```ts
+      * import { notifyManager } from '@tanstack/query-core'
+      * import { batch } from 'solid-js'
+      *
+      * notifyManager.setBatchNotifyFunction(batch)
+      * ```
+      */
+      setBatchNotifyFunction: (fn) => {
+        batchNotifyFn = fn;
+      },
+      /**
+      * Configures a custom callback that schedules when the next batch runs.
+      * The default behavior is `setTimeout(callback, 0)`.
+      * @param fn - Receives a callback that runs the next batch, and schedules it.
+      * @example
+      * ```ts
+      * import { notifyManager } from '@tanstack/query-core'
+      *
+      * // Schedule batches in the next microtask
+      * notifyManager.setScheduler(queueMicrotask)
+      *
+      * // Schedule batches before the next frame is rendered
+      * notifyManager.setScheduler(requestAnimationFrame)
+      *
+      * // Schedule batches some time in the future
+      * notifyManager.setScheduler((cb) => setTimeout(cb, 10))
+      * ```
+      */
+      setScheduler: (fn) => {
+        scheduleFn = fn;
+      }
+    };
+  }
+  var defaultScheduler, notifyManager;
+  var init_notifyManager = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/notifyManager.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_timeoutManager();
+      defaultScheduler = systemSetTimeoutZero;
+      notifyManager = createNotifyManager();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/onlineManager.js
+  var _online, _cleanup2, _setup2, OnlineManager, onlineManager;
+  var init_onlineManager = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/onlineManager.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_call_super();
+      init_class_call_check();
+      init_class_private_field_get();
+      init_class_private_field_init();
+      init_class_private_field_set();
+      init_create_class();
+      init_inherits();
+      init_subscribable();
+      OnlineManager = (_online = /* @__PURE__ */ new WeakMap(), _cleanup2 = /* @__PURE__ */ new WeakMap(), _setup2 = /* @__PURE__ */ new WeakMap(), /* @__PURE__ */ function(Subscribable2) {
+        "use strict";
+        _inherits(_class5, Subscribable2);
+        function _class5() {
+          _class_call_check(this, _class5);
+          var _this;
+          _this = _call_super(this, _class5), _class_private_field_init(_this, _online, {
+            writable: true,
+            value: true
+          }), _class_private_field_init(_this, _cleanup2, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _setup2, {
+            writable: true,
+            value: void 0
+          });
+          _class_private_field_set(_this, _setup2, (onOnline) => {
+            if (typeof globalThis !== "undefined" && globalThis.addEventListener) {
+              var onlineListener = () => onOnline(true);
+              var offlineListener = () => onOnline(false);
+              globalThis.addEventListener("online", onlineListener, false);
+              globalThis.addEventListener("offline", offlineListener, false);
+              return () => {
+                globalThis.removeEventListener("online", onlineListener);
+                globalThis.removeEventListener("offline", offlineListener);
+              };
+            }
+          });
+          return _this;
+        }
+        _create_class(_class5, [
+          {
+            key: "onSubscribe",
+            value: function onSubscribe() {
+              if (!_class_private_field_get(this, _cleanup2))
+                this.setEventListener(_class_private_field_get(this, _setup2));
+            }
+          },
+          {
+            key: "onUnsubscribe",
+            value: function onUnsubscribe() {
+              var _this, _this1, _ref;
+              if (!this.hasListeners()) {
+                (_this = _class_private_field_get(_ref = _this1 = this, _cleanup2)) === null || _this === void 0 ? void 0 : _this.call(_this1);
+                _class_private_field_set(this, _cleanup2, void 0);
+              }
+            }
+          },
+          {
+            /**
+            * `setEventListener` can be used to set a custom event listener that will
+            * be used to determine the online state. The provided `setup` function
+            * receives a `setOnline` callback that should be called with a `boolean`
+            * whenever the online state changes.
+            * @param setup - Receives the `setOnline` callback, registers the event listener, and may return
+            * a cleanup function that is called when the listener is replaced or no longer needed.
+            * @example
+            * ```ts
+            * import NetInfo from '@react-native-community/netinfo'
+            * import { onlineManager } from '@tanstack/query-core'
+            *
+            * onlineManager.setEventListener((setOnline) => {
+            *   return NetInfo.addEventListener((state) => {
+            *     setOnline(!!state.isConnected)
+            *   })
+            * })
+            * ```
+            */
+            key: "setEventListener",
+            value: function setEventListener(setup) {
+              var _this, _this1, _ref;
+              _class_private_field_set(this, _setup2, setup);
+              (_this = _class_private_field_get(_ref = _this1 = this, _cleanup2)) === null || _this === void 0 ? void 0 : _this.call(_this1);
+              _class_private_field_set(this, _cleanup2, setup(this.setOnline.bind(this)));
+            }
+          },
+          {
+            /**
+            * `setOnline` can be used to manually set the online state.
+            * @param online - The online state.
+            * @example
+            * ```ts
+            * import { onlineManager } from '@tanstack/query-core'
+            *
+            * // Set to online
+            * onlineManager.setOnline(true)
+            *
+            * // Set to offline
+            * onlineManager.setOnline(false)
+            * ```
+            */
+            key: "setOnline",
+            value: function setOnline(online) {
+              if (_class_private_field_get(this, _online) !== online) {
+                _class_private_field_set(this, _online, online);
+                this.listeners.forEach((listener) => {
+                  listener(online);
+                });
+              }
+            }
+          },
+          {
+            /**
+            * `isOnline` can be used to get the current online state.
+            * @returns `true` if online.
+            */
+            key: "isOnline",
+            value: function isOnline() {
+              return _class_private_field_get(this, _online);
+            }
+          }
+        ]);
+        return _class5;
+      }(Subscribable));
+      onlineManager = new OnlineManager();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/retryer.js
+  function defaultRetryDelay(failureCount) {
+    return Math.min(1e3 * 2 ** failureCount, 3e4);
+  }
+  function canFetch(networkMode) {
+    return (networkMode ?? "online") === "online" ? onlineManager.isOnline() : true;
+  }
+  function createRetryer(config) {
+    var isRetryCancelled = false;
+    var failureCount = 0;
+    var continueFn;
+    var status = "pending";
+    var promiseResolve;
+    var promiseReject;
+    var promise = new Promise((resolve2, reject2) => {
+      promiseResolve = resolve2;
+      promiseReject = reject2;
+    });
+    promise.catch(noop);
+    var isResolved = () => status !== "pending";
+    var cancel = (cancelOptions) => {
+      if (!isResolved()) {
+        var error = new CancelledError(cancelOptions);
+        reject(error);
+        config.onCancel?.(error);
+      }
+    };
+    var cancelRetry = () => {
+      isRetryCancelled = true;
+    };
+    var continueRetry = () => {
+      isRetryCancelled = false;
+    };
+    var canContinue = () => focusManager.isFocused() && (config.networkMode === "always" || onlineManager.isOnline()) && config.canRun();
+    var canStart = () => canFetch(config.networkMode) && config.canRun();
+    var resolve = (value) => {
+      if (!isResolved()) {
+        continueFn?.();
+        status = "resolved";
+        promiseResolve(value);
+      }
+    };
+    var reject = (value) => {
+      if (!isResolved()) {
+        continueFn?.();
+        status = "rejected";
+        promiseReject(value);
+      }
+    };
+    var pause = (canResume) => {
+      return new Promise((continueResolve) => {
+        continueFn = (value) => {
+          if (isResolved() || canResume())
+            continueResolve(value);
+        };
+        config.onPause?.();
+      }).then(() => {
+        continueFn = void 0;
+        if (!isResolved())
+          config.onContinue?.();
+      });
+    };
+    var run = () => {
+      if (isResolved())
+        return;
+      var promiseOrValue;
+      var initialPromise = failureCount === 0 ? config.initialPromise : void 0;
+      try {
+        promiseOrValue = initialPromise ?? config.fn();
+      } catch (error) {
+        promiseOrValue = Promise.reject(error);
+      }
+      Promise.resolve(promiseOrValue).then(resolve).catch((error) => {
+        if (isResolved())
+          return;
+        var retry = config.retry ?? (isServer2() ? 0 : 3);
+        var retryDelay = config.retryDelay ?? defaultRetryDelay;
+        var delay = typeof retryDelay === "function" ? retryDelay(failureCount, error) : retryDelay;
+        var shouldRetry = retry === true || typeof retry === "number" && failureCount < retry || typeof retry === "function" && retry(failureCount, error);
+        if (isRetryCancelled || !shouldRetry) {
+          reject(error);
+          return;
+        }
+        failureCount++;
+        config.onFail?.(failureCount, error);
+        sleep(delay).then(() => {
+          return isResolved() || canContinue() ? void 0 : pause(canContinue);
+        }).then(() => {
+          if (isRetryCancelled)
+            reject(error);
+          else
+            run();
+        });
+      });
+    };
+    return {
+      promise,
+      status: () => status,
+      cancel,
+      continue: () => {
+        continueFn?.();
+        return promise;
+      },
+      cancelRetry,
+      continueRetry,
+      canStart,
+      start: () => {
+        if (canStart())
+          run();
+        else
+          pause(canStart).then(run);
+        return promise;
+      }
+    };
+  }
+  var CancelledError;
+  var init_retryer = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/retryer.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_call_super();
+      init_class_call_check();
+      init_inherits();
+      init_wrap_native_super();
+      init_utils2();
+      init_environmentManager();
+      init_focusManager();
+      init_onlineManager();
+      CancelledError = /* @__PURE__ */ function(Error1) {
+        "use strict";
+        _inherits(CancelledError2, Error1);
+        function CancelledError2(options) {
+          _class_call_check(this, CancelledError2);
+          var _this;
+          _this = _call_super(this, CancelledError2, [
+            "CancelledError"
+          ]);
+          _this.revert = options?.revert;
+          _this.silent = options?.silent;
+          return _this;
+        }
+        return CancelledError2;
+      }(_wrap_native_super(Error));
+    }
+  });
+
+  // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_private_method_get.js
+  function _class_private_method_get(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver))
+      throw new TypeError("attempted to get private field on non-instance");
+    return fn;
+  }
+  var init_class_private_method_get = __esm({
+    "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_private_method_get.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+    }
+  });
+
+  // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_private_method_init.js
+  function _class_private_method_init(obj, privateSet) {
+    _check_private_redeclaration(obj, privateSet);
+    privateSet.add(obj);
+  }
+  var init_class_private_method_init = __esm({
+    "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_class_private_method_init.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_check_private_redeclaration();
+    }
+  });
+
+  // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_super_prop_base.js
+  function _super_prop_base(object, property) {
+    while (!Object.prototype.hasOwnProperty.call(object, property)) {
+      object = _get_prototype_of(object);
+      if (object === null)
+        break;
+    }
+    return object;
+  }
+  var init_super_prop_base = __esm({
+    "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_super_prop_base.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_get_prototype_of();
+    }
+  });
+
+  // node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_get.js
+  function _get(target, property, receiver) {
+    if (typeof Reflect !== "undefined" && Reflect.get)
+      _get = Reflect.get;
+    else {
+      _get = function get(target2, property2, receiver2) {
+        var base = _super_prop_base(target2, property2);
+        if (!base)
+          return;
+        var desc = Object.getOwnPropertyDescriptor(base, property2);
+        if (desc.get)
+          return desc.get.call(receiver2 || target2);
+        return desc.value;
+      };
+    }
+    return _get(target, property, receiver || target);
+  }
+  var init_get = __esm({
+    "node_modules/.pnpm/@swc+helpers@0.5.24/node_modules/@swc/helpers/esm/_get.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_super_prop_base();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/removable.js
+  var _gcTimeout, Removable;
+  var init_removable = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/removable.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_class_call_check();
+      init_class_private_field_get();
+      init_class_private_field_init();
+      init_class_private_field_set();
+      init_create_class();
+      init_timeoutManager();
+      init_utils2();
+      init_environmentManager();
+      Removable = (_gcTimeout = /* @__PURE__ */ new WeakMap(), /* @__PURE__ */ function() {
+        "use strict";
+        function _class5() {
+          _class_call_check(this, _class5);
+          _class_private_field_init(this, _gcTimeout, {
+            writable: true,
+            value: void 0
+          });
+        }
+        _create_class(_class5, [
+          {
+            /**
+            * Clears the pending garbage collection timeout, so the entry is no longer scheduled for removal.
+            * A subclass may override this to release what it holds on to as well — `Query` also cancels any
+            * in-flight fetch.
+            */
+            key: "destroy",
+            value: function destroy() {
+              this.clearGcTimeout();
+            }
+          },
+          {
+            /**
+            * Schedules the entry to be removed from its cache after `gcTime`, replacing any timeout scheduled
+            * before. Nothing is scheduled if `gcTime` is `Infinity`.
+            */
+            key: "scheduleGc",
+            value: function scheduleGc() {
+              this.clearGcTimeout();
+              if (isValidTimeout(this.gcTime))
+                _class_private_field_set(this, _gcTimeout, timeoutManager.setTimeout(() => {
+                  this.optionalRemove();
+                }, this.gcTime));
+            }
+          },
+          {
+            /**
+            * Updates `gcTime`, keeping the longest one seen so far. Without a value, it defaults to 5 minutes
+            * on the client and `Infinity` on the server.
+            * @param newGcTime - The `gcTime` from the latest options, if any.
+            */
+            key: "updateGcTime",
+            value: function updateGcTime(newGcTime) {
+              this.gcTime = Math.max(this.gcTime || 0, newGcTime ?? (isServer2() ? Infinity : 3e5));
+            }
+          },
+          {
+            /**
+            * Cancels the scheduled removal, if there is one.
+            */
+            key: "clearGcTimeout",
+            value: function clearGcTimeout() {
+              if (_class_private_field_get(this, _gcTimeout) !== void 0) {
+                timeoutManager.clearTimeout(_class_private_field_get(this, _gcTimeout));
+                _class_private_field_set(this, _gcTimeout, void 0);
+              }
+            }
+          }
+        ]);
+        return _class5;
+      }());
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/infiniteQueryBehavior.js
+  function infiniteQueryBehavior(pages) {
+    return {
+      onFetch: (context, query) => {
+        var options = context.options;
+        var direction = context.fetchOptions?.meta?.fetchMore?.direction;
+        var oldPages = context.state.data?.pages || [];
+        var oldPageParams = context.state.data?.pageParams || [];
+        var result = {
+          pages: [],
+          pageParams: []
+        };
+        var currentPage = 0;
+        var fetchFn = () => _async_to_generator(function* () {
+          var cancelled = false;
+          var signalContext = context;
+          var addSignalProperty = (object) => {
+            addConsumeAwareSignal(object, () => context.signal, () => cancelled = true, signalContext[fetchSignal]);
+          };
+          var queryFn = ensureQueryFn(context.options, context.fetchOptions);
+          var fetchPage = (data, param2, previous2) => _async_to_generator(function* () {
+            if (cancelled)
+              return Promise.reject(context.signal.reason);
+            if (param2 == null && data.pages.length)
+              return Promise.resolve(data);
+            var createQueryFnContext = () => {
+              var queryFnContext2 = {
+                client: context.client,
+                queryKey: context.queryKey,
+                pageParam: param2,
+                direction: previous2 ? "backward" : "forward",
+                meta: context.options.meta
+              };
+              addSignalProperty(queryFnContext2);
+              return queryFnContext2;
+            };
+            var queryFnContext = createQueryFnContext();
+            var page = yield queryFn(queryFnContext);
+            var { maxPages } = context.options;
+            var addTo = previous2 ? addToStart : addToEnd;
+            return {
+              pages: addTo(data.pages, page, maxPages),
+              pageParams: addTo(data.pageParams, param2, maxPages)
+            };
+          })();
+          if (direction && oldPages.length) {
+            var previous = direction === "backward";
+            var pageParamFn = previous ? getPreviousPageParam : getNextPageParam;
+            var oldData = {
+              pages: oldPages,
+              pageParams: oldPageParams
+            };
+            result = yield fetchPage(oldData, pageParamFn(options, oldData), previous);
+          } else {
+            var remainingPages = pages ?? oldPages.length;
+            do {
+              var param = currentPage === 0 ? oldPageParams[0] === void 0 ? options.initialPageParam : oldPageParams[0] : getNextPageParam(options, result);
+              if (currentPage > 0 && param == null)
+                break;
+              result = yield fetchPage(result, param);
+              currentPage++;
+            } while (currentPage < remainingPages);
+          }
+          return result;
+        })();
+        if (context.options.persister)
+          context.fetchFn = () => {
+            return context.options.persister?.(fetchFn, {
+              client: context.client,
+              queryKey: context.queryKey,
+              meta: context.options.meta,
+              signal: context.signal
+            }, query);
+          };
+        else
+          context.fetchFn = fetchFn;
+      }
+    };
+  }
+  function getNextPageParam(options, { pages, pageParams }) {
+    var lastIndex = pages.length - 1;
+    return pages.length > 0 ? options.getNextPageParam(pages[lastIndex], pages, pageParams[lastIndex], pageParams) : void 0;
+  }
+  function getPreviousPageParam(options, { pages, pageParams }) {
+    return pages.length > 0 ? options.getPreviousPageParam?.(pages[0], pages, pageParams[0], pageParams) : void 0;
+  }
+  var init_infiniteQueryBehavior = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/infiniteQueryBehavior.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_async_to_generator();
+      init_utils2();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/query.js
+  function fetchState(data, options) {
+    return {
+      fetchFailureCount: 0,
+      fetchFailureReason: null,
+      fetchStatus: canFetch(options.networkMode) ? "fetching" : "paused",
+      ...data === void 0 && {
+        error: null,
+        status: "pending"
+      }
+    };
+  }
+  function successState(data, dataUpdatedAt) {
+    return {
+      data,
+      dataUpdatedAt: dataUpdatedAt ?? Date.now(),
+      error: null,
+      isInvalidated: false,
+      status: "success"
+    };
+  }
+  function getDefaultState(options) {
+    var data = typeof options.initialData === "function" ? options.initialData() : options.initialData;
+    var hasData = data !== void 0;
+    var initialDataUpdatedAt = hasData ? typeof options.initialDataUpdatedAt === "function" ? options.initialDataUpdatedAt() : options.initialDataUpdatedAt : 0;
+    return {
+      data,
+      dataUpdateCount: 0,
+      dataUpdatedAt: hasData ? initialDataUpdatedAt ?? Date.now() : 0,
+      error: null,
+      errorUpdateCount: 0,
+      errorUpdatedAt: 0,
+      fetchFailureCount: 0,
+      fetchFailureReason: null,
+      fetchMeta: null,
+      isInvalidated: false,
+      status: hasData ? "success" : "pending",
+      fetchStatus: "idle"
+    };
+  }
+  function dispatch(action) {
+    var reducer = (state) => {
+      switch (action.type) {
+        case "failed":
+          return {
+            ...state,
+            fetchFailureCount: action.failureCount,
+            fetchFailureReason: action.error
+          };
+        case "pause":
+          return {
+            ...state,
+            fetchStatus: "paused"
+          };
+        case "continue":
+          return {
+            ...state,
+            fetchStatus: "fetching"
+          };
+        case "fetch":
+          return {
+            ...state,
+            ...fetchState(state.data, this.options),
+            fetchMeta: action.meta ?? null
+          };
+        case "success":
+          var newState = {
+            ...state,
+            ...successState(action.data, action.dataUpdatedAt),
+            dataUpdateCount: state.dataUpdateCount + 1,
+            ...!action.manual && {
+              fetchStatus: "idle",
+              fetchFailureCount: 0,
+              fetchFailureReason: null
+            }
+          };
+          _class_private_field_set(this, _revertState, action.manual ? newState : void 0);
+          return newState;
+        case "error":
+          var error = action.error;
+          return {
+            ...state,
+            error,
+            errorUpdateCount: state.errorUpdateCount + 1,
+            errorUpdatedAt: Date.now(),
+            fetchFailureCount: state.fetchFailureCount + 1,
+            fetchFailureReason: error,
+            fetchStatus: "idle",
+            status: "error",
+            isInvalidated: true
+          };
+        case "invalidate":
+          return {
+            ...state,
+            isInvalidated: true
+          };
+        case "setState":
+          return {
+            ...state,
+            ...action.state
+          };
+      }
+    };
+    this.state = reducer(this.state);
+    notifyManager.batch(() => {
+      this.observers.slice().forEach((observer) => {
+        observer.onQueryUpdate();
+      });
+      _class_private_field_get(this, _cache).notify({
+        query: this,
+        type: "updated",
+        action
+      });
+    });
+  }
+  var _queryType, _initialState, _revertState, _cache, _client, _retryer, _fetchPromise, _defaultOptions, _abortSignalConsumed, _dispatch, _class, Query;
+  var init_query = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/query.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_async_to_generator();
+      init_call_super();
+      init_class_call_check();
+      init_class_private_field_get();
+      init_class_private_field_init();
+      init_class_private_field_set();
+      init_class_private_method_get();
+      init_class_private_method_init();
+      init_create_class();
+      init_get();
+      init_get_prototype_of();
+      init_inherits();
+      init_utils2();
+      init_notifyManager();
+      init_retryer();
+      init_removable();
+      init_infiniteQueryBehavior();
+      Query = (_queryType = /* @__PURE__ */ new WeakMap(), _initialState = /* @__PURE__ */ new WeakMap(), _revertState = /* @__PURE__ */ new WeakMap(), _cache = /* @__PURE__ */ new WeakMap(), _client = /* @__PURE__ */ new WeakMap(), _retryer = /* @__PURE__ */ new WeakMap(), _fetchPromise = /* @__PURE__ */ new WeakMap(), _defaultOptions = /* @__PURE__ */ new WeakMap(), _abortSignalConsumed = /* @__PURE__ */ new WeakMap(), _dispatch = /* @__PURE__ */ new WeakSet(), _class = /* @__PURE__ */ function(Removable2) {
+        "use strict";
+        _inherits(_class5, Removable2);
+        function _class5(config) {
+          _class_call_check(this, _class5);
+          var _this;
+          _this = _call_super(this, _class5), _class_private_method_init(_this, _dispatch), _class_private_field_init(_this, _queryType, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _initialState, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _revertState, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _cache, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _client, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _retryer, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _fetchPromise, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _defaultOptions, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _abortSignalConsumed, {
+            writable: true,
+            value: void 0
+          });
+          _class_private_field_set(_this, _abortSignalConsumed, false);
+          _class_private_field_set(_this, _defaultOptions, config.defaultOptions);
+          _this.setOptions(config.options);
+          _this.observers = [];
+          _class_private_field_set(_this, _client, config.client);
+          _class_private_field_set(_this, _cache, _class_private_field_get(_this, _client).getQueryCache());
+          _this.queryKey = config.queryKey;
+          _this.queryHash = config.queryHash;
+          _class_private_field_set(_this, _initialState, getDefaultState(_this.options));
+          _this.state = config.state ?? _class_private_field_get(_this, _initialState);
+          _this.scheduleGc();
+          return _this;
+        }
+        _create_class(_class5, [
+          {
+            key: "meta",
+            get: (
+              /**
+              * The `meta` object passed in the query's options, if any.
+              * @returns The query's `meta`, or `undefined` if none was set.
+              */
+              function get() {
+                return this.options.meta;
+              }
+            )
+          },
+          {
+            key: "queryType",
+            get: (
+              /**
+              * `'infinite'` for an infinite query, otherwise `undefined`.
+              * @internal
+              * @returns The type of the query, set from the `_type` option (e.g. `'infinite'`).
+              */
+              function get() {
+                return _class_private_field_get(this, _queryType);
+              }
+            )
+          },
+          {
+            key: "promise",
+            get: (
+              /**
+              * The promise for the currently in-flight fetch, if the query is fetching.
+              * `undefined` when the query is not fetching.
+              * @returns The promise of the in-flight fetch, or `undefined`.
+              */
+              function get() {
+                return _class_private_field_get(this, _retryer)?.promise;
+              }
+            )
+          },
+          {
+            /**
+            * Replaces the query's options and applies their `gcTime`. If the query has no data yet, it gets
+            * the `initialData` from the new options, if any.
+            * @internal
+            * @param options - The new query options, merged on top of the query's default options.
+            */
+            key: "setOptions",
+            value: function setOptions(options) {
+              this.options = {
+                ..._class_private_field_get(this, _defaultOptions),
+                ...options
+              };
+              if (options?._type)
+                _class_private_field_set(this, _queryType, options._type);
+              this.updateGcTime(this.options.gcTime);
+              if (this.state && this.state.data === void 0) {
+                var defaultState = getDefaultState(this.options);
+                if (defaultState.data !== void 0) {
+                  this.setState(successState(defaultState.data, defaultState.dataUpdatedAt));
+                  _class_private_field_set(this, _initialState, defaultState);
+                }
+              }
+            }
+          },
+          {
+            key: "optionalRemove",
+            value: function optionalRemove() {
+              if (!this.observers.length && this.state.fetchStatus === "idle")
+                _class_private_field_get(this, _cache).remove(this);
+            }
+          },
+          {
+            /**
+            * Writes new data to the query and marks it as successfully fetched.
+            * @internal
+            * @param newData - The data to write. Structural sharing with the current data is applied.
+            * @param options - Set `updatedAt` to override the timestamp, and `manual` to mark the write as
+            * manual (e.g. from `queryClient.setQueryData`).
+            * @returns The data that was written.
+            */
+            key: "setData",
+            value: function setData(newData, options) {
+              var data = replaceData(this.state.data, newData, this.options);
+              _class_private_method_get(this, _dispatch, dispatch).call(this, {
+                data,
+                type: "success",
+                dataUpdatedAt: options?.updatedAt,
+                manual: options?.manual
+              });
+              return data;
+            }
+          },
+          {
+            /**
+            * Merges the given partial state directly into this query's state, notifying observers. Used
+            * by persistence and broadcast plugins to restore a state snapshot, and by devtools to let a
+            * user manually trigger a loading/error state or edit the cached data.
+            * @param state - The partial state to merge into the query's state.
+            */
+            key: "setState",
+            value: function setState(state) {
+              _class_private_method_get(this, _dispatch, dispatch).call(this, {
+                type: "setState",
+                state
+              });
+            }
+          },
+          {
+            /**
+            * Cancels the query's currently in-flight fetch, if any.
+            * - Returns a promise that resolves once the cancellation has settled.
+            * - If no fetch is in progress, resolves immediately.
+            * @param options - Set `revert` to restore the state from before the fetch started, and `silent`
+            * to suppress the cancellation error when a new fetch replaces the cancelled one.
+            * @returns A promise that resolves once the cancellation has settled.
+            * @example
+            * ```ts
+            * await query.cancel()
+            * ```
+            */
+            key: "cancel",
+            value: function cancel(options) {
+              var promise = _class_private_field_get(this, _retryer)?.promise;
+              _class_private_field_get(this, _retryer)?.cancel(options);
+              return promise ? promise.then(noop).catch(noop) : Promise.resolve();
+            }
+          },
+          {
+            /**
+            * Clears the query's garbage collection timeout and silently cancels any
+            * in-flight fetch. Called by `QueryCache` when the query is removed from
+            * the cache.
+            * @see {@link Query#cancel}
+            */
+            key: "destroy",
+            value: function destroy() {
+              _get(_get_prototype_of(_class5.prototype), "destroy", this).call(this);
+              this.cancel({
+                silent: true
+              });
+            }
+          },
+          {
+            key: "resetState",
+            get: (
+              /**
+              * The state the query was created with.
+              * @internal
+              * @returns The state the query had when it was first created, used by {@link Query#reset}.
+              */
+              function get() {
+                return _class_private_field_get(this, _initialState);
+              }
+            )
+          },
+          {
+            /**
+            * Resets the query back to its initial state (the state it had when it was
+            * first created, e.g. any `initialData`), destroying it first to cancel any
+            * in-flight fetch.
+            */
+            key: "reset",
+            value: function reset() {
+              this.destroy();
+              this.setState(this.resetState);
+            }
+          },
+          {
+            /**
+            * Returns `true` if the query has at least one observer for which `enabled`
+            * does not resolve to `false`.
+            * @returns `true` if the query has an enabled observer.
+            */
+            key: "isActive",
+            value: function isActive() {
+              return this.observers.some((observer) => resolveQueryValue(observer.options.enabled, this) !== false);
+            }
+          },
+          {
+            /**
+            * Returns `true` if the query is disabled, meaning it will not fetch
+            * automatically.
+            * - If the query has observers, it is disabled when none of them are active
+            *   (see `isActive`).
+            * - If the query has no observers, it is disabled when its `queryFn` is
+            *   `skipToken` or it has never been fetched.
+            * @returns `true` if the query is disabled.
+            */
+            key: "isDisabled",
+            value: function isDisabled() {
+              if (this.getObserversCount() > 0)
+                return !this.isActive();
+              return this.options.queryFn === skipToken || !this.isFetched();
+            }
+          },
+          {
+            /**
+            * Returns `true` if the query has been fetched, i.e. it has resolved with
+            * either data or an error at least once.
+            * @returns `true` if the query has been fetched.
+            */
+            key: "isFetched",
+            value: function isFetched() {
+              return this.state.dataUpdateCount + this.state.errorUpdateCount > 0;
+            }
+          },
+          {
+            /**
+            * Returns `true` if the query has data and at least one observer configured with
+            * `staleTime: 'static'`, meaning it is treated as never stale.
+            * @returns `true` if the query is static.
+            */
+            key: "isStatic",
+            value: function isStatic() {
+              if (this.state.data === void 0)
+                return false;
+              if (this.getObserversCount() > 0)
+                return this.observers.some((observer) => resolveQueryValue(observer.options.staleTime, this) === "static");
+              return false;
+            }
+          },
+          {
+            /**
+            * Returns `true` if the query is stale.
+            * - If the query has observers, defers to whether any observer's current
+            *   result reports `isStale` (which accounts for each observer's own
+            *   `staleTime` and `enabled` state).
+            * - If the query has no observers, it is considered stale when it has no
+            *   data or has been invalidated.
+            * @returns `true` if the query is stale.
+            * @see {@link Query#isStaleByTime}
+            * @example
+            * ```ts
+            * if (query.isStale()) {
+            *   // refetch or otherwise treat the cached data as outdated
+            * }
+            * ```
+            */
+            key: "isStale",
+            value: function isStale2() {
+              if (this.getObserversCount() > 0)
+                return this.observers.some((observer) => observer.getCurrentResult().isStale);
+              return this.state.data === void 0 || this.state.isInvalidated;
+            }
+          },
+          {
+            /**
+            * Returns `true` if the query's data is stale relative to the given
+            * `staleTime` (defaults to `0`).
+            * - A query with no data is always stale.
+            * - `staleTime: 'static'` is never stale.
+            * - An invalidated query is always stale.
+            * - Otherwise, staleness is based on elapsed time since `dataUpdatedAt`.
+            * @param staleTime - The time, in milliseconds, after which data is considered stale, or
+            * `'static'` to never treat existing data as stale. A query without data is stale either way.
+            * @returns `true` if the query's data is stale.
+            * @see {@link Query#isStale}
+            * @example
+            * ```ts
+            * const isStale = query.isStaleByTime(60 * 1000)
+            * ```
+            */
+            key: "isStaleByTime",
+            value: function isStaleByTime(staleTime = 0) {
+              if (this.state.data === void 0)
+                return true;
+              if (staleTime === "static")
+                return false;
+              if (this.state.isInvalidated)
+                return true;
+              return !timeUntilStale(this.state.dataUpdatedAt, staleTime);
+            }
+          },
+          {
+            /**
+            * Refetches the query when the window regains focus, if an observer wants that, and continues a
+            * paused fetch.
+            * @internal
+            */
+            key: "onFocus",
+            value: function onFocus() {
+              this.observers.find((x2) => x2.shouldFetchOnWindowFocus())?.refetch({
+                cancelRefetch: false
+              });
+              _class_private_field_get(this, _retryer)?.continue();
+            }
+          },
+          {
+            /**
+            * Refetches the query when the app reconnects, if an observer wants that, and continues a paused
+            * fetch.
+            * @internal
+            */
+            key: "onOnline",
+            value: function onOnline() {
+              this.observers.find((x2) => x2.shouldFetchOnReconnect())?.refetch({
+                cancelRefetch: false
+              });
+              _class_private_field_get(this, _retryer)?.continue();
+            }
+          },
+          {
+            /**
+            * Subscribes an observer to the query and stops its garbage collection.
+            * @internal
+            * @param observer - The observer to add. Adding an observer that is already subscribed does
+            * nothing.
+            */
+            key: "addObserver",
+            value: function addObserver(observer) {
+              if (!this.observers.includes(observer)) {
+                this.observers.push(observer);
+                this.clearGcTimeout();
+                _class_private_field_get(this, _cache).notify({
+                  type: "observerAdded",
+                  query: this,
+                  observer
+                });
+              }
+            }
+          },
+          {
+            /**
+            * Unsubscribes an observer from the query.
+            * @internal
+            * @param observer - The observer to remove. When the last observer is removed, the in-flight
+            * fetch is cancelled if its abort signal was consumed (otherwise only its retries are stopped),
+            * and garbage collection is scheduled.
+            */
+            key: "removeObserver",
+            value: function removeObserver(observer) {
+              var index = this.observers.indexOf(observer);
+              if (index !== -1) {
+                this.observers.splice(index, 1);
+                if (!this.observers.length) {
+                  if (_class_private_field_get(this, _retryer)) {
+                    if (_class_private_field_get(this, _abortSignalConsumed) || this.state.fetchStatus === "paused" && this.state.status === "pending")
+                      _class_private_field_get(this, _retryer).cancel({
+                        revert: true
+                      });
+                    else
+                      _class_private_field_get(this, _retryer).cancelRetry();
+                  }
+                  this.scheduleGc();
+                }
+                _class_private_field_get(this, _cache).notify({
+                  type: "observerRemoved",
+                  query: this,
+                  observer
+                });
+              }
+            }
+          },
+          {
+            /**
+            * Returns the number of observers currently subscribed to this query.
+            * @returns The number of observers.
+            * @example
+            * ```ts
+            * if (query.getObserversCount() === 0) {
+            *   // no component is currently watching this query
+            * }
+            * ```
+            */
+            key: "getObserversCount",
+            value: function getObserversCount() {
+              return this.observers.length;
+            }
+          },
+          {
+            /**
+            * Marks the query as invalidated, unless it is already invalidated. This
+            * updates `state.isInvalidated` and notifies observers, but does not by
+            * itself trigger a refetch.
+            * @example
+            * ```ts
+            * query.invalidate()
+            * ```
+            */
+            key: "invalidate",
+            value: function invalidate() {
+              if (!this.state.isInvalidated)
+                _class_private_method_get(this, _dispatch, dispatch).call(this, {
+                  type: "invalidate"
+                });
+            }
+          },
+          {
+            key: "fetch",
+            value: (
+              /**
+              * Fetches the query, i.e. runs its `queryFn` (through any configured
+              * retryer/behavior) and updates the query's state with the result.
+              * - If a fetch is already in flight, returns its promise instead of
+              *   starting a new one, unless `fetchOptions.cancelRefetch` is set and the
+              *   query already has data, in which case the current fetch is silently
+              *   cancelled first.
+              * - If `options` is passed, it replaces the query's current options
+              *   before fetching.
+              * @param options - Query options that replace the query's current options before fetching. They
+              * are not applied when an in-flight fetch is reused.
+              * @param fetchOptions - Set `cancelRefetch` to cancel an in-flight fetch first (only if the query
+              * already has data), and `meta` to pass extra information to the query's behavior.
+              * @returns A promise that resolves with the fetched data, or rejects with the fetch error. If the
+              * fetch is cancelled with `revert` while the query has data, it resolves with the restored data
+              * instead.
+              */
+              function fetch2(options, fetchOptions) {
+                return _async_to_generator(function* () {
+                  if (this.state.fetchStatus !== "idle" && _class_private_field_get(this, _retryer)?.status() !== "rejected") {
+                    if (this.state.data !== void 0 && fetchOptions?.cancelRefetch)
+                      this.cancel({
+                        silent: true
+                      });
+                    else if (_class_private_field_get(this, _retryer) && _class_private_field_get(this, _fetchPromise)) {
+                      _class_private_field_get(this, _retryer).continueRetry();
+                      return _class_private_field_get(this, _fetchPromise);
+                    }
+                  }
+                  if (options)
+                    this.setOptions(options);
+                  if (!this.options.queryFn) {
+                    var observer = this.observers.find((x2) => x2.options.queryFn);
+                    if (observer)
+                      this.setOptions(observer.options);
+                  }
+                  if (true) {
+                    if (!Array.isArray(this.options.queryKey))
+                      console.error(`As of v4, queryKey needs to be an Array. If you are using a string like 'repoData', please change it to an Array, e.g. ['repoData']`);
+                  }
+                  var abortController = new AbortController();
+                  var addSignalProperty = (object) => {
+                    Object.defineProperties(object, {
+                      [fetchSignal]: {
+                        value: abortController.signal,
+                        enumerable: true
+                      },
+                      signal: {
+                        enumerable: true,
+                        get: () => {
+                          _class_private_field_set(this, _abortSignalConsumed, true);
+                          return abortController.signal;
+                        }
+                      }
+                    });
+                  };
+                  var fetchFn = () => {
+                    var queryFn = ensureQueryFn(this.options, fetchOptions);
+                    var createQueryFnContext = () => {
+                      var queryFnContext2 = {
+                        client: _class_private_field_get(this, _client),
+                        queryKey: this.queryKey,
+                        meta: this.meta
+                      };
+                      addSignalProperty(queryFnContext2);
+                      return queryFnContext2;
+                    };
+                    var queryFnContext = createQueryFnContext();
+                    _class_private_field_set(this, _abortSignalConsumed, false);
+                    if (this.options.persister)
+                      return this.options.persister(queryFn, queryFnContext, this);
+                    return queryFn(queryFnContext);
+                  };
+                  var createFetchContext = () => {
+                    var context2 = {
+                      fetchOptions,
+                      options: this.options,
+                      queryKey: this.queryKey,
+                      client: _class_private_field_get(this, _client),
+                      state: this.state,
+                      fetchFn
+                    };
+                    addSignalProperty(context2);
+                    return context2;
+                  };
+                  var context = createFetchContext();
+                  (_class_private_field_get(this, _queryType) === "infinite" ? infiniteQueryBehavior(this.options.pages) : this.options.behavior)?.onFetch(context, this);
+                  _class_private_field_set(this, _revertState, this.state);
+                  if (this.state.fetchStatus === "idle" || this.state.fetchMeta !== context.fetchOptions?.meta)
+                    _class_private_method_get(this, _dispatch, dispatch).call(this, {
+                      type: "fetch",
+                      meta: context.fetchOptions?.meta
+                    });
+                  var retryer = _class_private_field_set(this, _retryer, createRetryer({
+                    initialPromise: fetchOptions?.initialPromise,
+                    fn: context.fetchFn,
+                    onCancel: (error) => {
+                      if (error instanceof CancelledError && error.revert)
+                        this.setState({
+                          ..._class_private_field_get(this, _revertState),
+                          fetchStatus: "idle"
+                        });
+                      abortController.abort();
+                    },
+                    onFail: (failureCount, error) => {
+                      _class_private_method_get(this, _dispatch, dispatch).call(this, {
+                        type: "failed",
+                        failureCount,
+                        error
+                      });
+                    },
+                    onPause: () => {
+                      _class_private_method_get(this, _dispatch, dispatch).call(this, {
+                        type: "pause"
+                      });
+                    },
+                    onContinue: () => {
+                      _class_private_method_get(this, _dispatch, dispatch).call(this, {
+                        type: "continue"
+                      });
+                    },
+                    retry: context.options.retry,
+                    retryDelay: context.options.retryDelay,
+                    networkMode: context.options.networkMode,
+                    canRun: () => true
+                  }));
+                  var fetchPromise = (() => _async_to_generator(function* () {
+                    try {
+                      var data = yield retryer.promise;
+                      if (data === void 0) {
+                        if (true)
+                          console.error(`Query data cannot be undefined. Please make sure to return a value other than undefined from your query function. Affected query key: ${this.queryHash}`);
+                        throw new Error(`${this.queryHash} data is undefined`);
+                      }
+                      this.setData(data);
+                      _class_private_field_get(this, _cache).config.onSuccess?.(data, this);
+                      _class_private_field_get(this, _cache).config.onSettled?.(data, this.state.error, this);
+                      return data;
+                    } catch (error) {
+                      if (error instanceof CancelledError) {
+                        if (error.silent) {
+                          if (_class_private_field_get(this, _retryer) !== retryer && _class_private_field_get(this, _fetchPromise))
+                            return _class_private_field_get(this, _fetchPromise);
+                          throw error;
+                        } else if (error.revert) {
+                          if (this.state.data === void 0)
+                            throw error;
+                          return this.state.data;
+                        }
+                      }
+                      _class_private_method_get(this, _dispatch, dispatch).call(this, {
+                        type: "error",
+                        error
+                      });
+                      _class_private_field_get(this, _cache).config.onError?.(error, this);
+                      _class_private_field_get(this, _cache).config.onSettled?.(this.state.data, error, this);
+                      throw error;
+                    } finally {
+                      if (_class_private_field_get(this, _retryer) === retryer) {
+                        _class_private_field_set(this, _retryer, void 0);
+                        _class_private_field_set(this, _fetchPromise, void 0);
+                      }
+                      this.scheduleGc();
+                    }
+                  }).call(this))();
+                  _class_private_field_set(this, _fetchPromise, fetchPromise);
+                  retryer.start();
+                  return fetchPromise;
+                }).call(this);
+              }
+            )
+          }
+        ]);
+        return _class5;
+      }(Removable), _class);
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/queryObserver.js
+  function shouldLoadOnMount(query, options) {
+    return resolveQueryValue(options.enabled, query) !== false && query.state.data === void 0 && !(query.state.status === "error" && resolveQueryValue(options.retryOnMount, query) === false);
+  }
+  function shouldFetchOnMount(query, options) {
+    return shouldLoadOnMount(query, options) || query.state.data !== void 0 && shouldFetchOn(query, options, options.refetchOnMount);
+  }
+  function shouldFetchOn(query, options, field) {
+    if (resolveQueryValue(options.enabled, query) !== false && resolveQueryValue(options.staleTime, query) !== "static") {
+      var value = resolveQueryValue(field, query);
+      return value === "always" || value !== false && isStale(query, options);
+    }
+    return false;
+  }
+  function shouldFetchOptionally(query, prevQuery, options, prevOptions) {
+    return (query !== prevQuery || resolveQueryValue(prevOptions.enabled, query) === false) && (!options.suspense || query.state.status !== "error") && isStale(query, options);
+  }
+  function isStale(query, options) {
+    return resolveQueryValue(options.enabled, query) !== false && query.isStaleByTime(resolveQueryValue(options.staleTime, query));
+  }
+  function executeFetch(fetchOptions) {
+    _class_private_method_get(this, _updateQuery, updateQuery).call(this);
+    var promise = _class_private_field_get(this, _currentQuery).fetch(this.options, fetchOptions);
+    if (!fetchOptions?.throwOnError)
+      promise = promise.catch(noop);
+    return promise;
+  }
+  function shouldScheduleTimer(timeout) {
+    return !isServer2() && resolveQueryValue(this.options.enabled, _class_private_field_get(this, _currentQuery)) !== false && isValidTimeout(timeout);
+  }
+  function updateStaleTimeout() {
+    _class_private_method_get(this, _clearStaleTimeout, clearStaleTimeout).call(this);
+    var staleTime = resolveQueryValue(this.options.staleTime, _class_private_field_get(this, _currentQuery));
+    if (_class_private_field_get(this, _currentResult).isStale || !_class_private_method_get(this, _shouldScheduleTimer, shouldScheduleTimer).call(this, staleTime))
+      return;
+    var timeout = timeUntilStale(_class_private_field_get(this, _currentResult).dataUpdatedAt, staleTime) + 1;
+    _class_private_field_set(this, _staleTimeoutId, timeoutManager.setTimeout(() => {
+      if (!_class_private_field_get(this, _currentResult).isStale)
+        this.updateResult();
+    }, timeout));
+  }
+  function computeRefetchInterval() {
+    return resolveQueryValue(this.options.refetchInterval, _class_private_field_get(this, _currentQuery)) ?? false;
+  }
+  function updateRefetchInterval(nextInterval) {
+    _class_private_method_get(this, _clearRefetchInterval, clearRefetchInterval).call(this);
+    _class_private_field_set(this, _currentRefetchInterval, nextInterval);
+    if (_class_private_field_get(this, _currentRefetchInterval) === 0 || !_class_private_method_get(this, _shouldScheduleTimer, shouldScheduleTimer).call(this, _class_private_field_get(this, _currentRefetchInterval)))
+      return;
+    _class_private_field_set(this, _refetchIntervalId, timeoutManager.setInterval(() => {
+      if (this.options.refetchIntervalInBackground || focusManager.isFocused())
+        _class_private_method_get(this, _executeFetch, executeFetch).call(this);
+    }, _class_private_field_get(this, _currentRefetchInterval)));
+  }
+  function updateTimers() {
+    _class_private_method_get(this, _updateStaleTimeout, updateStaleTimeout).call(this);
+    _class_private_method_get(this, _updateRefetchInterval, updateRefetchInterval).call(this, _class_private_method_get(this, _computeRefetchInterval, computeRefetchInterval).call(this));
+  }
+  function clearStaleTimeout() {
+    if (_class_private_field_get(this, _staleTimeoutId) !== void 0) {
+      timeoutManager.clearTimeout(_class_private_field_get(this, _staleTimeoutId));
+      _class_private_field_set(this, _staleTimeoutId, void 0);
+    }
+  }
+  function clearRefetchInterval() {
+    if (_class_private_field_get(this, _refetchIntervalId) !== void 0) {
+      timeoutManager.clearInterval(_class_private_field_get(this, _refetchIntervalId));
+      _class_private_field_set(this, _refetchIntervalId, void 0);
+    }
+  }
+  function updateQuery() {
+    var query = _class_private_field_get(this, _client2).getQueryCache().build(_class_private_field_get(this, _client2), this.options);
+    if (query === _class_private_field_get(this, _currentQuery))
+      return;
+    var prevQuery = _class_private_field_get(this, _currentQuery);
+    _class_private_field_set(this, _currentQuery, query);
+    _class_private_field_set(this, _currentQueryInitialState, query.state);
+    if (this.hasListeners()) {
+      prevQuery?.removeObserver(this);
+      query.addObserver(this);
+    }
+  }
+  var _client2, _currentQuery, _currentQueryInitialState, _currentResult, _currentResultState, _currentResultOptions, _selectError, _selectFn, _selectResult, _lastQueryWithDefinedData, _staleTimeoutId, _refetchIntervalId, _currentRefetchInterval, _trackedProps, _executeFetch, _shouldScheduleTimer, _updateStaleTimeout, _computeRefetchInterval, _updateRefetchInterval, _updateTimers, _clearStaleTimeout, _clearRefetchInterval, _updateQuery, _class2, QueryObserver;
+  var init_queryObserver = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/queryObserver.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_call_super();
+      init_class_call_check();
+      init_class_private_field_get();
+      init_class_private_field_init();
+      init_class_private_field_set();
+      init_class_private_method_get();
+      init_class_private_method_init();
+      init_create_class();
+      init_inherits();
+      init_timeoutManager();
+      init_utils2();
+      init_environmentManager();
+      init_subscribable();
+      init_focusManager();
+      init_notifyManager();
+      init_query();
+      QueryObserver = (_client2 = /* @__PURE__ */ new WeakMap(), _currentQuery = /* @__PURE__ */ new WeakMap(), _currentQueryInitialState = /* @__PURE__ */ new WeakMap(), _currentResult = /* @__PURE__ */ new WeakMap(), _currentResultState = /* @__PURE__ */ new WeakMap(), _currentResultOptions = /* @__PURE__ */ new WeakMap(), _selectError = /* @__PURE__ */ new WeakMap(), _selectFn = /* @__PURE__ */ new WeakMap(), _selectResult = /* @__PURE__ */ new WeakMap(), _lastQueryWithDefinedData = /* @__PURE__ */ new WeakMap(), _staleTimeoutId = /* @__PURE__ */ new WeakMap(), _refetchIntervalId = /* @__PURE__ */ new WeakMap(), _currentRefetchInterval = /* @__PURE__ */ new WeakMap(), _trackedProps = /* @__PURE__ */ new WeakMap(), _executeFetch = /* @__PURE__ */ new WeakSet(), _shouldScheduleTimer = /* @__PURE__ */ new WeakSet(), _updateStaleTimeout = /* @__PURE__ */ new WeakSet(), _computeRefetchInterval = /* @__PURE__ */ new WeakSet(), _updateRefetchInterval = /* @__PURE__ */ new WeakSet(), _updateTimers = /* @__PURE__ */ new WeakSet(), _clearStaleTimeout = /* @__PURE__ */ new WeakSet(), _clearRefetchInterval = /* @__PURE__ */ new WeakSet(), _updateQuery = /* @__PURE__ */ new WeakSet(), _class2 = /* @__PURE__ */ function(Subscribable2) {
+        "use strict";
+        _inherits(_class5, Subscribable2);
+        function _class5(client, options) {
+          _class_call_check(this, _class5);
+          var _this;
+          _this = _call_super(this, _class5), _class_private_method_init(_this, _executeFetch), _class_private_method_init(_this, _shouldScheduleTimer), _class_private_method_init(_this, _updateStaleTimeout), _class_private_method_init(_this, _computeRefetchInterval), _class_private_method_init(_this, _updateRefetchInterval), _class_private_method_init(_this, _updateTimers), _class_private_method_init(_this, _clearStaleTimeout), _class_private_method_init(_this, _clearRefetchInterval), _class_private_method_init(_this, _updateQuery), _class_private_field_init(_this, _client2, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _currentQuery, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _currentQueryInitialState, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _currentResult, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _currentResultState, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _currentResultOptions, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _selectError, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _selectFn, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _selectResult, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _lastQueryWithDefinedData, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _staleTimeoutId, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _refetchIntervalId, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _currentRefetchInterval, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _trackedProps, {
+            writable: true,
+            value: /* @__PURE__ */ new Set()
+          });
+          _this.options = options;
+          _class_private_field_set(_this, _client2, client);
+          _class_private_field_set(_this, _selectError, null);
+          _this.bindMethods();
+          _this.setOptions(options);
+          return _this;
+        }
+        _create_class(_class5, [
+          {
+            /**
+            * Binds the methods of the result (`refetch`) to the observer, so they keep working when destructured
+            * from it. Subclasses override it to bind their own result methods as well.
+            */
+            key: "bindMethods",
+            value: function bindMethods() {
+              this.refetch = this.refetch.bind(this);
+            }
+          },
+          {
+            key: "onSubscribe",
+            value: function onSubscribe() {
+              if (this.listeners.size === 1) {
+                _class_private_field_get(this, _currentQuery).addObserver(this);
+                if (shouldFetchOnMount(_class_private_field_get(this, _currentQuery), this.options))
+                  _class_private_method_get(this, _executeFetch, executeFetch).call(this);
+                else
+                  this.updateResult();
+                _class_private_method_get(this, _updateTimers, updateTimers).call(this);
+              }
+            }
+          },
+          {
+            key: "onUnsubscribe",
+            value: function onUnsubscribe() {
+              if (!this.hasListeners())
+                this.destroy();
+            }
+          },
+          {
+            /**
+            * Returns whether the observed query is currently stale and configured
+            * (via the `refetchOnReconnect` option) to refetch when the network
+            * reconnects.
+            * @returns `true` if the observer should refetch the query on reconnect.
+            */
+            key: "shouldFetchOnReconnect",
+            value: function shouldFetchOnReconnect() {
+              return shouldFetchOn(_class_private_field_get(this, _currentQuery), this.options, this.options.refetchOnReconnect);
+            }
+          },
+          {
+            /**
+            * Returns whether the observed query is currently stale and configured
+            * (via the `refetchOnWindowFocus` option) to refetch when the window
+            * regains focus.
+            * @returns `true` if the observer should refetch the query on window focus.
+            */
+            key: "shouldFetchOnWindowFocus",
+            value: function shouldFetchOnWindowFocus() {
+              return shouldFetchOn(_class_private_field_get(this, _currentQuery), this.options, this.options.refetchOnWindowFocus);
+            }
+          },
+          {
+            /**
+            * Stops observing the current query: clears all listeners, cancels the
+            * stale and refetch-interval timers, and removes this observer from the
+            * query it was observing.
+            */
+            key: "destroy",
+            value: function destroy() {
+              this.listeners = /* @__PURE__ */ new Set();
+              _class_private_method_get(this, _clearStaleTimeout, clearStaleTimeout).call(this);
+              _class_private_method_get(this, _clearRefetchInterval, clearRefetchInterval).call(this);
+              _class_private_field_get(this, _currentQuery).removeObserver(this);
+            }
+          },
+          {
+            /**
+            * Updates the observer's options. This will re-resolve the query being
+            * observed (switching to a different query if the `queryKey` changed),
+            * trigger a fetch if the new options require one and the observer has
+            * subscribers, recompute the current result, and reschedule the stale and
+            * refetch-interval timers as needed.
+            * @param options - The new observer options. They are defaulted with {@link
+            * QueryClient#defaultQueryOptions} before being applied.
+            * @throws {Error} If `enabled` is neither a boolean nor a function.
+            * @example
+            * ```ts
+            * observer.setOptions({ queryKey: ['posts', 1], queryFn: () => fetchPost(1) })
+            * // later: switch to a different query, reusing the same observer
+            * observer.setOptions({ queryKey: ['posts', 2], queryFn: () => fetchPost(2) })
+            * ```
+            */
+            key: "setOptions",
+            value: function setOptions(options) {
+              var prevOptions = this.options;
+              var prevQuery = _class_private_field_get(this, _currentQuery);
+              this.options = _class_private_field_get(this, _client2).defaultQueryOptions(options);
+              if (this.options.enabled !== void 0 && typeof this.options.enabled !== "boolean" && typeof this.options.enabled !== "function" && typeof resolveQueryValue(this.options.enabled, _class_private_field_get(this, _currentQuery)) !== "boolean")
+                throw new Error("Expected enabled to be a boolean or a callback that returns a boolean");
+              _class_private_method_get(this, _updateQuery, updateQuery).call(this);
+              _class_private_field_get(this, _currentQuery).setOptions(this.options);
+              if (prevOptions._defaulted && !shallowEqualObjects(this.options, prevOptions))
+                _class_private_field_get(this, _client2).getQueryCache().notify({
+                  type: "observerOptionsUpdated",
+                  query: _class_private_field_get(this, _currentQuery),
+                  observer: this
+                });
+              var mounted = this.hasListeners();
+              if (mounted && shouldFetchOptionally(_class_private_field_get(this, _currentQuery), prevQuery, this.options, prevOptions))
+                _class_private_method_get(this, _executeFetch, executeFetch).call(this);
+              this.updateResult();
+              if (mounted && (_class_private_field_get(this, _currentQuery) !== prevQuery || resolveQueryValue(this.options.enabled, _class_private_field_get(this, _currentQuery)) !== resolveQueryValue(prevOptions.enabled, _class_private_field_get(this, _currentQuery)) || resolveQueryValue(this.options.staleTime, _class_private_field_get(this, _currentQuery)) !== resolveQueryValue(prevOptions.staleTime, _class_private_field_get(this, _currentQuery))))
+                _class_private_method_get(this, _updateStaleTimeout, updateStaleTimeout).call(this);
+              var nextRefetchInterval = _class_private_method_get(this, _computeRefetchInterval, computeRefetchInterval).call(this);
+              if (mounted && (_class_private_field_get(this, _currentQuery) !== prevQuery || resolveQueryValue(this.options.enabled, _class_private_field_get(this, _currentQuery)) !== resolveQueryValue(prevOptions.enabled, _class_private_field_get(this, _currentQuery)) || nextRefetchInterval !== _class_private_field_get(this, _currentRefetchInterval)))
+                _class_private_method_get(this, _updateRefetchInterval, updateRefetchInterval).call(this, nextRefetchInterval);
+            }
+          },
+          {
+            /**
+            * Computes the result the observer would produce for the given (already-defaulted) options
+            * right now, building the underlying `Query` if it doesn't exist yet, without waiting for a
+            * subscription callback. Called by framework adapters on every render (e.g. `useQuery`) so the
+            * returned value is available synchronously, ahead of `setOptions` triggering an actual fetch.
+            * @param options - The defaulted observer options to compute the result for.
+            * @returns The result for the given options.
+            */
+            key: "getOptimisticResult",
+            value: function getOptimisticResult(options) {
+              var query = _class_private_field_get(this, _client2).getQueryCache().build(_class_private_field_get(this, _client2), options);
+              var result = this.createResult(query, options);
+              if (!shallowEqualObjects(this.getCurrentResult(), result)) {
+                _class_private_field_set(this, _currentResult, result);
+                _class_private_field_set(this, _currentResultOptions, this.options);
+                _class_private_field_set(this, _currentResultState, _class_private_field_get(this, _currentQuery).state);
+              }
+              return result;
+            }
+          },
+          {
+            /**
+            * Returns the most recently computed `QueryObserverResult` for the
+            * observed query. This is a point-in-time read; to be notified of updates
+            * as they happen, subscribe to the observer instead (its inherited
+            * `subscribe` method).
+            * @returns The observer's latest result.
+            * @example
+            * ```ts
+            * const result = observer.getCurrentResult()
+            * console.log(result.status, result.data)
+            * ```
+            */
+            key: "getCurrentResult",
+            value: function getCurrentResult() {
+              return _class_private_field_get(this, _currentResult);
+            }
+          },
+          {
+            /**
+            * Wraps a `QueryObserverResult` in a `Proxy` that records which properties are read, via
+            * {@link QueryObserver#trackProp} (and an optional `onPropTracked` callback). Used by framework
+            * adapters when `notifyOnChangeProps` is not set, to implement its default "only re-render on
+            * properties you actually read" behavior.
+            * @param result - The result to wrap.
+            * @param onPropTracked - Called with the name of each property that is read.
+            * @returns A proxy of `result` that tracks property reads.
+            */
+            key: "trackResult",
+            value: function trackResult(result, onPropTracked) {
+              return new Proxy(result, {
+                get: (target, key) => {
+                  this.trackProp(key);
+                  onPropTracked?.(key);
+                  return Reflect.get(target, key);
+                }
+              });
+            }
+          },
+          {
+            /**
+            * Records that the given `QueryObserverResult` property was read, so a subsequent update only
+            * notifies this observer if a tracked property actually changed. Normally called indirectly via
+            * {@link QueryObserver#trackResult}'s proxy; exposed directly for adapters that track property
+            * access themselves (e.g. through their own reactivity system) instead of via the proxy.
+            * @param key - The name of the property that was read.
+            */
+            key: "trackProp",
+            value: function trackProp(key) {
+              _class_private_field_get(this, _trackedProps).add(key);
+            }
+          },
+          {
+            /**
+            * Returns the `Query` instance this observer is currently observing.
+            * @returns The observed query.
+            */
+            key: "getCurrentQuery",
+            value: function getCurrentQuery() {
+              return _class_private_field_get(this, _currentQuery);
+            }
+          },
+          {
+            /**
+            * Refetches the observed query and returns a promise that resolves with
+            * the resulting `QueryObserverResult`.
+            * @param options - Set `cancelRefetch` to `false` to keep a running fetch instead of cancelling
+            * it, and `throwOnError` to `true` to reject when the refetch fails.
+            * @returns A promise that resolves with the result after the refetch.
+            * @example
+            * ```ts
+            * const result = await observer.refetch({ cancelRefetch: false })
+            * console.log(result.data)
+            * ```
+            */
+            key: "refetch",
+            value: function refetch({ ...options } = {}) {
+              return this.fetch({
+                ...options
+              });
+            }
+          },
+          {
+            /**
+            * Fetches a query defined by the given options without affecting this
+            * observer's own tracked query or result, and returns a promise that
+            * resolves with the `QueryObserverResult` for that fetch. This is useful
+            * for prefetching data that another observer (e.g. a query about to be
+            * navigated to) will need, ahead of time.
+            * @param options - The observer options of the query to fetch.
+            * @returns A promise that resolves with the result for the fetched query.
+            * @example
+            * ```ts
+            * const result = await observer.fetchOptimistic({
+            *   queryKey: ['posts', 2],
+            *   queryFn: () => fetchPost(2),
+            * })
+            * console.log(result.data)
+            * ```
+            */
+            key: "fetchOptimistic",
+            value: function fetchOptimistic2(options) {
+              var defaultedOptions = _class_private_field_get(this, _client2).defaultQueryOptions(options);
+              var query = _class_private_field_get(this, _client2).getQueryCache().build(_class_private_field_get(this, _client2), defaultedOptions);
+              var unsubscribe = () => {
+              };
+              var resolveEarly;
+              var cachePromise = new Promise((resolve) => {
+                resolveEarly = resolve;
+                unsubscribe = _class_private_field_get(this, _client2).getQueryCache().subscribe((event) => {
+                  if (event.type === "updated" && event.query.queryHash === query.queryHash && query.state.data !== void 0) {
+                    unsubscribe();
+                    resolve(this.createResult(query, defaultedOptions));
+                  }
+                });
+              });
+              return Promise.race([
+                query.fetch(defaultedOptions).then(() => {
+                  var result = this.createResult(query, defaultedOptions);
+                  resolveEarly?.(result);
+                  return result;
+                }).finally(() => {
+                  unsubscribe();
+                }),
+                cachePromise
+              ]);
+            }
+          },
+          {
+            /**
+            * Fetches the observed query and updates the result once the fetch settles. Used by `refetch` and,
+            * in `InfiniteQueryObserver`, to fetch more pages.
+            * @param fetchOptions - Options for this fetch. `cancelRefetch` defaults to `true`.
+            * @returns A promise that resolves with the updated result.
+            */
+            key: "fetch",
+            value: function fetch2(fetchOptions) {
+              return _class_private_method_get(this, _executeFetch, executeFetch).call(this, {
+                ...fetchOptions,
+                cancelRefetch: fetchOptions.cancelRefetch ?? true
+              }).then(() => {
+                this.updateResult();
+                return _class_private_field_get(this, _currentResult);
+              });
+            }
+          },
+          {
+            /**
+            * Computes the result for a query and options from the query's state, applying `select`,
+            * `placeholderData`, and the derived flags. Subclasses override it to add their own fields.
+            * @param query - The query to compute the result for.
+            * @param options - The observer options to compute the result with.
+            * @returns The computed result.
+            */
+            key: "createResult",
+            value: function createResult(query, options) {
+              var prevQuery = _class_private_field_get(this, _currentQuery);
+              var prevOptions = this.options;
+              var prevResult = _class_private_field_get(this, _currentResult);
+              var prevResultState = _class_private_field_get(this, _currentResultState);
+              var prevResultOptions = _class_private_field_get(this, _currentResultOptions);
+              var queryInitialState = query !== prevQuery ? query.state : _class_private_field_get(this, _currentQueryInitialState);
+              var { state } = query;
+              var newState = {
+                ...state
+              };
+              var isPlaceholderData = false;
+              var data;
+              if (options._optimisticResults) {
+                var mounted = this.hasListeners();
+                var fetchOnMount = !mounted && shouldFetchOnMount(query, options);
+                var fetchOptionally = mounted && shouldFetchOptionally(query, prevQuery, options, prevOptions);
+                if (fetchOnMount || fetchOptionally)
+                  newState = {
+                    ...newState,
+                    ...fetchState(state.data, query.options)
+                  };
+                if (options._optimisticResults === "isRestoring")
+                  newState.fetchStatus = "idle";
+              }
+              var { error, errorUpdatedAt, status } = newState;
+              data = newState.data;
+              var skipSelect = false;
+              if (options.placeholderData !== void 0 && data === void 0 && status === "pending") {
+                var placeholderData;
+                if (prevResult?.isPlaceholderData && options.placeholderData === prevResultOptions?.placeholderData) {
+                  placeholderData = prevResult.data;
+                  skipSelect = true;
+                } else
+                  placeholderData = typeof options.placeholderData === "function" ? options.placeholderData(_class_private_field_get(this, _lastQueryWithDefinedData)?.state.data, _class_private_field_get(this, _lastQueryWithDefinedData)) : options.placeholderData;
+                if (placeholderData !== void 0) {
+                  status = "success";
+                  data = replaceData(prevResult?.data, placeholderData, options);
+                  isPlaceholderData = true;
+                }
+              }
+              if (options.select && data !== void 0 && !skipSelect) {
+                if (prevResult && data === prevResultState?.data && options.select === _class_private_field_get(this, _selectFn))
+                  data = _class_private_field_get(this, _selectResult);
+                else
+                  try {
+                    _class_private_field_set(this, _selectFn, options.select);
+                    data = options.select(data);
+                    data = replaceData(prevResult?.data, data, options);
+                    _class_private_field_set(this, _selectResult, data);
+                    _class_private_field_set(this, _selectError, null);
+                  } catch (selectError) {
+                    _class_private_field_set(this, _selectError, selectError);
+                  }
+              } else if (data === void 0)
+                _class_private_field_set(this, _selectError, null);
+              if (_class_private_field_get(this, _selectError)) {
+                error = _class_private_field_get(this, _selectError);
+                data = _class_private_field_get(this, _selectResult);
+                errorUpdatedAt = Date.now();
+                status = "error";
+                isPlaceholderData = false;
+              }
+              var isFetching = newState.fetchStatus === "fetching";
+              var isPending = status === "pending";
+              var isError = status === "error";
+              var isLoading = isPending && isFetching;
+              var hasData = data !== void 0;
+              return {
+                status,
+                fetchStatus: newState.fetchStatus,
+                isPending,
+                isSuccess: status === "success",
+                isError,
+                isInitialLoading: isLoading,
+                isLoading,
+                data,
+                dataUpdatedAt: newState.dataUpdatedAt,
+                error,
+                errorUpdatedAt,
+                failureCount: newState.fetchFailureCount,
+                failureReason: newState.fetchFailureReason,
+                errorUpdateCount: newState.errorUpdateCount,
+                isFetched: query.isFetched(),
+                isFetchedAfterMount: newState.dataUpdateCount > queryInitialState.dataUpdateCount || newState.errorUpdateCount > queryInitialState.errorUpdateCount,
+                isFetching,
+                isRefetching: isFetching && !isPending,
+                isLoadingError: isError && !hasData,
+                isPaused: newState.fetchStatus === "paused",
+                isPlaceholderData,
+                isRefetchError: isError && hasData,
+                isStale: isStale(query, options),
+                refetch: this.refetch,
+                isEnabled: resolveQueryValue(options.enabled, query) !== false
+              };
+            }
+          },
+          {
+            /**
+            * Recomputes and stores the current result from the current query/options, notifying listeners
+            * if it changed. Framework adapters call this right after subscribing to make sure no query
+            * update was missed in the gap between creating the observer and subscribing to it.
+            */
+            key: "updateResult",
+            value: function updateResult2() {
+              var prevResult = _class_private_field_get(this, _currentResult);
+              var nextResult = this.createResult(_class_private_field_get(this, _currentQuery), this.options);
+              _class_private_field_set(this, _currentResultState, _class_private_field_get(this, _currentQuery).state);
+              _class_private_field_set(this, _currentResultOptions, this.options);
+              if (_class_private_field_get(this, _currentResultState).data !== void 0)
+                _class_private_field_set(this, _lastQueryWithDefinedData, _class_private_field_get(this, _currentQuery));
+              if (shallowEqualObjects(nextResult, prevResult))
+                return;
+              _class_private_field_set(this, _currentResult, nextResult);
+              var shouldNotifyListeners = () => {
+                if (!prevResult)
+                  return true;
+                var { notifyOnChangeProps } = this.options;
+                var notifyOnChangePropsValue = typeof notifyOnChangeProps === "function" ? notifyOnChangeProps() : notifyOnChangeProps;
+                if (notifyOnChangePropsValue === "all" || !notifyOnChangePropsValue && !_class_private_field_get(this, _trackedProps).size)
+                  return true;
+                if (this.options.throwOnError && _class_private_field_get(this, _currentResult).error !== prevResult.error)
+                  return true;
+                for (var key of notifyOnChangePropsValue ?? _class_private_field_get(this, _trackedProps))
+                  if (_class_private_field_get(this, _currentResult)[key] !== prevResult[key])
+                    return true;
+                return false;
+              };
+              var notifyListeners = shouldNotifyListeners();
+              notifyManager.batch(() => {
+                if (notifyListeners)
+                  this.listeners.forEach((listener) => {
+                    listener(_class_private_field_get(this, _currentResult));
+                  });
+                _class_private_field_get(this, _client2).getQueryCache().notify({
+                  query: _class_private_field_get(this, _currentQuery),
+                  type: "observerResultsUpdated"
+                });
+              });
+            }
+          },
+          {
+            /**
+            * Updates the observer's result when the observed query changes, and reschedules its timers if it
+            * has listeners.
+            * @internal
+            */
+            key: "onQueryUpdate",
+            value: function onQueryUpdate() {
+              this.updateResult();
+              if (this.hasListeners())
+                _class_private_method_get(this, _updateTimers, updateTimers).call(this);
+            }
+          }
+        ]);
+        return _class5;
+      }(Subscribable), _class2);
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/mutation.js
+  function getDefaultState2() {
+    return {
+      context: void 0,
+      data: void 0,
+      error: null,
+      failureCount: 0,
+      failureReason: null,
+      isPaused: false,
+      status: "idle",
+      variables: void 0,
+      submittedAt: 0
+    };
+  }
+  function dispatch2(action) {
+    var reducer = (state) => {
+      switch (action.type) {
+        case "failed":
+          return {
+            ...state,
+            failureCount: action.failureCount,
+            failureReason: action.error
+          };
+        case "pause":
+          return {
+            ...state,
+            isPaused: true
+          };
+        case "continue":
+          return {
+            ...state,
+            isPaused: false
+          };
+        case "pending":
+          return {
+            ...state,
+            context: action.context,
+            data: void 0,
+            failureCount: 0,
+            failureReason: null,
+            error: null,
+            isPaused: action.isPaused,
+            status: "pending",
+            variables: action.variables,
+            submittedAt: Date.now()
+          };
+        case "success":
+          return {
+            ...state,
+            data: action.data,
+            failureCount: 0,
+            failureReason: null,
+            error: null,
+            status: "success",
+            isPaused: false
+          };
+        case "error":
+          return {
+            ...state,
+            data: void 0,
+            error: action.error,
+            failureCount: state.failureCount + 1,
+            failureReason: action.error,
+            isPaused: false,
+            status: "error"
+          };
+      }
+    };
+    this.state = reducer(this.state);
+    notifyManager.batch(() => {
+      _class_private_field_get(this, _observers).forEach((observer) => {
+        observer.onMutationUpdate(action);
+      });
+      _class_private_field_get(this, _mutationCache).notify({
+        mutation: this,
+        type: "updated",
+        action
+      });
+    });
+  }
+  var _client3, _observers, _mutationCache, _retryer2, _dispatch2, _class3, Mutation;
+  var init_mutation = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/mutation.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_async_to_generator();
+      init_call_super();
+      init_class_call_check();
+      init_class_private_field_get();
+      init_class_private_field_init();
+      init_class_private_field_set();
+      init_class_private_method_get();
+      init_class_private_method_init();
+      init_create_class();
+      init_inherits();
+      init_notifyManager();
+      init_retryer();
+      init_removable();
+      Mutation = (_client3 = /* @__PURE__ */ new WeakMap(), _observers = /* @__PURE__ */ new WeakMap(), _mutationCache = /* @__PURE__ */ new WeakMap(), _retryer2 = /* @__PURE__ */ new WeakMap(), _dispatch2 = /* @__PURE__ */ new WeakSet(), _class3 = /* @__PURE__ */ function(Removable2) {
+        "use strict";
+        _inherits(_class5, Removable2);
+        function _class5(config) {
+          _class_call_check(this, _class5);
+          var _this;
+          _this = _call_super(this, _class5), _class_private_method_init(_this, _dispatch2), _class_private_field_init(_this, _client3, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _observers, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _mutationCache, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _retryer2, {
+            writable: true,
+            value: void 0
+          });
+          _class_private_field_set(_this, _client3, config.client);
+          _this.mutationId = config.mutationId;
+          _class_private_field_set(_this, _mutationCache, config.mutationCache);
+          _class_private_field_set(_this, _observers, []);
+          _this.state = config.state || getDefaultState2();
+          _this.setOptions(config.options);
+          _this.scheduleGc();
+          return _this;
+        }
+        _create_class(_class5, [
+          {
+            /**
+            * Replaces the mutation's options and applies their `gcTime`.
+            * @internal
+            * @param options - The new mutation options.
+            */
+            key: "setOptions",
+            value: function setOptions(options) {
+              this.options = options;
+              this.updateGcTime(this.options.gcTime);
+            }
+          },
+          {
+            key: "meta",
+            get: (
+              /**
+              * The `meta` object passed in the mutation's options, if any.
+              * @returns The mutation's `meta`, or `undefined` if none was set.
+              */
+              function get() {
+                return this.options.meta;
+              }
+            )
+          },
+          {
+            /**
+            * Subscribes an observer to the mutation and stops its garbage collection.
+            * @internal
+            * @param observer - The observer to add. Adding an observer that is already subscribed does
+            * nothing.
+            */
+            key: "addObserver",
+            value: function addObserver(observer) {
+              if (!_class_private_field_get(this, _observers).includes(observer)) {
+                _class_private_field_get(this, _observers).push(observer);
+                this.clearGcTimeout();
+                _class_private_field_get(this, _mutationCache).notify({
+                  type: "observerAdded",
+                  mutation: this,
+                  observer
+                });
+              }
+            }
+          },
+          {
+            /**
+            * Unsubscribes an observer from the mutation.
+            * @internal
+            * @param observer - The observer to remove. Garbage collection is scheduled afterwards.
+            */
+            key: "removeObserver",
+            value: function removeObserver(observer) {
+              _class_private_field_set(this, _observers, _class_private_field_get(this, _observers).filter((x2) => x2 !== observer));
+              this.scheduleGc();
+              _class_private_field_get(this, _mutationCache).notify({
+                type: "observerRemoved",
+                mutation: this,
+                observer
+              });
+            }
+          },
+          {
+            key: "optionalRemove",
+            value: function optionalRemove() {
+              if (!_class_private_field_get(this, _observers).length) {
+                if (this.state.status === "pending")
+                  this.scheduleGc();
+                else
+                  _class_private_field_get(this, _mutationCache).remove(this);
+              }
+            }
+          },
+          {
+            /**
+            * Resumes a mutation that is currently paused or was restored from a
+            * dehydrated, still-`pending` state.
+            *
+            * - If this mutation has an active retryer (it paused mid-attempt, e.g. due
+            *   to the network mode or scope-based queuing), its retryer is resumed.
+            * - Otherwise, if the mutation's status is still `pending` (e.g. it was
+            *   dehydrated while an attempt was in flight and never got a retryer in
+            *   this instance), `execute` is called again with the last known variables.
+            * - Otherwise the mutation has already settled and this resolves immediately
+            *   without running anything again.
+            * @returns A promise that settles with the resumed mutation: it rejects if the mutation fails.
+            * It resolves immediately if the mutation has already settled.
+            * @see {@link Mutation#execute}
+            * @example
+            * ```ts
+            * // typically driven by reconnect handling, e.g. queryClient.resumePausedMutations()
+            * const mutation = mutationCache.find({ mutationKey: ['addPost'] })
+            * await mutation?.continue()
+            * ```
+            */
+            key: "continue",
+            value: function _continue() {
+              return _class_private_field_get(this, _retryer2)?.continue() ?? (this.state.status === "pending" ? this.execute(this.state.variables) : Promise.resolve());
+            }
+          },
+          {
+            key: "execute",
+            value: (
+              /**
+              * Runs the mutation function for the given variables through a retryer, and
+              * drives the mutation's state and lifecycle callbacks through to settlement.
+              *
+              * If this mutation's state is already `pending` when `execute` is called
+              * (i.e. it was restored, still in-flight, from a dehydrated state), the
+              * `onMutate` step is skipped and a `continue` action is dispatched to
+              * unpause it; otherwise a `pending` action is dispatched first, then the
+              * mutation cache's `onMutate` and the mutation's own `onMutate` option are
+              * awaited in that order, and the resulting context is stored.
+              *
+              * The mutation function is then run (subject to `retry`/`retryDelay`/
+              * `networkMode`, and to the mutation cache's scope-based serialization).
+              * On success, the cache's `onSuccess`/`onSettled` callbacks run before the
+              * mutation's own `onSuccess`/`onSettled` options, a `success` action is
+              * dispatched, and the resolved data is returned. On failure, the same
+              * cache-then-option ordering is used for `onError`/`onSettled`, but each of
+              * those four callbacks is individually caught so that a throwing callback
+              * cannot mask the original error; an `error` action is then dispatched and
+              * the original error is re-thrown.
+              * @param variables - The variables passed to the `mutationFn`.
+              * @returns A promise that resolves with the mutation's data, or rejects with its error.
+              * @see {@link Mutation#continue}
+              * @example
+              * ```ts
+              * // Called internally by `MutationObserver.mutate` and `Mutation.continue` —
+              * // applications normally trigger mutations through those, not this method.
+              * const data = await mutation.execute(variables)
+              * ```
+              */
+              function execute(variables) {
+                return _async_to_generator(function* () {
+                  var onContinue = () => {
+                    _class_private_method_get(this, _dispatch2, dispatch2).call(this, {
+                      type: "continue"
+                    });
+                  };
+                  var mutationFnContext = {
+                    client: _class_private_field_get(this, _client3),
+                    meta: this.options.meta,
+                    mutationKey: this.options.mutationKey
+                  };
+                  var retryer = _class_private_field_set(this, _retryer2, createRetryer({
+                    fn: () => {
+                      if (!this.options.mutationFn)
+                        return Promise.reject(/* @__PURE__ */ new Error("No mutationFn found"));
+                      return this.options.mutationFn(variables, mutationFnContext);
+                    },
+                    onFail: (failureCount, error) => {
+                      _class_private_method_get(this, _dispatch2, dispatch2).call(this, {
+                        type: "failed",
+                        failureCount,
+                        error
+                      });
+                    },
+                    onPause: () => {
+                      _class_private_method_get(this, _dispatch2, dispatch2).call(this, {
+                        type: "pause"
+                      });
+                    },
+                    onContinue,
+                    retry: this.options.retry ?? 0,
+                    retryDelay: this.options.retryDelay,
+                    networkMode: this.options.networkMode,
+                    canRun: () => _class_private_field_get(this, _mutationCache).canRun(this)
+                  }));
+                  var restored = this.state.status === "pending";
+                  var isPaused = !retryer.canStart();
+                  try {
+                    if (restored)
+                      onContinue();
+                    else {
+                      _class_private_method_get(this, _dispatch2, dispatch2).call(this, {
+                        type: "pending",
+                        variables,
+                        isPaused
+                      });
+                      if (_class_private_field_get(this, _mutationCache).config.onMutate)
+                        yield _class_private_field_get(this, _mutationCache).config.onMutate(variables, this, mutationFnContext);
+                      var context = yield this.options.onMutate?.(variables, mutationFnContext);
+                      if (context !== this.state.context)
+                        _class_private_method_get(this, _dispatch2, dispatch2).call(this, {
+                          type: "pending",
+                          context,
+                          variables,
+                          isPaused
+                        });
+                    }
+                    if (this.state.isPaused && retryer.canStart())
+                      onContinue();
+                    var data = yield retryer.start();
+                    yield _class_private_field_get(this, _mutationCache).config.onSuccess?.(data, variables, this.state.context, this, mutationFnContext);
+                    yield this.options.onSuccess?.(data, variables, this.state.context, mutationFnContext);
+                    yield _class_private_field_get(this, _mutationCache).config.onSettled?.(data, null, this.state.variables, this.state.context, this, mutationFnContext);
+                    yield this.options.onSettled?.(data, null, variables, this.state.context, mutationFnContext);
+                    _class_private_method_get(this, _dispatch2, dispatch2).call(this, {
+                      type: "success",
+                      data
+                    });
+                    return data;
+                  } catch (error) {
+                    try {
+                      yield _class_private_field_get(this, _mutationCache).config.onError?.(error, variables, this.state.context, this, mutationFnContext);
+                    } catch (e) {
+                      Promise.reject(e);
+                    }
+                    try {
+                      yield this.options.onError?.(error, variables, this.state.context, mutationFnContext);
+                    } catch (e) {
+                      Promise.reject(e);
+                    }
+                    try {
+                      yield _class_private_field_get(this, _mutationCache).config.onSettled?.(void 0, error, this.state.variables, this.state.context, this, mutationFnContext);
+                    } catch (e) {
+                      Promise.reject(e);
+                    }
+                    try {
+                      yield this.options.onSettled?.(void 0, error, variables, this.state.context, mutationFnContext);
+                    } catch (e) {
+                      Promise.reject(e);
+                    }
+                    _class_private_method_get(this, _dispatch2, dispatch2).call(this, {
+                      type: "error",
+                      error
+                    });
+                    throw error;
+                  } finally {
+                    if (_class_private_field_get(this, _retryer2) === retryer)
+                      _class_private_field_set(this, _retryer2, void 0);
+                    _class_private_field_get(this, _mutationCache).runNext(this);
+                  }
+                }).call(this);
+              }
+            )
+          }
+        ]);
+        return _class5;
+      }(Removable), _class3);
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/mutationCache.js
+  function scopeFor(mutation) {
+    return mutation.options.scope?.id;
+  }
+  var _mutations, _scopes, _mutationId, MutationCache;
+  var init_mutationCache = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/mutationCache.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_call_super();
+      init_class_call_check();
+      init_class_private_field_get();
+      init_class_private_field_init();
+      init_class_private_field_set();
+      init_class_private_field_update();
+      init_create_class();
+      init_inherits();
+      init_utils2();
+      init_subscribable();
+      init_notifyManager();
+      init_mutation();
+      MutationCache = (_mutations = /* @__PURE__ */ new WeakMap(), _scopes = /* @__PURE__ */ new WeakMap(), _mutationId = /* @__PURE__ */ new WeakMap(), /* @__PURE__ */ function(Subscribable2) {
+        "use strict";
+        _inherits(_class5, Subscribable2);
+        function _class5(config = {}) {
+          _class_call_check(this, _class5);
+          var _this;
+          _this = _call_super(this, _class5), _class_private_field_init(_this, _mutations, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _scopes, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _mutationId, {
+            writable: true,
+            value: void 0
+          });
+          _this.config = config;
+          _class_private_field_set(_this, _mutations, /* @__PURE__ */ new Set());
+          _class_private_field_set(_this, _scopes, /* @__PURE__ */ new Map());
+          _class_private_field_set(_this, _mutationId, 0);
+          return _this;
+        }
+        _create_class(_class5, [
+          {
+            /**
+            * Creates a mutation and adds it to the cache.
+            * @internal
+            * @param client - The client the mutation belongs to, used to default its options.
+            * @param options - The mutation options. They are defaulted with {@link
+            * QueryClient#defaultMutationOptions}.
+            * @param state - The initial state of the mutation, e.g. when restoring a dehydrated mutation.
+            * @returns The new mutation, already added to the cache.
+            */
+            key: "build",
+            value: function build(client, options, state) {
+              var mutation = new Mutation({
+                client,
+                mutationCache: this,
+                mutationId: ++_class_private_field_update(this, _mutationId).value,
+                options: client.defaultMutationOptions(options),
+                state
+              });
+              this.add(mutation);
+              return mutation;
+            }
+          },
+          {
+            /**
+            * Adds a mutation to the cache.
+            * @internal
+            * @param mutation - The mutation to add. If it has a `scope`, it is queued in that scope.
+            */
+            key: "add",
+            value: function add(mutation) {
+              _class_private_field_get(this, _mutations).add(mutation);
+              var scope = scopeFor(mutation);
+              if (typeof scope === "string") {
+                var scopedMutations = _class_private_field_get(this, _scopes).get(scope);
+                if (scopedMutations)
+                  scopedMutations.push(mutation);
+                else
+                  _class_private_field_get(this, _scopes).set(scope, [
+                    mutation
+                  ]);
+              }
+              this.notify({
+                type: "added",
+                mutation
+              });
+            }
+          },
+          {
+            /**
+            * Removes a mutation from the cache.
+            * @internal
+            * @param mutation - The mutation to remove, also from its scope's queue.
+            */
+            key: "remove",
+            value: function remove(mutation) {
+              if (_class_private_field_get(this, _mutations).delete(mutation)) {
+                var scope = scopeFor(mutation);
+                if (typeof scope === "string") {
+                  var scopedMutations = _class_private_field_get(this, _scopes).get(scope);
+                  if (scopedMutations) {
+                    if (scopedMutations.length > 1) {
+                      var index = scopedMutations.indexOf(mutation);
+                      if (index !== -1)
+                        scopedMutations.splice(index, 1);
+                    } else if (scopedMutations[0] === mutation)
+                      _class_private_field_get(this, _scopes).delete(scope);
+                  }
+                }
+              }
+              this.notify({
+                type: "removed",
+                mutation
+              });
+            }
+          },
+          {
+            /**
+            * Checks whether a mutation can run now, given the other mutations in its `scope`.
+            * @internal
+            * @param mutation - The mutation to check.
+            * @returns `true` if the mutation has no `scope`, or no other mutation in its scope is pending
+            * ahead of it.
+            */
+            key: "canRun",
+            value: function canRun(mutation) {
+              var scope = scopeFor(mutation);
+              if (typeof scope === "string") {
+                var firstPendingMutation = _class_private_field_get(this, _scopes).get(scope)?.find((m2) => m2.state.status === "pending");
+                return !firstPendingMutation || firstPendingMutation === mutation;
+              } else
+                return true;
+            }
+          },
+          {
+            /**
+            * Continues the next paused mutation in the same `scope` after a mutation finishes.
+            * @internal
+            * @param mutation - The mutation that finished.
+            * @returns A promise that resolves once the next paused mutation in the same scope has continued,
+            * or immediately if there is none.
+            */
+            key: "runNext",
+            value: function runNext(mutation) {
+              var scope = scopeFor(mutation);
+              if (typeof scope === "string")
+                return _class_private_field_get(this, _scopes).get(scope)?.find((m2) => m2 !== mutation && m2.state.isPaused)?.continue() ?? Promise.resolve();
+              else
+                return Promise.resolve();
+            }
+          },
+          {
+            /**
+            * Removes all mutations from the cache.
+            * @example
+            * ```ts
+            * const mutationCache = queryClient.getMutationCache()
+            *
+            * mutationCache.clear()
+            * ```
+            */
+            key: "clear",
+            value: function clear() {
+              notifyManager.batch(() => {
+                var mutations = this.getAll();
+                _class_private_field_get(this, _mutations).clear();
+                _class_private_field_get(this, _scopes).clear();
+                mutations.forEach((mutation) => {
+                  this.notify({
+                    type: "removed",
+                    mutation
+                  });
+                });
+              });
+            }
+          },
+          {
+            /**
+            * Returns all mutations within the cache.
+            *
+            * This is not typically needed for most applications, but can come in handy when needing more
+            * information about a mutation in rare scenarios.
+            * @returns Every mutation in the cache.
+            * @example
+            * ```ts
+            * const mutationCache = queryClient.getMutationCache()
+            *
+            * const mutations = mutationCache.getAll()
+            * ```
+            */
+            key: "getAll",
+            value: function getAll() {
+              return Array.from(_class_private_field_get(this, _mutations));
+            }
+          },
+          {
+            /**
+            * A slightly more advanced method that can be used to get an existing mutation instance from
+            * the cache. If the mutation does not exist, `undefined` is returned.
+            *
+            * This is not typically needed for most applications, but can come in handy when needing more
+            * information about a mutation in rare scenarios.
+            * @param filters - The filters to match. `exact` defaults to `true`.
+            * @returns The first matching mutation, or `undefined`.
+            * @see {@link MutationCache#findAll}
+            * @example
+            * ```ts
+            * const mutationCache = queryClient.getMutationCache()
+            *
+            * const mutation = mutationCache.find({ mutationKey: ['addPost'] })
+            * ```
+            */
+            key: "find",
+            value: function find(filters) {
+              var defaultedFilters = {
+                exact: true,
+                ...filters
+              };
+              return this.getAll().find((mutation) => matchMutation(defaultedFilters, mutation));
+            }
+          },
+          {
+            /**
+            * An even more advanced method that can be used to get existing mutation instances from the
+            * cache that match the given filters. If no mutations match, an empty array is returned.
+            *
+            * This is not typically needed for most applications, but can come in handy when needing more
+            * information about mutations in rare scenarios.
+            * @param filters - The filters to match. Without filters, every mutation is returned.
+            * @returns The matching mutations.
+            * @see {@link MutationCache#find}
+            * @example
+            * ```ts
+            * const mutationCache = queryClient.getMutationCache()
+            *
+            * const mutations = mutationCache.findAll({ mutationKey: ['addPost'] })
+            * ```
+            */
+            key: "findAll",
+            value: function findAll(filters = {}) {
+              return this.getAll().filter((mutation) => matchMutation(filters, mutation));
+            }
+          },
+          {
+            /**
+            * Notifies every cache listener of an event, in one batch.
+            * @internal
+            * @param event - The event passed to every listener.
+            */
+            key: "notify",
+            value: function notify2(event) {
+              notifyManager.batch(() => {
+                this.listeners.forEach((listener) => {
+                  listener(event);
+                });
+              });
+            }
+          },
+          {
+            /**
+            * Continues every paused mutation, e.g. when the app comes back online.
+            * @internal
+            * @returns A promise that resolves once every paused mutation has continued and settled.
+            */
+            key: "resumePausedMutations",
+            value: function resumePausedMutations() {
+              var pausedMutations = this.getAll().filter((x2) => x2.state.isPaused);
+              return notifyManager.batch(() => Promise.all(pausedMutations.map((mutation) => mutation.continue().catch(noop))));
+            }
+          }
+        ]);
+        return _class5;
+      }(Subscribable));
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/mutationObserver.js
+  function updateResult() {
+    var state = _class_private_field_get(this, _currentMutation)?.state ?? getDefaultState2();
+    _class_private_field_set(this, _currentResult2, {
+      ...state,
+      isPending: state.status === "pending",
+      isSuccess: state.status === "success",
+      isError: state.status === "error",
+      isIdle: state.status === "idle",
+      mutate: this.mutate,
+      reset: this.reset
+    });
+  }
+  function notify(action) {
+    notifyManager.batch(() => {
+      var mutateOptions = _class_private_field_get(this, _mutateOptions);
+      if (mutateOptions && this.hasListeners()) {
+        var variables = _class_private_field_get(this, _currentResult2).variables;
+        var onMutateResult = _class_private_field_get(this, _currentResult2).context;
+        var context = {
+          client: _class_private_field_get(this, _client4),
+          meta: this.options.meta,
+          mutationKey: this.options.mutationKey
+        };
+        if (action?.type === "success") {
+          try {
+            mutateOptions.onSuccess?.(action.data, variables, onMutateResult, context);
+          } catch (e) {
+            Promise.reject(e);
+          }
+          try {
+            mutateOptions.onSettled?.(action.data, null, variables, onMutateResult, context);
+          } catch (e) {
+            Promise.reject(e);
+          }
+        } else if (action?.type === "error") {
+          try {
+            mutateOptions.onError?.(action.error, variables, onMutateResult, context);
+          } catch (e) {
+            Promise.reject(e);
+          }
+          try {
+            mutateOptions.onSettled?.(void 0, action.error, variables, onMutateResult, context);
+          } catch (e) {
+            Promise.reject(e);
+          }
+        }
+      }
+      this.listeners.forEach((listener) => {
+        listener(_class_private_field_get(this, _currentResult2));
+      });
+    });
+  }
+  var _client4, _currentResult2, _currentMutation, _mutateOptions, _updateResult, _notify, _class4, MutationObserver;
+  var init_mutationObserver = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/mutationObserver.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_call_super();
+      init_class_call_check();
+      init_class_private_field_get();
+      init_class_private_field_init();
+      init_class_private_field_set();
+      init_class_private_method_get();
+      init_class_private_method_init();
+      init_create_class();
+      init_inherits();
+      init_utils2();
+      init_subscribable();
+      init_notifyManager();
+      init_mutation();
+      MutationObserver = (_client4 = /* @__PURE__ */ new WeakMap(), _currentResult2 = /* @__PURE__ */ new WeakMap(), _currentMutation = /* @__PURE__ */ new WeakMap(), _mutateOptions = /* @__PURE__ */ new WeakMap(), _updateResult = /* @__PURE__ */ new WeakSet(), _notify = /* @__PURE__ */ new WeakSet(), _class4 = /* @__PURE__ */ function(Subscribable2) {
+        "use strict";
+        _inherits(_class5, Subscribable2);
+        function _class5(client, options) {
+          _class_call_check(this, _class5);
+          var _this;
+          _this = _call_super(this, _class5), _class_private_method_init(_this, _updateResult), _class_private_method_init(_this, _notify), _class_private_field_init(_this, _client4, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _currentResult2, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _currentMutation, {
+            writable: true,
+            value: void 0
+          }), _class_private_field_init(_this, _mutateOptions, {
+            writable: true,
+            value: void 0
+          });
+          _class_private_field_set(_this, _client4, client);
+          _this.setOptions(options);
+          _this.bindMethods();
+          _class_private_method_get(_this, _updateResult, updateResult).call(_this);
+          return _this;
+        }
+        _create_class(_class5, [
+          {
+            /**
+            * Binds the methods of the result (`mutate` and `reset`) to the observer, so they keep working when
+            * destructured from it.
+            */
+            key: "bindMethods",
+            value: function bindMethods() {
+              this.mutate = this.mutate.bind(this);
+              this.reset = this.reset.bind(this);
+            }
+          },
+          {
+            /**
+            * Updates the observer's options.
+            *
+            * If the new `mutationKey` differs from the previous one (and both were
+            * defined), the observer is reset, detaching it from the mutation it was
+            * observing. Otherwise, if the currently observed mutation is still
+            * `pending`, its options are updated in place as well.
+            * @param options - The new mutation observer options. They are defaulted with {@link
+            * QueryClient#defaultMutationOptions} before being applied.
+            * @example
+            * ```ts
+            * observer.setOptions({
+            *   mutationFn: (variables: { title: string }) => addPost(variables),
+            *   onSuccess: (data) => console.log(data),
+            * })
+            * ```
+            */
+            key: "setOptions",
+            value: function setOptions(options) {
+              var prevOptions = this.options;
+              this.options = _class_private_field_get(this, _client4).defaultMutationOptions(options);
+              if (!shallowEqualObjects(this.options, prevOptions))
+                _class_private_field_get(this, _client4).getMutationCache().notify({
+                  type: "observerOptionsUpdated",
+                  mutation: _class_private_field_get(this, _currentMutation),
+                  observer: this
+                });
+              if (prevOptions?.mutationKey && this.options.mutationKey && hashKey(prevOptions.mutationKey) !== hashKey(this.options.mutationKey))
+                this.reset();
+              else if (_class_private_field_get(this, _currentMutation)?.state.status === "pending")
+                _class_private_field_get(this, _currentMutation).setOptions(this.options);
+            }
+          },
+          {
+            key: "onSubscribe",
+            value: function onSubscribe() {
+              if (this.listeners.size === 1 && _class_private_field_get(this, _currentMutation)) {
+                _class_private_field_get(this, _currentMutation).addObserver(this);
+                _class_private_method_get(this, _updateResult, updateResult).call(this);
+              }
+            }
+          },
+          {
+            key: "onUnsubscribe",
+            value: function onUnsubscribe() {
+              if (!this.hasListeners())
+                _class_private_field_get(this, _currentMutation)?.removeObserver(this);
+            }
+          },
+          {
+            /**
+            * Updates the observer's result when the observed mutation changes, and notifies its listeners.
+            * @internal
+            * @param action - The action that updated the observed mutation, passed on to the observer's
+            * callbacks.
+            */
+            key: "onMutationUpdate",
+            value: function onMutationUpdate(action) {
+              _class_private_method_get(this, _updateResult, updateResult).call(this);
+              _class_private_method_get(this, _notify, notify).call(this, action);
+            }
+          },
+          {
+            /**
+            * Returns the observer's current result, derived from the observed
+            * mutation's state (or the default, `idle` state if no mutation has been
+            * built yet, e.g. before the first `mutate()` call or after `reset()`).
+            * @returns The observer's latest result.
+            */
+            key: "getCurrentResult",
+            value: function getCurrentResult() {
+              return _class_private_field_get(this, _currentResult2);
+            }
+          },
+          {
+            /**
+            * Detaches the observer from the mutation it is currently observing (if
+            * any) and resets the observed result back to its default, `idle` state.
+            *
+            * This does not cancel an in-flight mutation; the mutation itself keeps
+            * running to completion and its own callbacks still fire, but this
+            * observer stops reflecting its state and a subsequent `mutate()` call
+            * will build a brand new mutation.
+            * @see {@link MutationObserver#mutate}
+            * @example
+            * ```ts
+            * observer.reset()
+            * ```
+            */
+            key: "reset",
+            value: function reset() {
+              _class_private_field_get(this, _currentMutation)?.removeObserver(this);
+              _class_private_field_set(this, _currentMutation, void 0);
+              _class_private_method_get(this, _updateResult, updateResult).call(this);
+              _class_private_method_get(this, _notify, notify).call(this);
+            }
+          },
+          {
+            /**
+            * Builds a new `Mutation` in the `MutationCache` using the observer's
+            * current options, detaches this observer from any previously observed
+            * mutation, attaches it to the new one, and executes it with the given
+            * variables.
+            *
+            * The optional per-call `options` (`onSuccess`/`onError`/`onSettled`) are
+            * invoked once the mutation settles, in addition to any callbacks defined
+            * on the observer's own options.
+            * @param variables - The variables passed to the `mutationFn`.
+            * @param options - Per-call `onSuccess`, `onError`, and `onSettled` callbacks.
+            * @returns A promise that resolves with the mutation's data, or rejects with its error.
+            * @example
+            * ```ts
+            * await observer.mutate(
+            *   { title: 'New post' },
+            *   { onSuccess: (data) => console.log(data) },
+            * )
+            * ```
+            */
+            key: "mutate",
+            value: function mutate(variables, options) {
+              _class_private_field_set(this, _mutateOptions, options);
+              _class_private_field_get(this, _currentMutation)?.removeObserver(this);
+              _class_private_field_set(this, _currentMutation, _class_private_field_get(this, _client4).getMutationCache().build(_class_private_field_get(this, _client4), this.options));
+              _class_private_field_get(this, _currentMutation).addObserver(this);
+              return _class_private_field_get(this, _currentMutation).execute(variables);
+            }
+          }
+        ]);
+        return _class5;
+      }(Subscribable), _class4);
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/queryCache.js
+  var _queries, QueryCache;
+  var init_queryCache = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/queryCache.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_call_super();
+      init_class_call_check();
+      init_class_private_field_get();
+      init_class_private_field_init();
+      init_class_private_field_set();
+      init_create_class();
+      init_inherits();
+      init_utils2();
+      init_subscribable();
+      init_notifyManager();
+      init_query();
+      QueryCache = (_queries = /* @__PURE__ */ new WeakMap(), /* @__PURE__ */ function(Subscribable2) {
+        "use strict";
+        _inherits(_class5, Subscribable2);
+        function _class5(config = {}) {
+          _class_call_check(this, _class5);
+          var _this;
+          _this = _call_super(this, _class5), _class_private_field_init(_this, _queries, {
+            writable: true,
+            value: void 0
+          });
+          _this.config = config;
+          _class_private_field_set(_this, _queries, /* @__PURE__ */ new Map());
+          return _this;
+        }
+        _create_class(_class5, [
+          {
+            /**
+            * Returns the existing `Query` instance for the given options' `queryKey`/`queryHash`, or
+            * builds and adds a new one to the cache if none exists yet. Used by framework adapters and
+            * plugins (e.g. broadcast/persistence) that need to get-or-create a `Query` directly, bypassing
+            * the reactive `QueryObserver` machinery.
+            * @param client - The client the query belongs to, used to default its options.
+            * @param options - The query options, including the `queryKey`. A new query is created with the
+            * options defaulted by {@link QueryClient#defaultQueryOptions}.
+            * @param state - The initial state of a newly created query, e.g. when hydrating. Ignored if the
+            * query already exists.
+            * @returns The existing or newly created query.
+            * @example
+            * ```ts
+            * const queryCache = queryClient.getQueryCache()
+            *
+            * const query = queryCache.build(queryClient, {
+            *   queryKey: ['posts'],
+            *   queryFn: fetchPosts,
+            * })
+            * ```
+            */
+            key: "build",
+            value: function build(client, options, state) {
+              var queryKey = options.queryKey;
+              var queryHash = options.queryHash ?? hashQueryKeyByOptions(queryKey, options);
+              var query = this.get(queryHash);
+              if (!query) {
+                query = new Query({
+                  client,
+                  queryKey,
+                  queryHash,
+                  options: client.defaultQueryOptions(options),
+                  state,
+                  defaultOptions: client.getQueryDefaults(queryKey)
+                });
+                this.add(query);
+              }
+              return query;
+            }
+          },
+          {
+            /**
+            * Adds a query to the cache.
+            * @internal
+            * @param query - The query to add. If a query with the same hash is already cached, nothing
+            * happens.
+            */
+            key: "add",
+            value: function add(query) {
+              if (!_class_private_field_get(this, _queries).has(query.queryHash)) {
+                _class_private_field_get(this, _queries).set(query.queryHash, query);
+                this.notify({
+                  type: "added",
+                  query
+                });
+              }
+            }
+          },
+          {
+            /**
+            * Destroys the given `Query` and removes it from the cache, notifying subscribers with a
+            * `'removed'` event. A no-op if the query is no longer the one currently stored under its hash
+            * (e.g. it was already replaced). Used by plugins (e.g. the broadcast client) that mirror
+            * removals across `QueryCache` instances.
+            * @param query - The query to remove.
+            * @example
+            * ```ts
+            * const queryCache = queryClient.getQueryCache()
+            * const query = queryCache.find({ queryKey: ['posts'] })
+            *
+            * if (query) {
+            *   queryCache.remove(query)
+            * }
+            * ```
+            */
+            key: "remove",
+            value: function remove(query) {
+              if (_class_private_field_get(this, _queries).get(query.queryHash) === query) {
+                query.destroy();
+                _class_private_field_get(this, _queries).delete(query.queryHash);
+                this.notify({
+                  type: "removed",
+                  query
+                });
+              }
+            }
+          },
+          {
+            /**
+            * Removes all queries from the cache.
+            * @example
+            * ```ts
+            * const queryCache = queryClient.getQueryCache()
+            *
+            * queryCache.clear()
+            * ```
+            */
+            key: "clear",
+            value: function clear() {
+              notifyManager.batch(() => {
+                this.getAll().forEach((query) => {
+                  this.remove(query);
+                });
+              });
+            }
+          },
+          {
+            /**
+            * Returns the `Query` instance stored under the given `queryHash`, or `undefined` if none
+            * exists. Unlike {@link QueryCache#find}, this looks up by the already-computed hash rather
+            * than by `QueryFilters`. Used by plugins (e.g. broadcast/hydration) that already have a hash
+            * to look up directly.
+            * @param queryHash - The hash of the query to look up.
+            * @returns The query stored under the hash, or `undefined`.
+            * @example
+            * ```ts
+            * const queryCache = queryClient.getQueryCache()
+            * const queryHash = hashKey(['posts'])
+            *
+            * const query = queryCache.get(queryHash)
+            * ```
+            */
+            key: "get",
+            value: function get(queryHash) {
+              return _class_private_field_get(this, _queries).get(queryHash);
+            }
+          },
+          {
+            /**
+            * Returns all queries within the cache.
+            * @returns Every query in the cache.
+            * @example
+            * ```ts
+            * const queryCache = queryClient.getQueryCache()
+            *
+            * const queries = queryCache.getAll()
+            * ```
+            */
+            key: "getAll",
+            value: function getAll() {
+              return [
+                ..._class_private_field_get(this, _queries).values()
+              ];
+            }
+          },
+          {
+            /**
+            * A slightly more advanced method that can be used to get an existing query instance from the
+            * cache. This instance not only contains all the state for the query, but all of the instances,
+            * and underlying guts of the query as well. If the query does not exist, `undefined` is
+            * returned.
+            *
+            * This is not typically needed for most applications, but can come in handy when needing more
+            * information about a query in rare scenarios (e.g. looking at `query.state.dataUpdatedAt` to
+            * decide whether a query is fresh enough to be used as an initial value).
+            * @param filters - The filters to match, including the required `queryKey`. `exact` defaults to
+            * `true`.
+            * @returns The first matching query, or `undefined`.
+            * @see {@link QueryCache#findAll}
+            * @example
+            * ```ts
+            * const queryCache = queryClient.getQueryCache()
+            *
+            * const query = queryCache.find({ queryKey: ['posts'] })
+            * ```
+            */
+            key: "find",
+            value: function find(filters) {
+              var defaultedFilters = {
+                exact: true,
+                ...filters
+              };
+              return this.getAll().find((query) => matchQuery(defaultedFilters, query));
+            }
+          },
+          {
+            /**
+            * An even more advanced method that can be used to get existing query instances from the cache
+            * that partially match a query key. If no queries match, an empty array is returned.
+            *
+            * This is not typically needed for most applications, but can come in handy when needing more
+            * information about queries in rare scenarios.
+            * @param filters - The filters to match. Without filters, every query is returned.
+            * @returns The matching queries.
+            * @see {@link QueryCache#find}
+            * @example
+            * ```ts
+            * const queryCache = queryClient.getQueryCache()
+            *
+            * const queries = queryCache.findAll({ queryKey: ['posts'] })
+            * ```
+            */
+            key: "findAll",
+            value: function findAll(filters = {}) {
+              var queries = this.getAll();
+              return Object.keys(filters).length > 0 ? queries.filter((query) => matchQuery(filters, query)) : queries;
+            }
+          },
+          {
+            /**
+            * Notifies every cache listener of an event, in one batch.
+            * @internal
+            * @param event - The event passed to every listener.
+            */
+            key: "notify",
+            value: function notify2(event) {
+              notifyManager.batch(() => {
+                this.listeners.forEach((listener) => {
+                  listener(event);
+                });
+              });
+            }
+          },
+          {
+            /**
+            * Calls {@link Query#onFocus} on every cached query, in one batch.
+            * @internal
+            */
+            key: "onFocus",
+            value: function onFocus() {
+              notifyManager.batch(() => {
+                this.getAll().forEach((query) => {
+                  query.onFocus();
+                });
+              });
+            }
+          },
+          {
+            /**
+            * Calls {@link Query#onOnline} on every cached query, in one batch.
+            * @internal
+            */
+            key: "onOnline",
+            value: function onOnline() {
+              notifyManager.batch(() => {
+                this.getAll().forEach((query) => {
+                  query.onOnline();
+                });
+              });
+            }
+          }
+        ]);
+        return _class5;
+      }(Subscribable));
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/queryClient.js
+  var _queryCache, _mutationCache2, _defaultOptions2, _queryDefaults, _mutationDefaults, _mountCount, _unsubscribeFocus, _unsubscribeOnline, QueryClient;
+  var init_queryClient = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/queryClient.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_async_to_generator();
+      init_class_call_check();
+      init_class_private_field_get();
+      init_class_private_field_init();
+      init_class_private_field_set();
+      init_class_private_field_update();
+      init_create_class();
+      init_utils2();
+      init_focusManager();
+      init_notifyManager();
+      init_onlineManager();
+      init_mutationCache();
+      init_queryCache();
+      QueryClient = (_queryCache = /* @__PURE__ */ new WeakMap(), _mutationCache2 = /* @__PURE__ */ new WeakMap(), _defaultOptions2 = /* @__PURE__ */ new WeakMap(), _queryDefaults = /* @__PURE__ */ new WeakMap(), _mutationDefaults = /* @__PURE__ */ new WeakMap(), _mountCount = /* @__PURE__ */ new WeakMap(), _unsubscribeFocus = /* @__PURE__ */ new WeakMap(), _unsubscribeOnline = /* @__PURE__ */ new WeakMap(), /* @__PURE__ */ function() {
+        "use strict";
+        function _class5(config = {}) {
+          _class_call_check(this, _class5);
+          _class_private_field_init(this, _queryCache, {
+            writable: true,
+            value: void 0
+          });
+          _class_private_field_init(this, _mutationCache2, {
+            writable: true,
+            value: void 0
+          });
+          _class_private_field_init(this, _defaultOptions2, {
+            writable: true,
+            value: void 0
+          });
+          _class_private_field_init(this, _queryDefaults, {
+            writable: true,
+            value: void 0
+          });
+          _class_private_field_init(this, _mutationDefaults, {
+            writable: true,
+            value: void 0
+          });
+          _class_private_field_init(this, _mountCount, {
+            writable: true,
+            value: void 0
+          });
+          _class_private_field_init(this, _unsubscribeFocus, {
+            writable: true,
+            value: void 0
+          });
+          _class_private_field_init(this, _unsubscribeOnline, {
+            writable: true,
+            value: void 0
+          });
+          _class_private_field_set(this, _queryCache, config.queryCache || new QueryCache());
+          _class_private_field_set(this, _mutationCache2, config.mutationCache || new MutationCache());
+          _class_private_field_set(this, _defaultOptions2, config.defaultOptions || {});
+          _class_private_field_set(this, _queryDefaults, /* @__PURE__ */ new Map());
+          _class_private_field_set(this, _mutationDefaults, /* @__PURE__ */ new Map());
+          _class_private_field_set(this, _mountCount, 0);
+        }
+        _create_class(_class5, [
+          {
+            /**
+            * Called by a framework adapter's `QueryClientProvider`-equivalent when it mounts, to start
+            * listening for focus/online events and resume paused mutations. Ref-counted via an internal
+            * mount count, so nested or multiple providers sharing the same `QueryClient` don't tear down
+            * the shared listeners until the last one unmounts.
+            */
+            key: "mount",
+            value: function mount() {
+              _class_private_field_update(this, _mountCount).value++;
+              if (_class_private_field_get(this, _mountCount) !== 1)
+                return;
+              _class_private_field_set(this, _unsubscribeFocus, focusManager.subscribe((focused) => _async_to_generator(function* () {
+                if (focused) {
+                  yield this.resumePausedMutations();
+                  _class_private_field_get(this, _queryCache).onFocus();
+                }
+              }).call(this)));
+              _class_private_field_set(this, _unsubscribeOnline, onlineManager.subscribe((online) => _async_to_generator(function* () {
+                if (online) {
+                  yield this.resumePausedMutations();
+                  _class_private_field_get(this, _queryCache).onOnline();
+                }
+              }).call(this)));
+            }
+          },
+          {
+            /**
+            * The inverse of {@link QueryClient#mount} — called by a framework adapter's
+            * `QueryClientProvider`-equivalent when it unmounts. Only tears down the focus/online
+            * listeners once the mount count returns to `0`.
+            */
+            key: "unmount",
+            value: function unmount() {
+              var _this, _this1, _ref, _this2, _this3, _ref1;
+              _class_private_field_update(this, _mountCount).value--;
+              if (_class_private_field_get(this, _mountCount) !== 0)
+                return;
+              (_this = _class_private_field_get(_ref = _this1 = this, _unsubscribeFocus)) === null || _this === void 0 ? void 0 : _this.call(_this1);
+              _class_private_field_set(this, _unsubscribeFocus, void 0);
+              (_this2 = _class_private_field_get(_ref1 = _this3 = this, _unsubscribeOnline)) === null || _this2 === void 0 ? void 0 : _this2.call(_this3);
+              _class_private_field_set(this, _unsubscribeOnline, void 0);
+            }
+          },
+          {
+            /**
+            * Returns the number of queries in the cache that are currently fetching, optionally
+            * matching a set of filters. This includes background-fetching, loading new pages, and
+            * loading more infinite query results.
+            * @param filters - Narrows down which fetching queries are counted. Without filters, every
+            * fetching query is counted.
+            * @returns The number of matching queries whose `fetchStatus` is `'fetching'`.
+            * @example
+            * ```ts
+            * if (queryClient.isFetching()) {
+            *   console.log('At least one query is fetching!')
+            * }
+            * ```
+            */
+            key: "isFetching",
+            value: function isFetching(filters) {
+              return _class_private_field_get(this, _queryCache).findAll({
+                ...filters,
+                fetchStatus: "fetching"
+              }).length;
+            }
+          },
+          {
+            /**
+            * Returns the number of mutations in the cache that are currently pending, optionally
+            * matching a set of filters.
+            * @param filters - Narrows down which pending mutations are counted. Without filters, every
+            * pending mutation is counted.
+            * @returns The number of matching mutations whose `status` is `'pending'`.
+            * @example
+            * ```ts
+            * if (queryClient.isMutating()) {
+            *   console.log('At least one mutation is pending!')
+            * }
+            * ```
+            */
+            key: "isMutating",
+            value: function isMutating(filters) {
+              return _class_private_field_get(this, _mutationCache2).findAll({
+                ...filters,
+                status: "pending"
+              }).length;
+            }
+          },
+          {
+            /**
+            * Imperative (non-reactive) way to retrieve data for a QueryKey.
+            * Should only be used in callbacks or functions where reading the latest data is necessary, e.g. for optimistic updates.
+            *
+            * Hint: Do not use this function inside a component, because it won't receive updates.
+            * Use `useQuery` to create a `QueryObserver` that subscribes to changes.
+            * @param queryKey - The query key of the query to read.
+            * @returns The cached data for the query, or `undefined` if no query with this key has been observed yet.
+            * @see {@link QueryClient#getQueriesData}
+            */
+            key: "getQueryData",
+            value: function getQueryData(queryKey) {
+              var options = this.defaultQueryOptions({
+                queryKey
+              });
+              return _class_private_field_get(this, _queryCache).get(options.queryHash)?.state.data;
+            }
+          },
+          {
+            /**
+            * Returns the cached data of a query, or fetches it if there is none. With `revalidateIfStale`,
+            * stale cached data is also refetched in the background.
+            * @param options - The query options. If the query has no cached data yet, it is fetched with
+            * these options.
+            * @returns A promise that resolves to the cached data, or to the fetched data if nothing was
+            * cached yet.
+            * @deprecated Use queryClient.query({ ...options, staleTime: 'static' }) instead. This method will be removed in the next major version.
+            */
+            key: "ensureQueryData",
+            value: function ensureQueryData(options) {
+              var defaultedOptions = this.defaultQueryOptions(options);
+              var query = _class_private_field_get(this, _queryCache).build(this, defaultedOptions);
+              var cachedData = query.state.data;
+              if (cachedData === void 0)
+                return this.fetchQuery(options);
+              if (options.revalidateIfStale && query.isStaleByTime(resolveQueryValue(defaultedOptions.staleTime, query)))
+                this.prefetchQuery(defaultedOptions);
+              return Promise.resolve(cachedData);
+            }
+          },
+          {
+            /**
+            * Imperative (non-reactive) way to retrieve the cached data of multiple queries at once.
+            * Only queries matching the given filters are returned; if none match, an empty array is
+            * returned.
+            *
+            * Because the matched queries can hold data of different shapes (e.g. a broad filter can match
+            * queries with unrelated data types), the `TQueryFnData` generic defaults to `unknown` rather
+            * than being inferred. Passing a more specific type is a convenience for call sites that know
+            * every matched query holds the same shape — it is not checked against the actual cache
+            * contents.
+            * @param filters - The filters that select which queries to read.
+            * @returns An array of query key and data pairs. The data is `undefined` for a query with no cached data.
+            * @see {@link QueryClient#getQueryData}
+            * @example
+            * ```ts
+            * const data = queryClient.getQueriesData({ queryKey: ['posts'] })
+            * ```
+            */
+            key: "getQueriesData",
+            value: function getQueriesData(filters) {
+              return _class_private_field_get(this, _queryCache).findAll(filters).map(({ queryKey, state }) => {
+                return [
+                  queryKey,
+                  state.data
+                ];
+              });
+            }
+          },
+          {
+            /**
+            * Synchronous way to immediately update a query's cached data. If the updater (or the value
+            * passed) resolves to `undefined`, the cache is left untouched and no query is created;
+            * otherwise, if the query does not exist yet, it will be created. To update multiple queries
+            * at once by partially matching query keys, use {@link QueryClient#setQueriesData} instead.
+            *
+            * Updates must be performed immutably: do not mutate `oldData`, or data previously retrieved
+            * via {@link QueryClient#getQueryData}, in place.
+            * @param queryKey - The query key to set data for.
+            * @param updater - Either the new data, or a function that receives the current data (which
+            * may be `undefined`) and returns the new data.
+            * @param options - Set `updatedAt` to override the timestamp the written data is recorded with.
+            * @returns The data that was written, or `undefined` if the updater returned `undefined` — in that case
+            * the write is skipped and the cache is left unchanged.
+            * @example
+            * ```ts
+            * queryClient.setQueryData(['posts'], newPosts)
+            *
+            * // Or, using an updater function that receives the current data:
+            * queryClient.setQueryData(['posts'], (oldPosts) => [...oldPosts, newPost])
+            * ```
+            */
+            key: "setQueryData",
+            value: function setQueryData(queryKey, updater, options) {
+              var defaultedOptions = this.defaultQueryOptions({
+                queryKey
+              });
+              var prevData = _class_private_field_get(this, _queryCache).get(defaultedOptions.queryHash)?.state.data;
+              var data = functionalUpdate(updater, prevData);
+              if (data === void 0)
+                return;
+              return _class_private_field_get(this, _queryCache).build(this, defaultedOptions).setData(data, {
+                ...options,
+                manual: true
+              });
+            }
+          },
+          {
+            /**
+            * Synchronous way to immediately update the cached data of multiple queries at once, using
+            * filters or partial query key matching. Only queries that already exist and match the given
+            * filters are updated; no new cache entries are created. Internally this calls
+            * {@link QueryClient#setQueryData} for each matching query.
+            * @param filters - The filters that select which existing queries to update.
+            * @param updater - Either the new data, or a function that receives each matched query's current
+            * data (which may be `undefined`) and returns the new data.
+            * @param options - Set `updatedAt` to override the timestamp the written data is recorded with.
+            * @returns One `[queryKey, data]` tuple per matched query, in the same shape and with the same
+            * `undefined` case as {@link QueryClient#setQueryData}.
+            * @example
+            * ```ts
+            * queryClient.setQueriesData({ queryKey: ['posts'] }, (oldPosts) =>
+            *   oldPosts ? oldPosts.filter((post) => post.id !== deletedId) : oldPosts,
+            * )
+            * ```
+            */
+            key: "setQueriesData",
+            value: function setQueriesData(filters, updater, options) {
+              return notifyManager.batch(() => _class_private_field_get(this, _queryCache).findAll(filters).map(({ queryKey }) => [
+                queryKey,
+                this.setQueryData(queryKey, updater, options)
+              ]));
+            }
+          },
+          {
+            /**
+            * Imperative (non-reactive) way to retrieve an existing query's state. If the query does not
+            * exist, `undefined` is returned.
+            * @param queryKey - The query key of the query to read.
+            * @returns The query's state, or `undefined` if no query with this key exists.
+            * @example
+            * ```ts
+            * const state = queryClient.getQueryState(['posts'])
+            * console.log(state?.dataUpdatedAt)
+            * ```
+            */
+            key: "getQueryState",
+            value: function getQueryState(queryKey) {
+              var options = this.defaultQueryOptions({
+                queryKey
+              });
+              return _class_private_field_get(this, _queryCache).get(options.queryHash)?.state;
+            }
+          },
+          {
+            /**
+            * Removes queries from the cache that match the given filters. Unlike
+            * {@link QueryClient#invalidateQueries} or {@link QueryClient#refetchQueries}, this removes
+            * matching queries from the cache instead of refetching them. Without filters, every query in
+            * the cache is removed.
+            * @param filters - The filters that select which queries to remove. Without filters, every query
+            * is removed.
+            * @example
+            * ```ts
+            * queryClient.removeQueries({ queryKey: ['posts'], exact: true })
+            * ```
+            */
+            key: "removeQueries",
+            value: function removeQueries(filters) {
+              var queryCache = _class_private_field_get(this, _queryCache);
+              notifyManager.batch(() => {
+                queryCache.findAll(filters).forEach((query) => {
+                  queryCache.remove(query);
+                });
+              });
+            }
+          },
+          {
+            /**
+            * Resets queries matching the given filters back to their initial state (e.g. any
+            * `initialData`), notifying subscribers rather than removing them. Active queries among the
+            * matched set are then refetched, and the returned promise resolves once that refetch settles.
+            * @param filters - The filters that select which queries to reset. Without filters, every query
+            * is reset.
+            * @param options - Passed to the refetch of the active matched queries, e.g. `cancelRefetch` and
+            * `throwOnError`.
+            * @returns A promise that resolves once the refetch of the active matched queries settles.
+            * @example
+            * ```ts
+            * await queryClient.resetQueries({ queryKey: ['posts'], exact: true })
+            * ```
+            */
+            key: "resetQueries",
+            value: function resetQueries(filters, options) {
+              var queryCache = _class_private_field_get(this, _queryCache);
+              return notifyManager.batch(() => {
+                var matched = queryCache.findAll(filters);
+                var queriesToRefetch = new Set(matched);
+                matched.forEach((query) => {
+                  query.reset();
+                });
+                return this.refetchQueries({
+                  type: "active",
+                  predicate: (query) => queriesToRefetch.has(query)
+                }, options);
+              });
+            }
+          },
+          {
+            /**
+            * Cancels outgoing fetches for queries matching the given filters. Most useful when performing
+            * optimistic updates, since any outgoing refetch that resolves afterwards would otherwise
+            * overwrite the optimistic update. By default (`revert: true`), a cancelled query's data is
+            * reverted to its state before the outgoing fetch started.
+            *
+            * The returned promise never rejects, even if individual cancellations fail.
+            * @param filters - The filters that select which queries to cancel. Without filters, every query
+            * is cancelled.
+            * @param cancelOptions - Passed to each matched query's cancellation. `revert` defaults to
+            * `true`.
+            * @returns A promise that resolves once every cancellation has settled.
+            * @example
+            * ```ts
+            * await queryClient.cancelQueries({ queryKey: ['posts'], exact: true })
+            * ```
+            */
+            key: "cancelQueries",
+            value: function cancelQueries(filters, cancelOptions = {}) {
+              var defaultedCancelOptions = {
+                revert: true,
+                ...cancelOptions
+              };
+              var promises = notifyManager.batch(() => _class_private_field_get(this, _queryCache).findAll(filters).map((query) => query.cancel(defaultedCancelOptions)));
+              return Promise.all(promises).then(noop).catch(noop);
+            }
+          },
+          {
+            /**
+            * Marks queries matching the given filters as invalidated. Unlike
+            * {@link QueryClient#removeQueries}, invalidated queries stay in the cache.
+            *
+            * Unless `filters.refetchType` is `'none'`, matching queries are then refetched via
+            * {@link QueryClient#refetchQueries}, using `filters.refetchType` if set, otherwise
+            * `filters.type`, otherwise `'active'`.
+            * @param filters - The filters that select which queries to invalidate, plus `refetchType` to
+            * control which of them to refetch afterwards. Without filters, every query is invalidated.
+            * @param options - Passed to {@link QueryClient#refetchQueries}, e.g. `cancelRefetch` and
+            * `throwOnError`.
+            * @returns A promise that resolves once the refetch settles, or immediately if `refetchType` is
+            * `'none'`.
+            * @example
+            * ```ts
+            * await queryClient.invalidateQueries({ queryKey: ['posts'], refetchType: 'active' })
+            * ```
+            */
+            key: "invalidateQueries",
+            value: function invalidateQueries(filters, options = {}) {
+              return notifyManager.batch(() => {
+                _class_private_field_get(this, _queryCache).findAll(filters).forEach((query) => {
+                  query.invalidate();
+                });
+                if (filters?.refetchType === "none")
+                  return Promise.resolve();
+                return this.refetchQueries({
+                  ...filters,
+                  type: filters?.refetchType ?? filters?.type ?? "active"
+                }, options);
+              });
+            }
+          },
+          {
+            /**
+            * Refetches queries matching the given filters, regardless of whether they are stale. Without
+            * filters, every query in the cache is refetched. Queries that are disabled, or static (only
+            * have observers with a static `staleTime`), are never refetched.
+            *
+            * By default (`cancelRefetch: true`), a currently running fetch is cancelled before the new
+            * one starts. The returned promise does not reject on individual query failures unless
+            * `throwOnError` is `true`.
+            *
+            * Initially paused fetches do not delay the returned promise. Their later errors are handled
+            * even when `throwOnError` is `true`.
+            * @param filters - The filters that select which queries to refetch. Without filters, every query
+            * in the cache is included.
+            * @param options - Set `cancelRefetch` to `false` to keep a running fetch instead of cancelling
+            * it, and `throwOnError` to `true` to reject when a refetch that was not initially paused fails.
+            * @returns A promise that resolves once all matching refetches that were not initially paused
+            * have settled.
+            * @example
+            * ```ts
+            * // refetch all active queries partially matching a query key:
+            * await queryClient.refetchQueries({ queryKey: ['posts'], type: 'active' })
+            * ```
+            */
+            key: "refetchQueries",
+            value: function refetchQueries(filters, options = {}) {
+              var fetchOptions = {
+                ...options,
+                cancelRefetch: options.cancelRefetch ?? true
+              };
+              var promises = notifyManager.batch(() => _class_private_field_get(this, _queryCache).findAll(filters).filter((query) => !query.isDisabled() && !query.isStatic()).map((query) => {
+                var promise = query.fetch(void 0, fetchOptions);
+                var isPaused = query.state.fetchStatus === "paused";
+                if (!fetchOptions.throwOnError || isPaused)
+                  promise = promise.catch(noop);
+                return isPaused ? Promise.resolve() : promise;
+              }));
+              return Promise.all(promises).then(noop);
+            }
+          },
+          {
+            key: "query",
+            value: (
+              /**
+              * Asynchronous method to fetch and cache a query, resolving with the data or throwing with
+              * the error.
+              *
+              * If the query already exists in the cache and its data is not stale (per the given
+              * `staleTime`), the cached data is returned without fetching. Otherwise, the query is fetched
+              * and the promise resolves once the fetch settles. If a `select` function is provided, it is
+              * applied to the data in both cases (cached or freshly fetched) before it is returned.
+              *
+              * Unlike a reactive observer, retries are disabled by default here (`retry: false`) unless
+              * explicitly configured, since there is no component to catch a thrown error and retry through
+              * re-render.
+              *
+              * The accepted options are `QueryObserverOptions` minus the fields that only make sense for a
+              * reactive observer — `enabled`, `refetchInterval`, `refetchIntervalInBackground`,
+              * `refetchOnWindowFocus`, `refetchOnReconnect`, `refetchOnMount`, `retryOnMount`,
+              * `notifyOnChangeProps`, `throwOnError`, `suspense`, and `placeholderData` are not part of this
+              * method's options.
+              *
+              * This method replaces the deprecated `fetchQuery`, and — combined with
+              * `{ staleTime: 'static' }` — the deprecated `ensureQueryData`.
+              * @param options - The query options, including the `queryKey` and the `queryFn` used if the
+              * query needs to fetch.
+              * @returns A promise that resolves to the data, or to the result of `select` if provided. It
+              * rejects with the error from the fetch or from `select`.
+              * @example
+              * ```ts
+              * try {
+              *   const data = await queryClient.query({ queryKey, queryFn, staleTime: 10000 })
+              * } catch (error) {
+              *   console.log(error)
+              * }
+              * ```
+              */
+              function query(options) {
+                return _async_to_generator(function* () {
+                  var defaultedOptions = this.defaultQueryOptions(options);
+                  if (defaultedOptions.retry === void 0)
+                    defaultedOptions.retry = false;
+                  var query2 = _class_private_field_get(this, _queryCache).build(this, defaultedOptions);
+                  var queryData = query2.isStaleByTime(resolveQueryValue(defaultedOptions.staleTime, query2)) ? yield query2.fetch(defaultedOptions) : query2.state.data;
+                  var select = defaultedOptions.select;
+                  if (select)
+                    return select(queryData);
+                  return queryData;
+                }).call(this);
+              }
+            )
+          },
+          {
+            /**
+            * Fetches and caches a query, or returns its cached data if it isn't stale. Unlike in observers,
+            * the fetch isn't retried unless `retry` is set.
+            * @param options - The query options, including the `queryKey` and the `queryFn` used if the
+            * query needs to fetch.
+            * @returns A promise that resolves to the cached or fetched data, or rejects with the fetch
+            * error.
+            * @deprecated Use queryClient.query(options) instead. This method will be removed in the next major version.
+            */
+            key: "fetchQuery",
+            value: function fetchQuery(options) {
+              var defaultedOptions = this.defaultQueryOptions(options);
+              if (defaultedOptions.retry === void 0)
+                defaultedOptions.retry = false;
+              var query = _class_private_field_get(this, _queryCache).build(this, defaultedOptions);
+              return query.isStaleByTime(resolveQueryValue(defaultedOptions.staleTime, query)) ? query.fetch(defaultedOptions) : Promise.resolve(query.state.data);
+            }
+          },
+          {
+            /**
+            * Fetches and caches a query like {@link QueryClient#fetchQuery}, but ignores the result and any
+            * error.
+            * @param options - The query options, including the `queryKey` and the `queryFn` used if the
+            * query needs to fetch.
+            * @returns A promise that resolves once the fetch settles. It never rejects.
+            * @deprecated Use queryClient.query(options) instead. You can swallow errors with `.catch(noop)`. This method will be removed in the next major version.
+            */
+            key: "prefetchQuery",
+            value: function prefetchQuery(options) {
+              return this.fetchQuery(options).then(noop).catch(noop);
+            }
+          },
+          {
+            /**
+            * Asynchronous method to fetch and cache an infinite query, resolving with an
+            * {@link InfiniteData} object or throwing with the error.
+            *
+            * Behaves like {@link QueryClient#query}, accepting the same options (minus
+            * `initialPageParam`), plus the required `initialPageParam`, and an optional `pages` /
+            * `getNextPageParam` pair used to refetch a fixed number of pages from the start.
+            *
+            * This method replaces the deprecated `fetchInfiniteQuery`, and — combined with
+            * `{ staleTime: 'static' }` — the deprecated `ensureInfiniteQueryData`.
+            * @param options - The infinite query options, including the `queryKey`, the `queryFn`, and the
+            * `initialPageParam`.
+            * @returns A promise that resolves to the {@link InfiniteData}, or to the result of `select` if
+            * provided. It rejects with the error from the fetch or from `select`.
+            * @example
+            * ```ts
+            * try {
+            *   const data = await queryClient.infiniteQuery({ queryKey, queryFn, initialPageParam: 0 })
+            *   console.log(data.pages)
+            * } catch (error) {
+            *   console.log(error)
+            * }
+            * ```
+            */
+            key: "infiniteQuery",
+            value: function infiniteQuery(options) {
+              options._type = "infinite";
+              return this.query(options);
+            }
+          },
+          {
+            /**
+            * Fetches and caches an infinite query, or returns its cached data if it isn't stale.
+            * @param options - The infinite query options, including the `queryKey`, the `queryFn`, and the
+            * `initialPageParam`.
+            * @returns A promise that resolves to the cached or fetched {@link InfiniteData}, or rejects with
+            * the fetch error.
+            * @deprecated Use queryClient.infiniteQuery(options) instead. This method will be removed in the next major version.
+            */
+            key: "fetchInfiniteQuery",
+            value: function fetchInfiniteQuery(options) {
+              options._type = "infinite";
+              return this.fetchQuery(options);
+            }
+          },
+          {
+            /**
+            * Fetches and caches an infinite query like {@link QueryClient#fetchInfiniteQuery}, but ignores
+            * the result and any error.
+            * @param options - The infinite query options, including the `queryKey`, the `queryFn`, and the
+            * `initialPageParam`.
+            * @returns A promise that resolves once the fetch settles. It never rejects.
+            * @deprecated Use queryClient.infiniteQuery(options) instead. You can swallow errors with `.catch(noop)`. This method will be removed in the next major version.
+            */
+            key: "prefetchInfiniteQuery",
+            value: function prefetchInfiniteQuery(options) {
+              return this.fetchInfiniteQuery(options).then(noop).catch(noop);
+            }
+          },
+          {
+            /**
+            * Returns the cached data of an infinite query, or fetches it if there is none. With
+            * `revalidateIfStale`, stale cached data is also refetched in the background.
+            * @param options - The infinite query options. If the query has no cached data yet, it is fetched
+            * with these options.
+            * @returns A promise that resolves to the cached {@link InfiniteData}, or to the fetched data if
+            * nothing was cached yet.
+            * @deprecated Use queryClient.infiniteQuery({ ...options, staleTime: 'static' }) instead. This method will be removed in the next major version.
+            */
+            key: "ensureInfiniteQueryData",
+            value: function ensureInfiniteQueryData(options) {
+              options._type = "infinite";
+              return this.ensureQueryData(options);
+            }
+          },
+          {
+            /**
+            * Resumes mutations that were paused because there was no network connection. Does nothing
+            * (resolving immediately) if the client is currently offline.
+            * @returns A promise that resolves once the resumed mutations have settled.
+            * @example
+            * ```ts
+            * import { QueryClient } from '@tanstack/query-core'
+            *
+            * const queryClient = new QueryClient()
+            * await queryClient.resumePausedMutations()
+            * ```
+            */
+            key: "resumePausedMutations",
+            value: function resumePausedMutations() {
+              if (onlineManager.isOnline())
+                return _class_private_field_get(this, _mutationCache2).resumePausedMutations();
+              return Promise.resolve();
+            }
+          },
+          {
+            /**
+            * Returns the query cache this client is connected to.
+            * @returns The {@link QueryCache} instance.
+            * @example
+            * ```ts
+            * import { QueryClient } from '@tanstack/query-core'
+            *
+            * const queryClient = new QueryClient()
+            * const queryCache = queryClient.getQueryCache()
+            * const queries = queryCache.findAll({ queryKey: ['posts'] })
+            * ```
+            */
+            key: "getQueryCache",
+            value: function getQueryCache() {
+              return _class_private_field_get(this, _queryCache);
+            }
+          },
+          {
+            /**
+            * Returns the mutation cache this client is connected to.
+            * @returns The {@link MutationCache} instance.
+            * @example
+            * ```ts
+            * import { QueryClient } from '@tanstack/query-core'
+            *
+            * const queryClient = new QueryClient()
+            * const mutationCache = queryClient.getMutationCache()
+            * const mutations = mutationCache.findAll({ status: 'pending' })
+            * ```
+            */
+            key: "getMutationCache",
+            value: function getMutationCache() {
+              return _class_private_field_get(this, _mutationCache2);
+            }
+          },
+          {
+            /**
+            * Returns the default options that were set when creating the client, or via
+            * {@link QueryClient#setDefaultOptions}.
+            * @returns The client's current default options.
+            * @example
+            * ```ts
+            * import { QueryClient } from '@tanstack/query-core'
+            *
+            * const queryClient = new QueryClient()
+            * const defaultOptions = queryClient.getDefaultOptions()
+            * ```
+            */
+            key: "getDefaultOptions",
+            value: function getDefaultOptions() {
+              return _class_private_field_get(this, _defaultOptions2);
+            }
+          },
+          {
+            /**
+            * Dynamically sets the default options for this client, overwriting any previously defined
+            * default options.
+            * @param options - The new default options for queries and mutations.
+            * @see {@link QueryClient#getDefaultOptions}
+            * @example
+            * ```ts
+            * import { QueryClient } from '@tanstack/query-core'
+            *
+            * const queryClient = new QueryClient()
+            * queryClient.setDefaultOptions({
+            *   queries: {
+            *     staleTime: Infinity,
+            *   },
+            * })
+            * ```
+            */
+            key: "setDefaultOptions",
+            value: function setDefaultOptions(options) {
+              _class_private_field_set(this, _defaultOptions2, options);
+            }
+          },
+          {
+            /**
+            * Sets default options for queries whose query key partially matches the given `queryKey`.
+            *
+            * If several registered query defaults match a given query key, they are merged together in
+            * registration order by {@link QueryClient#getQueryDefaults}, so register defaults from the
+            * most generic key to the least generic one — more specific defaults should be registered
+            * after more generic ones so they take precedence.
+            * @param queryKey - The query key that query keys are partially matched against.
+            * @param options - The default options applied to matching queries.
+            * @example
+            * ```ts
+            * queryClient.setQueryDefaults(['posts'], { queryFn: fetchPosts })
+            *
+            * await queryClient.query({ queryKey: ['posts'] })
+            * ```
+            */
+            key: "setQueryDefaults",
+            value: function setQueryDefaults(queryKey, options) {
+              _class_private_field_get(this, _queryDefaults).set(hashKey(queryKey), {
+                queryKey,
+                defaultOptions: options
+              });
+            }
+          },
+          {
+            /**
+            * Returns the default options registered for queries whose query key partially matches the
+            * given `queryKey`, via {@link QueryClient#setQueryDefaults}. If multiple registered defaults
+            * match, they are merged together in registration order.
+            * @param queryKey - The query key to look up registered defaults for.
+            * @returns The merged default options of every registration that matches, or an empty object if
+            * none match.
+            * @example
+            * ```ts
+            * const defaultOptions = queryClient.getQueryDefaults(['posts'])
+            * ```
+            */
+            key: "getQueryDefaults",
+            value: function getQueryDefaults(queryKey) {
+              var defaults = [
+                ..._class_private_field_get(this, _queryDefaults).values()
+              ];
+              var result = {};
+              defaults.forEach((queryDefault) => {
+                if (partialMatchKey(queryKey, queryDefault.queryKey))
+                  Object.assign(result, queryDefault.defaultOptions);
+              });
+              return result;
+            }
+          },
+          {
+            /**
+            * Sets default options for mutations whose mutation key partially matches the given
+            * `mutationKey`. As with {@link QueryClient#setQueryDefaults}, the order of registration
+            * matters when several registered defaults match the same mutation key.
+            * @param mutationKey - The mutation key that mutation keys are partially matched against.
+            * @param options - The default options applied to matching mutations.
+            * @see {@link QueryClient#getMutationDefaults}
+            * @example
+            * ```ts
+            * queryClient.setMutationDefaults(['addPost'], { mutationFn: addPost })
+            * ```
+            */
+            key: "setMutationDefaults",
+            value: function setMutationDefaults(mutationKey, options) {
+              _class_private_field_get(this, _mutationDefaults).set(hashKey(mutationKey), {
+                mutationKey,
+                defaultOptions: options
+              });
+            }
+          },
+          {
+            /**
+            * Returns the default options registered for mutations whose mutation key partially matches
+            * the given `mutationKey`, via {@link QueryClient#setMutationDefaults}. If multiple registered
+            * defaults match, they are merged together in registration order.
+            * @param mutationKey - The mutation key to look up registered defaults for.
+            * @returns The merged default options of every registration that matches, or an empty object if
+            * none match.
+            * @example
+            * ```ts
+            * const defaultOptions = queryClient.getMutationDefaults(['addPost'])
+            * ```
+            */
+            key: "getMutationDefaults",
+            value: function getMutationDefaults(mutationKey) {
+              var defaults = [
+                ..._class_private_field_get(this, _mutationDefaults).values()
+              ];
+              var result = {};
+              defaults.forEach((queryDefault) => {
+                if (partialMatchKey(mutationKey, queryDefault.mutationKey))
+                  Object.assign(result, queryDefault.defaultOptions);
+              });
+              return result;
+            }
+          },
+          {
+            /**
+            * Called by framework adapters (e.g. inside `useQuery`) to resolve the options passed by the
+            * caller into their final, defaulted form: merging the client's own `defaultOptions.queries`,
+            * then `queryClient.setQueryDefaults` for the given `queryKey`, then the caller's options on
+            * top. A no-op if the options are already defaulted (`_defaulted: true`).
+            * @param options - The query options passed by the caller.
+            * @returns The defaulted options, with `queryHash` and dependent defaults (e.g.
+            * `refetchOnReconnect`) filled in.
+            */
+            key: "defaultQueryOptions",
+            value: function defaultQueryOptions(options) {
+              if (options._defaulted)
+                return options;
+              var defaultedOptions = {
+                ..._class_private_field_get(this, _defaultOptions2).queries,
+                ...this.getQueryDefaults(options.queryKey),
+                ...options,
+                _defaulted: true
+              };
+              if (!defaultedOptions.queryHash)
+                defaultedOptions.queryHash = hashQueryKeyByOptions(defaultedOptions.queryKey, defaultedOptions);
+              if (defaultedOptions.refetchOnReconnect === void 0)
+                defaultedOptions.refetchOnReconnect = defaultedOptions.networkMode !== "always";
+              if (defaultedOptions.throwOnError === void 0)
+                defaultedOptions.throwOnError = !!defaultedOptions.suspense;
+              if (!defaultedOptions.networkMode && defaultedOptions.persister)
+                defaultedOptions.networkMode = "offlineFirst";
+              if (defaultedOptions.queryFn === skipToken)
+                defaultedOptions.enabled = false;
+              return defaultedOptions;
+            }
+          },
+          {
+            /**
+            * The mutation counterpart of {@link QueryClient#defaultQueryOptions}. Called by framework
+            * adapters (e.g. inside `useMutation`) to merge the client's `defaultOptions.mutations`, then
+            * `queryClient.setMutationDefaults` for the given `mutationKey`, then the caller's options on
+            * top. A no-op if the options are already defaulted (`_defaulted: true`).
+            * @param options - The mutation options passed by the caller.
+            * @returns The defaulted options.
+            */
+            key: "defaultMutationOptions",
+            value: function defaultMutationOptions(options) {
+              if (options?._defaulted)
+                return options;
+              return {
+                ..._class_private_field_get(this, _defaultOptions2).mutations,
+                ...options?.mutationKey && this.getMutationDefaults(options.mutationKey),
+                ...options,
+                _defaulted: true
+              };
+            }
+          },
+          {
+            /**
+            * Clears both the query cache and the mutation cache this client is connected to.
+            * @example
+            * ```ts
+            * import { QueryClient } from '@tanstack/query-core'
+            *
+            * const queryClient = new QueryClient()
+            * queryClient.clear()
+            * ```
+            */
+            key: "clear",
+            value: function clear() {
+              _class_private_field_get(this, _queryCache).clear();
+              _class_private_field_get(this, _mutationCache2).clear();
+            }
+          }
+        ]);
+        return _class5;
+      }());
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/index.js
+  var init_modern = __esm({
+    "node_modules/.pnpm/@tanstack+query-core@5.106.0/node_modules/@tanstack/query-core/build/modern/index.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_utils2();
+      init_notifyManager();
+      init_queryObserver();
+      init_mutationObserver();
+      init_queryClient();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/IsRestoringProvider.js
+  var React5, IsRestoringContext, useIsRestoring, IsRestoringProvider;
+  var init_IsRestoringProvider = __esm({
+    "node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/IsRestoringProvider.js"() {
+      "use client";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      React5 = __toESM(require_react(), 1);
+      IsRestoringContext = React5.createContext(false);
+      useIsRestoring = () => React5.useContext(IsRestoringContext);
+      IsRestoringProvider = IsRestoringContext.Provider;
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/QueryErrorResetBoundary.js
+  function createValue() {
+    var isReset = false;
+    return {
+      /**
+      * Clears the reset state, so queries know not to try again until the boundary is reset again.
+      */
+      clearReset: () => {
+        isReset = false;
+      },
+      /**
+      * Resets any query errors within the boundary, so queries know they can try again.
+      */
+      reset: () => {
+        isReset = true;
+      },
+      /**
+      * Returns whether the boundary has been reset and not yet cleared.
+      * @returns `true` if the boundary has been reset and not yet cleared.
+      */
+      isReset: () => {
+        return isReset;
+      }
+    };
+  }
+  var React6, QueryErrorResetBoundaryContext, useQueryErrorResetBoundary;
+  var init_QueryErrorResetBoundary = __esm({
+    "node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/QueryErrorResetBoundary.js"() {
+      "use client";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      React6 = __toESM(require_react(), 1);
+      init_jsxRuntime();
+      QueryErrorResetBoundaryContext = React6.createContext(createValue());
+      useQueryErrorResetBoundary = () => React6.useContext(QueryErrorResetBoundaryContext);
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/errorBoundaryUtils.js
+  var React7, ensurePreventErrorBoundaryRetry, useClearResetErrorBoundary, getHasError;
+  var init_errorBoundaryUtils = __esm({
+    "node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/errorBoundaryUtils.js"() {
+      "use client";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      React7 = __toESM(require_react(), 1);
+      init_modern();
+      ensurePreventErrorBoundaryRetry = (options, errorResetBoundary, query) => {
+        var throwOnError = query?.state.status === "error" && typeof options.throwOnError === "function" ? shouldThrowError(options.throwOnError, [
+          query.state.error,
+          query
+        ]) : options.throwOnError;
+        if (options.suspense || throwOnError) {
+          if (!errorResetBoundary.isReset())
+            options.retryOnMount = false;
+        }
+      };
+      useClearResetErrorBoundary = (errorResetBoundary) => {
+        React7.useEffect(() => {
+          errorResetBoundary.clearReset();
+        }, [
+          errorResetBoundary
+        ]);
+      };
+      getHasError = ({ result, errorResetBoundary, throwOnError, query, suspense }) => {
+        return result.isError && !errorResetBoundary.isReset() && !result.isFetching && query && (suspense && result.data === void 0 || shouldThrowError(throwOnError, [
+          result.error,
+          query
+        ]));
+      };
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/suspense.js
+  var ensureSuspenseTimers, shouldSuspend, fetchOptimistic;
+  var init_suspense = __esm({
+    "node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/suspense.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      ensureSuspenseTimers = (defaultedOptions) => {
+        if (defaultedOptions.suspense) {
+          var MIN_SUSPENSE_TIME_MS = 1e3;
+          var clamp = (value) => value === "static" ? value : Math.max(value ?? MIN_SUSPENSE_TIME_MS, MIN_SUSPENSE_TIME_MS);
+          var originalStaleTime = defaultedOptions.staleTime;
+          defaultedOptions.staleTime = typeof originalStaleTime === "function" ? (...args) => clamp(originalStaleTime(...args)) : clamp(originalStaleTime);
+          if (typeof defaultedOptions.gcTime === "number")
+            defaultedOptions.gcTime = Math.max(defaultedOptions.gcTime, MIN_SUSPENSE_TIME_MS);
+        }
+      };
+      shouldSuspend = (defaultedOptions, result) => defaultedOptions?.suspense && result.isPending;
+      fetchOptimistic = (defaultedOptions, observer, errorResetBoundary) => observer.fetchOptimistic(defaultedOptions).catch(() => {
+        errorResetBoundary.clearReset();
+      });
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/useBaseQuery.js
+  function useBaseQuery(options, Observer, queryClient2) {
+    if (true) {
+      if (typeof options !== "object" || Array.isArray(options))
+        throw new Error('Bad argument type. Starting with v5, only the "Object" form is allowed when calling query related functions. Please use the error stack to find the culprit call. More info here: https://tanstack.com/query/latest/docs/react/guides/migrating-to-v5#supports-a-single-signature-one-object');
+    }
+    var isRestoring = useIsRestoring();
+    var errorResetBoundary = useQueryErrorResetBoundary();
+    var client = useQueryClient(queryClient2);
+    var defaultedOptions = client.defaultQueryOptions(options);
+    var query = client.getQueryCache().get(defaultedOptions.queryHash);
+    if (true) {
+      if (!defaultedOptions.queryFn)
+        console.error(`[${defaultedOptions.queryHash}]: No queryFn was passed as an option, and no default queryFn was found. The queryFn parameter is only optional when using a default queryFn. More info here: https://tanstack.com/query/latest/docs/framework/react/guides/default-query-function`);
+    }
+    var subscribed = options.subscribed !== false;
+    defaultedOptions._optimisticResults = isRestoring ? "isRestoring" : subscribed ? "optimistic" : void 0;
+    ensureSuspenseTimers(defaultedOptions);
+    ensurePreventErrorBoundaryRetry(defaultedOptions, errorResetBoundary, query);
+    useClearResetErrorBoundary(errorResetBoundary);
+    var [observer] = React8.useState(() => new Observer(client, defaultedOptions));
+    var result = observer.getOptimisticResult(defaultedOptions);
+    React8.useEffect(() => {
+      observer.setOptions(defaultedOptions);
+    }, [
+      defaultedOptions,
+      observer
+    ]);
+    var shouldSubscribe = !isRestoring && subscribed;
+    React8.useSyncExternalStore(React8.useCallback((onStoreChange) => {
+      var unsubscribe = shouldSubscribe ? observer.subscribe(notifyManager.batchCalls(onStoreChange)) : noop;
+      observer.updateResult();
+      return unsubscribe;
+    }, [
+      observer,
+      shouldSubscribe
+    ]), () => observer.getCurrentResult(), () => observer.getCurrentResult());
+    if (shouldSuspend(defaultedOptions, result))
+      throw fetchOptimistic(defaultedOptions, observer, errorResetBoundary);
+    if (getHasError({
+      result,
+      errorResetBoundary,
+      throwOnError: defaultedOptions.throwOnError,
+      query,
+      suspense: defaultedOptions.suspense
+    }))
+      throw result.error;
+    return !defaultedOptions.notifyOnChangeProps ? observer.trackResult(result) : result;
+  }
+  var React8;
+  var init_useBaseQuery = __esm({
+    "node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/useBaseQuery.js"() {
+      "use client";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_QueryClientProvider();
+      init_IsRestoringProvider();
+      init_QueryErrorResetBoundary();
+      init_errorBoundaryUtils();
+      init_suspense();
+      React8 = __toESM(require_react(), 1);
+      init_modern();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/useQuery.js
+  function useQuery(options, queryClient2) {
+    return useBaseQuery(options, QueryObserver, queryClient2);
+  }
+  var init_useQuery = __esm({
+    "node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/useQuery.js"() {
+      "use client";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_useBaseQuery();
+      init_modern();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/useMutation.js
+  function useMutation(options, queryClient2) {
+    var client = useQueryClient(queryClient2);
+    var [observer] = React9.useState(() => new MutationObserver(client, options));
+    React9.useEffect(() => {
+      observer.setOptions(options);
+    }, [
+      observer,
+      options
+    ]);
+    var result = React9.useSyncExternalStore(React9.useCallback((onStoreChange) => observer.subscribe(notifyManager.batchCalls(onStoreChange)), [
+      observer
+    ]), () => observer.getCurrentResult(), () => observer.getCurrentResult());
+    var mutate = React9.useCallback((...args) => {
+      observer.mutate(args[0], args[1]).catch(noop);
+    }, [
+      observer
+    ]);
+    if (result.error && shouldThrowError(observer.options.throwOnError, [
+      result.error
+    ]))
+      throw result.error;
+    return {
+      ...result,
+      mutate,
+      mutateAsync: result.mutate
+    };
+  }
+  var React9;
+  var init_useMutation = __esm({
+    "node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/useMutation.js"() {
+      "use client";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_QueryClientProvider();
+      React9 = __toESM(require_react(), 1);
+      init_modern();
+    }
+  });
+
+  // node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/index.js
+  var init_modern2 = __esm({
+    "node_modules/.pnpm/@tanstack+react-query@5.106_b19bbfac5479b4cc29c1f3bc3514ccc4/node_modules/@tanstack/react-query/build/modern/index.js"() {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_QueryClientProvider();
+      init_useQuery();
+      init_useMutation();
+      init_modern();
+    }
+  });
+
+  // src/core/ui/settings/pages/PluginBrowser/index.tsx
+  var PluginBrowser_exports = {};
+  __export(PluginBrowser_exports, {
+    default: () => PluginBrowser
+  });
+  function getManifests() {
+    return _async_to_generator(function* () {
+      yield updateAllRepository();
+      var plugins2 = [
+        ...registeredPlugins.values()
+      ];
+      return plugins2.filter((p) => !isCorePlugin(p.id));
+    })();
+  }
+  function InstallButton(props) {
+    var [installed, setInstalled] = (0, import_react6.useState)(isPluginInstalled(props.id));
+    var installationState = useMutation({
+      mutationFn: ({ install }) => _async_to_generator(function* () {
+        yield (install ? installPlugin : uninstallPlugin)(props.id, true);
+      })(),
+      onSettled() {
+        setInstalled(isPluginInstalled(props.id));
+      },
+      onError(error) {
+        showToast(error instanceof Error ? error.message : String(error));
+      }
+    });
+    return /* @__PURE__ */ jsx(Button, {
+      size: "sm",
+      loading: installationState.isPending,
+      text: !installed ? "Install" : "Uninstall",
+      onPress: () => installationState.mutate({
+        install: !installed
+      }),
+      variant: !installed ? "primary" : "destructive",
+      icon: findAssetId(!installed ? "DownloadIcon" : "TrashIcon")
+    });
+  }
+  function TrailingButtons(props) {
+    return /* @__PURE__ */ jsxs(Stack, {
+      spacing: 8,
+      direction: "horizontal",
+      children: [
+        /* @__PURE__ */ jsx(IconButton, {
+          size: "sm",
+          onPress: () => {
+            showSheet("plugin-info", () => {
+              return /* @__PURE__ */ jsx(ActionSheet, {
+                children: /* @__PURE__ */ jsx(TableRowGroup, {
+                  title: "Plugin Info",
+                  children: /* @__PURE__ */ jsx(TableRow, {
+                    label: "ID",
+                    subLabel: props.id
+                  })
+                })
+              });
+            });
+          },
+          variant: "secondary",
+          icon: findAssetId("CircleInformationIcon")
+        }),
+        /* @__PURE__ */ jsx(InstallButton, {
+          id: props.id
+        })
+      ]
+    });
+  }
+  function PluginCard2(props) {
+    var { display, version } = props.manifest;
+    return /* @__PURE__ */ jsx(Card, {
+      children: /* @__PURE__ */ jsxs(Stack, {
+        spacing: 16,
+        children: [
+          /* @__PURE__ */ jsxs(import_react_native23.View, {
+            style: {
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center"
+            },
+            children: [
+              /* @__PURE__ */ jsxs(import_react_native23.View, {
+                style: {
+                  flexShrink: 1
+                },
+                children: [
+                  /* @__PURE__ */ jsx(Text, {
+                    numberOfLines: 1,
+                    variant: "heading-lg/semibold",
+                    children: display.name
+                  }),
+                  /* @__PURE__ */ jsxs(Text, {
+                    variant: "text-md/semibold",
+                    color: "text-muted",
+                    children: [
+                      "by ",
+                      display.authors?.map((a) => a.name).join(", ") || "Unknown",
+                      " (",
+                      version,
+                      ")"
+                    ]
+                  })
+                ]
+              }),
+              /* @__PURE__ */ jsx(import_react_native23.View, {
+                children: /* @__PURE__ */ jsx(TrailingButtons, {
+                  id: props.manifest.id
+                })
+              })
+            ]
+          }),
+          /* @__PURE__ */ jsx(Text, {
+            variant: "text-md/medium",
+            children: display.description
+          })
+        ]
+      })
+    });
+  }
+  function BrowserPage() {
+    var navigation2 = NavigationNative.useNavigation();
+    (0, import_react6.useEffect)(() => {
+      navigation2.setOptions({
+        title: "Plugin Browser",
+        headerRight: () => /* @__PURE__ */ jsx(IconButton, {
+          size: "sm",
+          variant: "secondary",
+          icon: findAssetId("PlusSmallIcon"),
+          onPress: () => {
+            showSheet("plugin-browser-options", PluginBrowserOptions);
+          }
+        })
+      });
+    }, [
+      navigation2
+    ]);
+    var { data, error, isPending, refetch } = useQuery({
+      queryKey: [
+        "plugins-repo-fetch"
+      ],
+      queryFn: () => getManifests()
+    });
+    if (error) {
+      return /* @__PURE__ */ jsx(import_react_native23.View, {
+        style: {
+          flex: 1,
+          paddingHorizontal: 8,
+          justifyContent: "center",
+          alignItems: "center"
+        },
+        children: /* @__PURE__ */ jsxs(Card, {
+          style: {
+            gap: 8
+          },
+          children: [
+            /* @__PURE__ */ jsx(Text, {
+              style: {
+                textAlign: "center"
+              },
+              variant: "heading-lg/bold",
+              children: "An error occured while fetching the repository!"
+            }),
+            /* @__PURE__ */ jsx(Text, {
+              style: {
+                textAlign: "center"
+              },
+              variant: "text-sm/medium",
+              color: "text-muted",
+              children: error instanceof Error ? error.message : String(error)
+            }),
+            /* @__PURE__ */ jsx(Button, {
+              size: "lg",
+              text: "Refetch",
+              onPress: refetch,
+              icon: findAssetId("RetryIcon")
+            })
+          ]
+        })
+      });
+    }
+    return /* @__PURE__ */ jsx(FlashList, {
+      data,
+      refreshing: isPending,
+      onRefresh: refetch,
+      estimatedItemSize: 136,
+      contentContainerStyle: {
+        paddingBottom: 90,
+        paddingHorizontal: 5
+      },
+      renderItem: ({ item: manifest }) => /* @__PURE__ */ jsx(import_react_native23.View, {
+        style: {
+          paddingVertical: 6,
+          paddingHorizontal: 8
+        },
+        children: /* @__PURE__ */ jsx(PluginCard2, {
+          manifest
+        })
+      })
+    });
+  }
+  function AddRepositoryAlert() {
+    var [value, setValue] = (0, import_react6.useState)("");
+    return /* @__PURE__ */ jsx(AlertModal, {
+      title: "Add Repository",
+      content: "Enter the URL of the repository you want to add.",
+      extraContent: /* @__PURE__ */ jsx(TextInput, {
+        value,
+        onChange: setValue,
+        placeholder: "https://example.com/repo.json"
+      }),
+      actions: /* @__PURE__ */ jsx(AlertActions, {
+        children: /* @__PURE__ */ jsx(AlertActionButton2, {
+          text: "Add",
+          variant: "primary",
+          disabled: !isValidHttpUrl(value),
+          onPress: () => _async_to_generator(function* () {
+            try {
+              yield updateRepository(value);
+              showToast("Added repository!", findAssetId("CheckmarkSmallIcon"));
+            } catch (e) {
+              showToast("Failed to add repository!", findAssetId("XSmallIcon"));
+            } finally {
+              dismissAlert("bunny-add-plugin-repository");
+              showSheet("plugin-browser-options", PluginBrowserOptions);
+            }
+          })()
+        })
+      })
+    });
+  }
+  function PluginBrowserOptions() {
+    return /* @__PURE__ */ jsx(ActionSheet, {
+      children: /* @__PURE__ */ jsxs(TableRowGroup, {
+        title: "Repositories",
+        children: [
+          Object.keys(pluginRepositories).map((url2) => {
+            return /* @__PURE__ */ jsx(RepositoryRow, {
+              url: url2
+            }, url2);
+          }),
+          /* @__PURE__ */ jsx(TableRow, {
+            label: "Add Repository...",
+            icon: /* @__PURE__ */ jsx(TableRow.Icon, {
+              source: findAssetId("PlusMediumIcon")
+            }),
+            onPress: () => {
+              openAlert("bunny-add-plugin-repository", /* @__PURE__ */ jsx(AddRepositoryAlert, {}));
+              hideSheet("plugin-browser-options");
+            }
+          })
+        ]
+      })
+    });
+  }
+  function RepositoryRow(props) {
+    var repo = pluginRepositories[props.url];
+    var isOfficial = props.url === OFFICIAL_PLUGINS_REPO_URL;
+    return /* @__PURE__ */ jsx(TableRow, {
+      label: isOfficial ? "Bunny's Repository" : repo.$meta?.name ?? "Unknown",
+      subLabel: props.url,
+      trailing: /* @__PURE__ */ jsxs(Stack, {
+        direction: "horizontal",
+        children: [
+          /* @__PURE__ */ jsx(IconButton, {
+            size: "sm",
+            variant: "secondary",
+            icon: findAssetId("LinkIcon"),
+            onPress: () => {
+              clipboard.setString(props.url);
+              showToast.showCopyToClipboard();
+            }
+          }),
+          /* @__PURE__ */ jsx(IconButton, {
+            size: "sm",
+            variant: "destructive",
+            disabled: isOfficial,
+            icon: findAssetId("TrashIcon"),
+            onPress: () => {
+              openAlert("bunny-remove-repository", /* @__PURE__ */ jsx(AlertModal, {
+                title: "Remove Repository",
+                content: "Are you sure you want to remove this repository?",
+                extraContent: /* @__PURE__ */ jsx(Card, {
+                  children: /* @__PURE__ */ jsx(Text, {
+                    variant: "text-md/normal",
+                    children: props.url
+                  })
+                }),
+                actions: /* @__PURE__ */ jsx(AlertActions, {
+                  children: /* @__PURE__ */ jsx(AlertActionButton2, {
+                    text: "Remove",
+                    variant: "destructive",
+                    onPress: () => _async_to_generator(function* () {
+                      yield deleteRepository(props.url);
+                      showToast("Removed repository!", findAssetId("Trash"));
+                      dismissAlert("bunny-remove-repository");
+                    })()
+                  })
+                })
+              }));
+            }
+          })
+        ]
+      })
+    });
+  }
+  function PluginBrowser() {
+    return /* @__PURE__ */ jsx(QueryClientProvider, {
+      client: queryClient,
+      children: /* @__PURE__ */ jsx(BrowserPage, {})
+    });
+  }
+  var import_react6, import_react_native23, queryClient;
+  var init_PluginBrowser = __esm({
+    "src/core/ui/settings/pages/PluginBrowser/index.tsx"() {
+      "use strict";
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      init_async_to_generator();
+      init_jsxRuntime();
+      init_plugins4();
+      init_assets();
+      init_alerts();
+      init_wrappers2();
+      init_sheets();
+      init_toasts();
+      init_constants();
+      init_isValidHttpUrl();
+      init_common();
+      init_components();
+      init_modern2();
+      import_react6 = __toESM(require_react());
+      import_react_native23 = __toESM(require_react_native());
+      queryClient = new QueryClient();
     }
   });
 
@@ -10154,7 +14800,9 @@
       ],
       sortOptions: {
         "Name (A-Z)": (a, b3) => a.name.localeCompare(b3.name),
-        "Name (Z-A)": (a, b3) => b3.name.localeCompare(a.name)
+        "Name (Z-A)": (a, b3) => b3.name.localeCompare(a.name),
+        "Enabled": (a, b3) => Number(b3.isEnabled()) - Number(a.isEnabled()),
+        "Disabled": (a, b3) => Number(a.isEnabled()) - Number(b3.isEnabled())
       },
       safeModeHint: {
         message: Strings.SAFE_MODE_NOTICE_PLUGINS
@@ -10166,21 +14814,18 @@
   function Plugins() {
     useProxy(settings);
     var navigation2 = NavigationNative.useNavigation();
+    var [, forceUpdate] = React.useReducer((x2) => x2 + 1, 0);
     return /* @__PURE__ */ jsx(PluginPage, {
       useItems: () => {
         useProxy(VdPluginManager.plugins);
         useObservable([
           pluginSettings
         ]);
-        var corePlugins = [
-          ...registeredPlugins.values()
-        ].filter((p) => isPluginInstalled(p.id) && isCorePlugin(p.id)).map(unifyBunnyPlugin);
         var vdPlugins = Object.values(VdPluginManager.plugins).map(unifyVdPlugin);
         var bnPlugins = [
           ...registeredPlugins.values()
         ].filter((p) => isPluginInstalled(p.id) && !isCorePlugin(p.id)).map(unifyBunnyPlugin);
         return [
-          ...corePlugins,
           ...vdPlugins,
           ...bnPlugins
         ];
@@ -10189,14 +14834,14 @@
         var unproxiedPlugins = Object.values(VdPluginManager.plugins).filter((p) => !p.id.startsWith(VD_PROXY_PREFIX) && !p.id.startsWith(BUNNY_PROXY_PREFIX));
         if (!unproxiedPlugins.length)
           return null;
-        return /* @__PURE__ */ jsx(import_react_native23.View, {
+        return /* @__PURE__ */ jsx(import_react_native24.View, {
           style: {
             marginVertical: 12,
             marginHorizontal: 10
           },
           children: /* @__PURE__ */ jsx(Card, {
             border: "strong",
-            children: /* @__PURE__ */ jsxs(import_react_native23.View, {
+            children: /* @__PURE__ */ jsxs(import_react_native24.View, {
               style: {
                 flex: 1,
                 justifyContent: "center",
@@ -10204,7 +14849,7 @@
                 flexDirection: "row"
               },
               children: [
-                /* @__PURE__ */ jsxs(import_react_native23.View, {
+                /* @__PURE__ */ jsxs(import_react_native24.View, {
                   style: {
                     gap: 6,
                     flexShrink: 1
@@ -10221,7 +14866,7 @@
                     })
                   ]
                 }),
-                /* @__PURE__ */ jsx(import_react_native23.View, {
+                /* @__PURE__ */ jsx(import_react_native24.View, {
                   style: {
                     marginLeft: "auto"
                   },
@@ -10233,7 +14878,7 @@
                       marginLeft: 8
                     },
                     onPress: () => {
-                      navigation2.push("PUPU_CUSTOM_PAGE", {
+                      navigation2.push("BUNNY_CUSTOM_PAGE", {
                         title: "Unproxied Plugins",
                         render: () => {
                           return /* @__PURE__ */ jsx(FlashList, {
@@ -10241,7 +14886,7 @@
                             contentContainerStyle: {
                               padding: 8
                             },
-                            ItemSeparatorComponent: () => /* @__PURE__ */ jsx(import_react_native23.View, {
+                            ItemSeparatorComponent: () => /* @__PURE__ */ jsx(import_react_native24.View, {
                               style: {
                                 height: 8
                               }
@@ -10263,6 +14908,25 @@
           })
         });
       },
+      ListFooterComponent: () => /* @__PURE__ */ jsx(import_react_native24.View, {
+        style: {
+          alignItems: "center",
+          justifyContent: "center",
+          paddingTop: 16,
+          gap: 12
+        },
+        children: /* @__PURE__ */ jsx(Button, {
+          size: "lg",
+          text: "Browse Plugins",
+          icon: findAssetId("CompassIcon"),
+          onPress: () => {
+            navigation2.push("BUNNY_CUSTOM_PAGE", {
+              title: "Plugin Browser",
+              render: React.lazy(() => Promise.resolve().then(() => (init_PluginBrowser(), PluginBrowser_exports)))
+            });
+          }
+        })
+      }),
       installAction: {
         label: "Install a plugin",
         fetchFn: (url2) => _async_to_generator(function* () {
@@ -10282,7 +14946,10 @@
                     text: "Continue",
                     variant: "primary",
                     onPress: () => {
-                      VdPluginManager.installPlugin(url2).then(() => showToast(Strings.TOASTS_INSTALLED_PLUGIN, findAssetId("Check"))).catch((e) => openAlert2("bunny-plugin-install-failed", /* @__PURE__ */ jsx(AlertModal3, {
+                      VdPluginManager.installPlugin(url2).then(() => {
+                        showToast(Strings.TOASTS_INSTALLED_PLUGIN, findAssetId("DownloadIcon"));
+                        forceUpdate();
+                      }).catch((e) => openAlert2("bunny-plugin-install-failed", /* @__PURE__ */ jsx(AlertModal3, {
                         title: "Install Failed",
                         content: `Unable to install plugin from '${url2}':`,
                         extraContent: /* @__PURE__ */ jsx(Card, {
@@ -10306,13 +14973,15 @@
               })
             }));
           } else {
-            return yield VdPluginManager.installPlugin(url2);
+            yield VdPluginManager.installPlugin(url2);
+            showToast(Strings.TOASTS_INSTALLED_PLUGIN, findAssetId("DownloadIcon"));
+            forceUpdate();
           }
         })()
       }
     });
   }
-  var import_react_native23, openAlert2, AlertModal3, AlertActions2, AlertActionButton3;
+  var import_react_native24, openAlert2, AlertModal3, AlertActions2, AlertActionButton3;
   var init_Plugins = __esm({
     "src/core/ui/settings/pages/Plugins/index.tsx"() {
       "use strict";
@@ -10335,7 +15004,7 @@
       init_metro();
       init_common();
       init_components();
-      import_react_native23 = __toESM(require_react_native());
+      import_react_native24 = __toESM(require_react_native());
       init_bunny();
       init_vendetta();
       ({ openAlert: openAlert2 } = lazyDestructure(() => findByProps("openAlert", "dismissAlert")));
@@ -10345,18 +15014,18 @@
 
   // src/core/ui/components/AddonCard.tsx
   function AddonCard(props) {
-    var styles = useStyles3();
+    var styles = useStyles2();
     return /* @__PURE__ */ jsx(Card, {
       children: /* @__PURE__ */ jsxs(Stack, {
         spacing: 16,
         children: [
-          /* @__PURE__ */ jsxs(import_react_native24.View, {
+          /* @__PURE__ */ jsxs(import_react_native25.View, {
             style: {
               flexDirection: "row",
               alignItems: "center"
             },
             children: [
-              /* @__PURE__ */ jsxs(import_react_native24.View, {
+              /* @__PURE__ */ jsxs(import_react_native25.View, {
                 style: styles.headerLeading,
                 children: [
                   /* @__PURE__ */ jsx(Text, {
@@ -10369,7 +15038,7 @@
                   })
                 ]
               }),
-              /* @__PURE__ */ jsxs(import_react_native24.View, {
+              /* @__PURE__ */ jsxs(import_react_native25.View, {
                 style: [
                   styles.headerTrailing,
                   {
@@ -10377,7 +15046,7 @@
                   }
                 ],
                 children: [
-                  /* @__PURE__ */ jsxs(import_react_native24.View, {
+                  /* @__PURE__ */ jsxs(import_react_native25.View, {
                     style: styles.actions,
                     children: [
                       props.overflowActions && /* @__PURE__ */ jsx(IconButton, {
@@ -10414,7 +15083,7 @@
                   props.toggleType && (props.toggleType === "switch" ? /* @__PURE__ */ jsx(FormSwitch, {
                     value: props.toggleValue(),
                     onValueChange: props.onToggleChange
-                  }) : /* @__PURE__ */ jsx(import_react_native24.TouchableOpacity, {
+                  }) : /* @__PURE__ */ jsx(import_react_native25.TouchableOpacity, {
                     onPress: () => {
                       props.onToggleChange?.(!props.toggleValue());
                     },
@@ -10434,7 +15103,7 @@
       })
     });
   }
-  var import_react_native24, hideActionSheet2, showSimpleActionSheet3, useStyles3;
+  var import_react_native25, hideActionSheet2, showSimpleActionSheet3, useStyles2;
   var init_AddonCard = __esm({
     "src/core/ui/components/AddonCard.tsx"() {
       "use strict";
@@ -10447,10 +15116,10 @@
       init_wrappers();
       init_color();
       init_styles();
-      import_react_native24 = __toESM(require_react_native());
+      import_react_native25 = __toESM(require_react_native());
       ({ hideActionSheet: hideActionSheet2 } = lazyDestructure(() => findByProps("openLazy", "hideActionSheet")));
       ({ showSimpleActionSheet: showSimpleActionSheet3 } = lazyDestructure(() => findByProps("showSimpleActionSheet")));
-      useStyles3 = createStyles({
+      useStyles2 = createStyles({
         card: {
           backgroundColor: semanticColors?.CARD_SECONDARY_BG,
           borderRadius: 12,
@@ -10460,7 +15129,6 @@
           padding: 0
         },
         headerLeading: {
-          flex: 1,
           flexDirection: "column",
           justifyContent: "center",
           scale: 1.2
@@ -10472,18 +15140,16 @@
           alignItems: "center"
         },
         headerLabel: {
-          ...TextStyleSheet["heading-lg/semibold"]
-        },
-        headerLabelCompact: {
-          ...TextStyleSheet["text-md/semibold"]
+          ...TextStyleSheet["heading-md/semibold"],
+          color: semanticColors.TEXT_DEFAULT
         },
         headerSubtitle: {
-          ...TextStyleSheet["text-sm/semibold"],
+          ...TextStyleSheet["text-md/semibold"],
           color: semanticColors.TEXT_MUTED
         },
         descriptionLabel: {
           ...TextStyleSheet["text-md/semibold"],
-          color: "text-strong"
+          color: semanticColors.TEXT_DEFAULT
         },
         actions: {
           flexDirection: "row-reverse",
@@ -10491,7 +15157,7 @@
           gap: 5
         },
         iconStyle: {
-          tintColor: semanticColors.LOGO_PRIMARY,
+          tintColor: semanticColors.INTERACTIVE_ICON_DEFAULT,
           opacity: 0.2,
           height: 64,
           width: 64,
@@ -10503,228 +15169,17 @@
     }
   });
 
-  // src/core/ui/settings/pages/Themes/sheets/ThemeInfoActionSheet.tsx
-  var ThemeInfoActionSheet_exports = {};
-  __export(ThemeInfoActionSheet_exports, {
-    default: () => ThemeInfoActionSheet
-  });
-  function ThemeInfoIconButton(props) {
-    var { onPress } = props;
-    props.onPress &&= () => {
-      hideSheet("ThemeInfoActionSheet");
-      onPress?.();
-    };
-    return /* @__PURE__ */ jsx(IconButton, {
-      ...props,
-      label: props.label
-    });
-  }
-  function TitleComponent2({ theme }) {
-    var { authors } = theme.data;
-    return /* @__PURE__ */ jsxs(import_react_native25.View, {
-      style: {
-        gap: 4
-      },
-      children: [
-        /* @__PURE__ */ jsx(import_react_native25.View, {
-          children: /* @__PURE__ */ jsx(Text, {
-            variant: "heading-xl/semibold",
-            children: theme.data.name
-          })
-        }),
-        /* @__PURE__ */ jsx(import_react_native25.View, {
-          style: {
-            flexDirection: "row",
-            flexShrink: 1
-          },
-          children: authors && authors.length > 0 && /* @__PURE__ */ jsx(import_react_native25.TouchableOpacity, {
-            style: {
-              flexDirection: "row",
-              gap: 8,
-              alignItems: "center",
-              paddingVertical: 4,
-              paddingHorizontal: 8,
-              backgroundColor: "#00000016",
-              borderRadius: 32
-            },
-            disabled: !authors.some((a) => a.id),
-            children: /* @__PURE__ */ jsxs(Text, {
-              variant: "text-md/medium",
-              children: [
-                "by ",
-                authors.map((a) => a.name).join(", ")
-              ]
-            })
-          })
-        })
-      ]
-    });
-  }
-  function ThemeInfoActionSheet({ theme, navigation: navigation2 }) {
-    var [themeState, setThemeState] = (0, import_react6.useState)({
-      ...theme
-    });
-    var [loading, setLoading] = (0, import_react6.useState)(false);
-    (0, import_react6.useEffect)(() => {
-      var interval = setInterval(() => {
-        setThemeState({
-          ...theme
-        });
-      }, 500);
-      return () => clearInterval(interval);
-    }, [
-      theme
-    ]);
-    var copyThemeUrl = () => {
-      clipboard.setString(themeState.id);
-      if (typeof showToast?.showCopyToClipboard === "function") {
-        showToast.showCopyToClipboard();
-      } else {
-        showToast("Copied to clipboard");
-      }
-    };
-    var refetchTheme = () => _async_to_generator(function* () {
-      setLoading(true);
-      try {
-        yield fetchTheme(themeState.id, themeState.selected);
-        showToast("Theme refreshed successfully");
-      } catch (e) {
-        console.error("Failed to refresh theme:", e);
-        showToast("Failed to refresh theme");
-      } finally {
-        setLoading(false);
-      }
-    })();
-    var removeThemeHandler = () => {
-      showConfirmationAlert({
-        title: Strings.HOLD_UP,
-        content: formatString("ARE_YOU_SURE_TO_DELETE_THEME", {
-          name: themeState.data.name
-        }),
-        confirmText: Strings.DELETE,
-        cancelText: Strings.CANCEL,
-        confirmColor: "red",
-        onConfirm: () => _async_to_generator(function* () {
-          hideSheet("ThemeInfoActionSheet");
-          try {
-            var wasSelected = yield removeTheme(themeState.id);
-            if (wasSelected)
-              selectTheme(null);
-            showToast("Theme removed successfully");
-          } catch (e) {
-            console.error("Failed to remove theme:", e);
-            showToast("Failed to remove theme");
-          }
-        })()
-      });
-    };
-    var applyTheme = () => {
-      try {
-        selectTheme(themeState);
-        hideSheet("ThemeInfoActionSheet");
-        showToast(`Applied theme: ${themeState.data.name}`);
-      } catch (e) {
-        console.error("Failed to apply theme:", e);
-        showToast("Failed to apply theme");
-      }
-    };
-    return /* @__PURE__ */ jsx(ActionSheet, {
-      children: /* @__PURE__ */ jsxs(import_react_native25.ScrollView, {
-        contentContainerStyle: {
-          gap: 12,
-          marginBottom: 12
-        },
-        children: [
-          /* @__PURE__ */ jsx(import_react_native25.View, {
-            style: {
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 8,
-              paddingVertical: 24,
-              justifyContent: "space-between",
-              width: "100%"
-            },
-            children: /* @__PURE__ */ jsx(TitleComponent2, {
-              theme: themeState
-            })
-          }),
-          /* @__PURE__ */ jsxs(import_react_native25.View, {
-            style: {
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: 65,
-              paddingHorizontal: 8
-            },
-            children: [
-              /* @__PURE__ */ jsx(ThemeInfoIconButton, {
-                label: Strings.REFETCH,
-                variant: "secondary",
-                icon: findAssetId("RetryIcon"),
-                onPress: refetchTheme,
-                disabled: loading
-              }),
-              /* @__PURE__ */ jsx(ThemeInfoIconButton, {
-                label: Strings.COPY_URL,
-                variant: "secondary",
-                icon: findAssetId("LinkIcon"),
-                onPress: copyThemeUrl
-              }),
-              /* @__PURE__ */ jsx(ThemeInfoIconButton, {
-                label: Strings.UNINSTALL,
-                variant: "secondary",
-                icon: findAssetId("TrashIcon"),
-                onPress: removeThemeHandler
-              })
-            ]
-          }),
-          /* @__PURE__ */ jsxs(Card, {
-            children: [
-              /* @__PURE__ */ jsx(Text, {
-                variant: "text-md/semibold",
-                style: {
-                  marginBottom: 4,
-                  color: semanticColors.MOBILE_TEXT_HEADING_PRIMARY
-                },
-                children: "Description"
-              }),
-              /* @__PURE__ */ jsx(Text, {
-                variant: "text-md/medium",
-                children: themeState.data.description || "No description provided."
-              })
-            ]
-          })
-        ]
-      })
-    });
-  }
-  var import_react6, import_react_native25;
-  var init_ThemeInfoActionSheet = __esm({
-    "src/core/ui/settings/pages/Themes/sheets/ThemeInfoActionSheet.tsx"() {
-      "use strict";
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      init_async_to_generator();
-      init_jsxRuntime();
-      init_assets();
-      init_sheets();
-      init_components();
-      init_common();
-      import_react6 = __toESM(require_react());
-      import_react_native25 = __toESM(require_react_native());
-      init_toasts();
-      init_alerts2();
-      init_themes();
-      init_i18n();
-      init_color();
-    }
-  });
-
   // src/core/ui/settings/pages/Themes/ThemeCard.tsx
+  function selectAndApply(value, theme) {
+    try {
+      selectTheme(value ? theme : null);
+    } catch (e) {
+      console.error("Error while selectAndApply,", e);
+    }
+  }
   function ThemeCard({ item: theme }) {
-    var navigation2 = NavigationNative.useNavigation();
-    var [removed, setRemoved] = React2.useState(false);
+    useProxy(theme);
+    var [removed, setRemoved] = React.useState(false);
     if (removed)
       return null;
     var { authors } = theme.data;
@@ -10735,23 +15190,51 @@
       toggleType: !settings.safeMode?.enabled ? "radio" : void 0,
       toggleValue: () => themes[theme.id].selected,
       onToggleChange: (v2) => {
-        try {
-          selectTheme(v2 ? theme : null);
-        } catch (e) {
-          console.error("Error while selecting theme:", e);
-        }
+        selectAndApply(v2, theme);
       },
       overflowTitle: theme.data.name,
-      actions: [
+      overflowActions: [
         {
-          icon: "CircleInformationIcon-primary",
+          icon: "RefreshIcon",
+          label: Strings.REFETCH,
           onPress: () => {
-            var importPromise = Promise.resolve().then(() => (init_ThemeInfoActionSheet(), ThemeInfoActionSheet_exports));
-            showSheet("ThemeInfoActionSheet", importPromise, {
-              theme,
-              navigation: navigation2
+            fetchTheme(theme.id, theme.selected).then(() => {
+              showToast(Strings.THEME_REFETCH_SUCCESSFUL, findAssetId("DownloadIcon"));
+            }).catch(() => {
+              showToast(Strings.THEME_REFETCH_FAILED, findAssetId("XSmallIcon"));
             });
           }
+        },
+        {
+          icon: "LinkIcon",
+          label: Strings.COPY_URL,
+          onPress: () => {
+            clipboard.setString(theme.id);
+            showToast.showCopyToClipboard();
+          }
+        },
+        {
+          icon: "TrashIcon",
+          label: Strings.DELETE,
+          isDestructive: true,
+          onPress: () => showConfirmationAlert({
+            title: Strings.HOLD_UP,
+            content: formatString("ARE_YOU_SURE_TO_DELETE_THEME", {
+              name: theme.data.name
+            }),
+            confirmText: Strings.DELETE,
+            cancelText: Strings.CANCEL,
+            confirmColor: "red",
+            onConfirm: () => {
+              removeTheme(theme.id).then((wasSelected) => {
+                setRemoved(true);
+                if (wasSelected)
+                  selectAndApply(false, theme);
+              }).catch((e) => {
+                showToast(e.message, findAssetId("XSmallIcon"));
+              });
+            }
+          })
         }
       ]
     });
@@ -10762,11 +15245,15 @@
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
       init_jsxRuntime();
+      init_i18n();
       init_AddonCard();
+      init_alerts2();
+      init_storage();
       init_themes();
+      init_assets();
       init_settings();
-      init_sheets();
       init_common();
+      init_toasts();
     }
   });
 
@@ -10823,78 +15310,53 @@
                 gap: 12
               },
               children: [
-                /* @__PURE__ */ jsxs(TableRowGroup, {
+                /* @__PURE__ */ jsxs(TableRadioGroup, {
                   title: "Override Theme Type",
+                  defaultValue: colorsPref.type ?? "auto",
+                  hasIcons: true,
+                  onChange: (type) => {
+                    colorsPref.type = type !== "auto" ? type : void 0;
+                    getCurrentTheme()?.data && updateBunnyColor(getCurrentTheme().data, {
+                      update: true
+                    });
+                  },
                   children: [
-                    /* @__PURE__ */ jsx(TableSwitchRow, {
-                      label: "Auto",
+                    /* @__PURE__ */ jsx(TableRadioRow, {
                       icon: /* @__PURE__ */ jsx(TableRowIcon, {
                         source: findAssetId("RobotIcon")
                       }),
-                      value: !colorsPref.type,
-                      onValueChange: (enabled) => {
-                        if (enabled) {
-                          colorsPref.type = void 0;
-                        } else {
-                          colorsPref.type = "dark";
-                        }
-                        getCurrentTheme()?.data && updateBunnyColor(getCurrentTheme().data, {
-                          update: true
-                        });
-                      }
+                      label: "Auto",
+                      value: "auto"
                     }),
-                    /* @__PURE__ */ jsx(TableSwitchRow, {
-                      label: "Dark",
+                    /* @__PURE__ */ jsx(TableRadioRow, {
                       icon: /* @__PURE__ */ jsx(TableRowIcon, {
                         source: findAssetId("ThemeDarkIcon")
                       }),
-                      value: colorsPref.type === "dark",
-                      onValueChange: (enabled) => {
-                        colorsPref.type = enabled ? "dark" : void 0;
-                        getCurrentTheme()?.data && updateBunnyColor(getCurrentTheme().data, {
-                          update: true
-                        });
-                      }
+                      label: "Dark",
+                      value: "dark"
                     }),
-                    /* @__PURE__ */ jsx(TableSwitchRow, {
-                      label: "Light",
+                    /* @__PURE__ */ jsx(TableRadioRow, {
                       icon: /* @__PURE__ */ jsx(TableRowIcon, {
                         source: findAssetId("ThemeLightIcon")
                       }),
-                      value: colorsPref.type === "light",
-                      onValueChange: (enabled) => {
-                        colorsPref.type = enabled ? "light" : void 0;
-                        getCurrentTheme()?.data && updateBunnyColor(getCurrentTheme().data, {
-                          update: true
-                        });
-                      }
+                      label: "Light",
+                      value: "light"
                     })
                   ]
                 }),
-                /* @__PURE__ */ jsxs(TableRowGroup, {
-                  title: "Chat Background",
-                  children: [
-                    /* @__PURE__ */ jsx(TableSwitchRow, {
-                      label: "Show Background",
-                      icon: /* @__PURE__ */ jsx(TableRowIcon, {
-                        source: findAssetId("ImageIcon")
-                      }),
-                      value: !colorsPref.customBackground,
-                      onValueChange: (enabled) => {
-                        colorsPref.customBackground = enabled ? null : "hidden";
-                      }
+                /* @__PURE__ */ jsx(TableRowGroup, {
+                  title: "Settings",
+                  children: /* @__PURE__ */ jsx(TableSwitchRow, {
+                    label: "Show Chat Background",
+                    subLabel: "Shows or hides the theme's background image in chat",
+                    icon: /* @__PURE__ */ jsx(TableRow.Icon, {
+                      source: findAssetId("ImageIcon")
                     }),
-                    /* @__PURE__ */ jsx(TableSwitchRow, {
-                      label: "Hide Background",
-                      icon: /* @__PURE__ */ jsx(TableRowIcon, {
-                        source: findAssetId("DenyIcon")
-                      }),
-                      value: colorsPref.customBackground === "hidden",
-                      onValueChange: (enabled) => {
-                        colorsPref.customBackground = enabled ? "hidden" : null;
-                      }
-                    })
-                  ]
+                    value: colorsPref.customBackground !== "hidden",
+                    onValueChange: (value) => {
+                      colorsPref.customBackground = value ? null : "hidden";
+                    }
+                  })
                 })
               ]
             })
@@ -11048,7 +15510,7 @@
   function updateFonts() {
     return _async_to_generator(function* () {
       yield awaitStorage(fonts);
-      allSettled(Object.keys(fonts).map((name) => saveFont(fonts[name], fonts.__selected === name)));
+      yield allSettled(Object.keys(fonts).map((name) => saveFont(fonts[name], fonts.__selected === name)));
     })();
   }
   var fonts;
@@ -11068,7 +15530,7 @@
   // src/core/ui/settings/pages/Fonts/FontEditor.tsx
   function promptDetachConfirmationForThen(fontName, cb) {
     if (fontName && fonts[fontName].source)
-      openAlert3("revenge-fonts-detach-source-confirmation", /* @__PURE__ */ jsx(AlertModal4, {
+      openAlert3("zencord-fonts-detach-source-confirmation", /* @__PURE__ */ jsx(AlertModal4, {
         title: "Detach font pack URL?",
         content: "You need to detach the font pack URL from this font pack before you can manually edit its font entries. Do you want to detach the font pack URL?",
         actions: /* @__PURE__ */ jsxs(Stack, {
@@ -11102,7 +15564,7 @@
     }, fileNames[0] || "");
     return shortest?.replace(/-[A-Za-z]*$/, "") || null;
   }
-  function RevengeFontsExtractor({ fonts: fonts2, setName }) {
+  function ZenCordFontsExtractor({ fonts: fonts2, setName }) {
     var currentTheme = getCurrentTheme().data;
     var themeFonts = currentTheme.fonts;
     var [fontName, setFontName] = (0, import_react7.useState)(guessFontName(Object.values(themeFonts)));
@@ -11359,7 +15821,7 @@
                 icon: /* @__PURE__ */ jsx(TableRow.Icon, {
                   source: findAssetId("HammerIcon")
                 }),
-                onPress: () => promptActionSheet(RevengeFontsExtractor, fontEntries, {
+                onPress: () => promptActionSheet(ZenCordFontsExtractor, fontEntries, {
                   setName
                 })
               }),
@@ -11500,7 +15962,7 @@
                   updateFont(fonts[props.name]).then(() => navigation2.goBack()).catch((e) => setErrors(e)).finally(() => setIsImporting(false));
                 }
               })(),
-              icon: findAssetId(props.name ? "toast_image_saved" : "DownloadIcon"),
+              icon: findAssetId(props.name ? "UploadIcon" : "DownloadIcon"),
               style: {
                 marginLeft: 8
               }
@@ -11537,73 +15999,154 @@
     }
   });
 
+  // globals:react-native-webview
+  var require_react_native_webview = __commonJS({
+    "globals:react-native-webview"(exports, module) {
+      init_asyncIteratorSymbol();
+      init_promiseAllSettled();
+      module.exports = require_depsModule()["react-native-webview"];
+    }
+  });
+
+  // src/core/ui/settings/pages/Fonts/preview.html
+  var preview_default;
+  var init_preview = __esm({
+    "src/core/ui/settings/pages/Fonts/preview.html"() {
+      preview_default = '<head><meta name="viewport" content="initial-scale=1.0"></head>\r\n<body style="overflow: hidden; padding: 0; margin: 0;"></body>\r\n<script>\r\n    const props = $$props;\r\n\r\n    new FontFace("Preview", `url(${props.family})`).load().then((font) => {\r\n        document.fonts.add(font);\r\n\r\n        const p = document.createElement("p");\r\n        p.textContent = props.text;\r\n        p.style.fontFamily = font.family;\r\n        p.style.fontSize = `${props.size}px`;\r\n        p.style.color = props.color;\r\n\r\n        document.body.appendChild(p);\r\n        ReactNativeWebView.postMessage(true);\r\n    });\r\n<\/script>';
+    }
+  });
+
   // src/core/ui/settings/pages/Fonts/FontCard.tsx
+  function FontPreview({ font }) {
+    var [loaded, setLoaded] = (0, import_react8.useState)(false);
+    var styles = useStyles3();
+    var TEXT_DEFAULT = useToken2(tokens.colors.TEXT_DEFAULT);
+    var { fontFamily: fontFamilyList, fontSize } = TextStyleSheet["text-md/medium"];
+    var fontFamily = fontFamilyList.split(/,/g)[0];
+    var props = (0, import_react8.useMemo)(() => ({
+      family: font.main[fontFamily],
+      size: fontSize * import_react_native28.PixelRatio.getFontScale(),
+      color: TEXT_DEFAULT,
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    }), [
+      font.main,
+      fontFamily,
+      fontSize,
+      TEXT_DEFAULT
+    ]);
+    return /* @__PURE__ */ jsxs(import_react_native28.View, {
+      style: {
+        width: "100%",
+        height: 64
+      },
+      children: [
+        /* @__PURE__ */ jsx(import_react_native_webview.WebView, {
+          onMessage: () => setLoaded(true),
+          source: {
+            html: preview_default.replace("$$props", JSON.stringify(props))
+          },
+          javaScriptEnabled: true,
+          scrollEnabled: false,
+          overScrollMode: "never",
+          showsHorizontalScrollIndicator: false,
+          showsVerticalScrollIndicator: false,
+          pointerEvents: "none",
+          style: [
+            styles.full,
+            {
+              backgroundColor: "transparent",
+              opacity: Number(loaded)
+            }
+          ]
+        }),
+        !loaded && /* @__PURE__ */ jsx(import_react_native28.View, {
+          style: [
+            styles.full,
+            {
+              justifyContent: "center",
+              alignItems: "center"
+            }
+          ],
+          children: /* @__PURE__ */ jsx(Text, {
+            color: "text-muted",
+            variant: "heading-lg/semibold",
+            children: "Loading..."
+          })
+        })
+      ]
+    });
+  }
   function FontCard({ item: font }) {
     useProxy(fonts);
     var navigation2 = NavigationNative.useNavigation();
     var selected = fonts.__selected === font.name;
     return /* @__PURE__ */ jsx(Card, {
-      children: /* @__PURE__ */ jsx(Stack, {
+      children: /* @__PURE__ */ jsxs(Stack, {
         spacing: 16,
-        children: /* @__PURE__ */ jsxs(import_react_native28.View, {
-          style: {
-            flexDirection: "row",
-            alignItems: "center"
-          },
-          children: [
-            /* @__PURE__ */ jsx(import_react_native28.View, {
-              children: /* @__PURE__ */ jsx(Text, {
-                variant: "heading-lg/semibold",
-                children: font.name
+        children: [
+          /* @__PURE__ */ jsxs(import_react_native28.View, {
+            style: {
+              flexDirection: "row",
+              alignItems: "center"
+            },
+            children: [
+              /* @__PURE__ */ jsx(import_react_native28.View, {
+                children: /* @__PURE__ */ jsx(Text, {
+                  variant: "heading-lg/semibold",
+                  children: font.name
+                })
+              }),
+              /* @__PURE__ */ jsx(import_react_native28.View, {
+                style: {
+                  marginLeft: "auto"
+                },
+                children: /* @__PURE__ */ jsxs(Stack, {
+                  spacing: 12,
+                  direction: "horizontal",
+                  children: [
+                    /* @__PURE__ */ jsx(IconButton, {
+                      onPress: () => {
+                        navigation2.push("BUNNY_CUSTOM_PAGE", {
+                          title: "Edit Font",
+                          render: () => /* @__PURE__ */ jsx(FontEditor, {
+                            name: font.name
+                          })
+                        });
+                      },
+                      size: "sm",
+                      variant: "secondary",
+                      disabled: selected,
+                      icon: findAssetId("WrenchIcon")
+                    }),
+                    /* @__PURE__ */ jsx(Button, {
+                      size: "sm",
+                      variant: selected ? "secondary" : "primary",
+                      text: selected ? "Unapply" : "Apply",
+                      onPress: () => _async_to_generator(function* () {
+                        yield selectFont(selected ? null : font.name);
+                        showConfirmationAlert({
+                          title: Strings.HOLD_UP,
+                          content: "Reload Discord to apply changes?",
+                          confirmText: Strings.RELOAD,
+                          cancelText: Strings.CANCEL,
+                          confirmColor: "red",
+                          onConfirm: BundleUpdaterManager.reload
+                        });
+                      })()
+                    })
+                  ]
+                })
               })
-            }),
-            /* @__PURE__ */ jsx(import_react_native28.View, {
-              style: {
-                marginLeft: "auto"
-              },
-              children: /* @__PURE__ */ jsxs(Stack, {
-                spacing: 12,
-                direction: "horizontal",
-                children: [
-                  /* @__PURE__ */ jsx(IconButton, {
-                    onPress: () => {
-                      navigation2.push("BUNNY_CUSTOM_PAGE", {
-                        title: "Edit Font",
-                        render: () => /* @__PURE__ */ jsx(FontEditor, {
-                          name: font.name
-                        })
-                      });
-                    },
-                    size: "sm",
-                    variant: "secondary",
-                    disabled: selected,
-                    icon: findAssetId("WrenchIcon")
-                  }),
-                  /* @__PURE__ */ jsx(Button, {
-                    size: "sm",
-                    variant: selected ? "secondary" : "primary",
-                    text: selected ? "Unapply" : "Apply",
-                    onPress: () => _async_to_generator(function* () {
-                      yield selectFont(selected ? null : font.name);
-                      showConfirmationAlert({
-                        title: Strings.HOLD_UP,
-                        content: "Reload Discord to apply changes?",
-                        confirmText: Strings.RELOAD,
-                        cancelText: Strings.CANCEL,
-                        confirmColor: "red",
-                        onConfirm: BundleUpdaterManager.reload
-                      });
-                    })()
-                  })
-                ]
-              })
-            })
-          ]
-        })
+            ]
+          }),
+          /* @__PURE__ */ jsx(FontPreview, {
+            font
+          })
+        ]
       })
     });
   }
-  var import_react_native28, useToken2;
+  var import_react8, import_react_native28, import_react_native_webview, useToken2, useStyles3;
   var init_FontCard = __esm({
     "src/core/ui/settings/pages/Fonts/FontCard.tsx"() {
       "use strict";
@@ -11616,14 +16159,26 @@
       init_storage();
       init_fonts();
       init_assets();
-      init_modules();
       init_lazy();
-      init_metro();
+      init_modules();
+      init_styles();
       init_common();
       init_components();
+      init_metro();
+      import_react8 = __toESM(require_react());
       import_react_native28 = __toESM(require_react_native());
+      import_react_native_webview = __toESM(require_react_native_webview());
+      init_preview();
       init_FontEditor();
       ({ useToken: useToken2 } = lazyDestructure(() => findByProps("useToken")));
+      useStyles3 = createStyles({
+        full: {
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%"
+        }
+      });
     }
   });
 
@@ -11679,640 +16234,19 @@
     }
   });
 
-  // src/core/ui/settings/pages/PluginBrowser/index.tsx
-  var PluginBrowser_exports = {};
-  __export(PluginBrowser_exports, {
-    default: () => BrowserPage
-  });
-  function normalizeIdFromInstallUrl(url2) {
-    return url2.endsWith("/") ? url2 : url2 + "/";
-  }
-  function InstallButton({ addon, isPluginMode, installing, setInstalling, setRefreshTick }) {
-    var normId = normalizeIdFromInstallUrl(addon.installUrl);
-    var [installed, setInstalled] = React2.useState(() => isPluginMode ? Boolean(VdPluginManager.plugins[normId]) : Boolean(themes[addon.installUrl]));
-    React2.useEffect(() => {
-      setInstalled(isPluginMode ? Boolean(VdPluginManager.plugins[normId]) : Boolean(themes[addon.installUrl]));
-    }, [
-      addon.installUrl,
-      setRefreshTick,
-      isPluginMode
-    ]);
-    var installAddon = () => _async_to_generator(function* () {
-      if (installing.has(normId))
-        return;
-      setInstalling((prev) => new Set(prev).add(normId));
-      try {
-        if (isPluginMode) {
-          yield VdPluginManager.installPlugin(normId, true);
-        } else {
-          yield installTheme(addon.installUrl);
-        }
-        showToast(`Installed ${addon.name}`, findAssetId("CheckIcon"));
-        setInstalled(true);
-      } catch (e) {
-        showToast(e instanceof Error ? e.message : String(e), findAssetId("CircleXIcon-primary"));
-      } finally {
-        setInstalling((prev) => {
-          var s = new Set(prev);
-          s.delete(normId);
-          return s;
-        });
-        setRefreshTick((t) => t + 1);
-      }
-    })();
-    var uninstallAddon = () => _async_to_generator(function* () {
-      try {
-        if (isPluginMode) {
-          yield VdPluginManager.removePlugin(normId);
-        } else {
-          yield removeTheme(addon.installUrl);
-        }
-        showToast(`Uninstalled ${addon.name}`, findAssetId("TrashIcon"));
-        setInstalled(false);
-      } catch (e) {
-        showToast(e instanceof Error ? e.message : String(e), findAssetId("CircleXIcon-primary"));
-      } finally {
-        setRefreshTick((t) => t + 1);
-      }
-    })();
-    var promptInstall = () => {
-      if (!isPluginMode)
-        return installAddon();
-      var plugin = addon;
-      var needsWarn = plugin.status && plugin.status !== "working" || plugin.warningMessage && plugin.warningMessage.trim().length > 0;
-      if (!needsWarn)
-        return installAddon();
-      var lines = [];
-      if (plugin.status && plugin.status !== "working") {
-        if (plugin.status === "broken")
-          lines.push("This plugin is marked as broken, please be aware you may encounter issues");
-        else if (plugin.status === "warning")
-          lines.push("This plugin may have issues");
-        else
-          lines.push(`Status: ${plugin.status}`);
-      }
-      if (plugin.warningMessage)
-        lines.push(plugin.warningMessage);
-      openAlert("plugins-list-install-warning", /* @__PURE__ */ jsx(AlertModal, {
-        title: "Warning!",
-        content: "This plugin may not work as expected.",
-        extraContent: /* @__PURE__ */ jsx(Text, {
-          variant: "text-sm/normal",
-          color: "text-muted",
-          children: lines.join("\n\n")
-        }),
-        actions: /* @__PURE__ */ jsxs(AlertActions, {
-          children: [
-            /* @__PURE__ */ jsx(AlertActionButton2, {
-              text: "Install Anyway",
-              variant: "primary",
-              onPress: () => {
-                dismissAlert("plugins-list-install-warning");
-                installAddon();
-              }
-            }),
-            /* @__PURE__ */ jsx(AlertActionButton2, {
-              text: "Cancel",
-              variant: "secondary",
-              onPress: () => dismissAlert("plugins-list-install-warning")
-            })
-          ]
-        })
-      }));
-    };
-    return /* @__PURE__ */ jsx(Button, {
-      size: "sm",
-      loading: installing.has(normId),
-      text: !installed ? installing.has(normId) ? "Installing..." : "Install" : "Uninstall",
-      disabled: installing.has(normId),
-      onPress: !installed ? promptInstall : uninstallAddon,
-      variant: !installed ? "primary" : "destructive",
-      icon: findAssetId(!installed ? "DownloadIcon" : "TrashIcon")
-    });
-  }
-  function TrailingButtons({ addon, isPluginMode, installing, setInstalling, setRefreshTick }) {
-    var copyAddonLink = () => {
-      clipboard.setString(addon.installUrl);
-      showToast.showCopyToClipboard?.();
-    };
-    var copySourceUrl = () => {
-      var plugin = addon;
-      clipboard.setString(plugin.sourceUrl);
-      showToast.showCopyToClipboard?.();
-    };
-    var openAddonMenu = () => {
-      var actions = [
-        {
-          label: `Copy ${isPluginMode ? "Plugin" : "Theme"} Link`,
-          icon: findAssetId("CopyIcon"),
-          onPress: copyAddonLink
-        }
-      ];
-      if (isPluginMode && addon.sourceUrl) {
-        actions.push({
-          label: "Copy Source URL",
-          icon: findAssetId("CopyIcon"),
-          onPress: copySourceUrl
-        });
-      }
-      var sheetKey = `${isPluginMode ? "plugin" : "theme"}-menu`;
-      showSheet(sheetKey, () => /* @__PURE__ */ jsx(ActionSheet, {
-        children: /* @__PURE__ */ jsx(TableRowGroup, {
-          title: `${isPluginMode ? "Plugin" : "Theme"} Info`,
-          children: actions.map((action, index) => /* @__PURE__ */ jsx(TableRow, {
-            label: action.label,
-            icon: /* @__PURE__ */ jsx(TableRow.Icon, {
-              source: action.icon
-            }),
-            onPress: () => {
-              action.onPress();
-              hideSheet(sheetKey);
-            }
-          }, index))
-        })
-      }));
-    };
-    return /* @__PURE__ */ jsxs(Stack, {
-      spacing: 8,
-      direction: "horizontal",
-      children: [
-        /* @__PURE__ */ jsx(IconButton, {
-          size: "sm",
-          onPress: openAddonMenu,
-          variant: "secondary",
-          icon: findAssetId("MoreHorizontalIcon")
-        }),
-        /* @__PURE__ */ jsx(InstallButton, {
-          addon,
-          isPluginMode,
-          installing,
-          setInstalling,
-          setRefreshTick
-        })
-      ]
-    });
-  }
-  function AddonCard2({ addon, isPluginMode, installing, setInstalling, setRefreshTick }) {
-    var { name, description, authors } = addon;
-    var plugin = addon;
-    var statusColor = "text-normal";
-    if (isPluginMode) {
-      if (plugin.status === "working")
-        statusColor = "#4ADE80";
-      if (plugin.status === "broken")
-        statusColor = "#EF4444";
-      if (plugin.status === "warning")
-        statusColor = "#F59E0B";
-    }
-    return /* @__PURE__ */ jsx(Card, {
-      children: /* @__PURE__ */ jsxs(Stack, {
-        spacing: 16,
-        children: [
-          /* @__PURE__ */ jsxs(import_react_native29.View, {
-            style: {
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center"
-            },
-            children: [
-              /* @__PURE__ */ jsxs(import_react_native29.View, {
-                style: {
-                  flexShrink: 1
-                },
-                children: [
-                  /* @__PURE__ */ jsx(Text, {
-                    numberOfLines: 1,
-                    variant: "heading-lg/semibold",
-                    children: name
-                  }),
-                  /* @__PURE__ */ jsxs(Text, {
-                    variant: "text-md/semibold",
-                    color: "text-muted",
-                    children: [
-                      "by ",
-                      authors?.join(", ") || "Unknown"
-                    ]
-                  }),
-                  isPluginMode && /* @__PURE__ */ jsxs(Text, {
-                    variant: "text-md/semibold",
-                    style: {
-                      color: statusColor
-                    },
-                    children: [
-                      "Status: ",
-                      plugin.status
-                    ]
-                  })
-                ]
-              }),
-              /* @__PURE__ */ jsx(import_react_native29.View, {
-                children: /* @__PURE__ */ jsx(TrailingButtons, {
-                  addon,
-                  isPluginMode,
-                  installing,
-                  setInstalling,
-                  setRefreshTick
-                })
-              })
-            ]
-          }),
-          /* @__PURE__ */ jsx(Text, {
-            variant: "text-md/medium",
-            children: description
-          }),
-          isPluginMode && plugin.warningMessage && /* @__PURE__ */ jsxs(Text, {
-            variant: "text-sm/medium",
-            color: "text-muted",
-            children: [
-              "Warning: ",
-              plugin.warningMessage
-            ]
-          })
-        ]
-      })
-    });
-  }
-  function BrowserPage() {
-    var navigation2 = NavigationNative.useNavigation();
-    var [mode, setMode] = React2.useState("plugins");
-    var [plugins2, setPlugins] = React2.useState([]);
-    var [themesList, setThemesList] = React2.useState([]);
-    var [loading, setLoading] = React2.useState(true);
-    var [error, setError] = React2.useState(null);
-    var [searchQuery, setSearchQuery] = React2.useState("");
-    var [installing, setInstalling] = React2.useState(/* @__PURE__ */ new Set());
-    var [refreshTick, setRefreshTick] = React2.useState(0);
-    var [sort, setSort] = React2.useState("Newest");
-    React2.useEffect(() => {
-      navigation2.setOptions({
-        title: "Browser"
-      });
-    }, [
-      navigation2
-    ]);
-    var fetchData = React2.useCallback((isPluginMode) => _async_to_generator(function* () {
-      setLoading(true);
-      setError(null);
-      try {
-        var url2 = isPluginMode ? PLUGIN_URL : THEME_URL;
-        var response = yield safeFetch(url2);
-        if (!response.ok)
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        var data = yield response.json();
-        var addonList = [];
-        if (Array.isArray(data)) {
-          addonList = data;
-        } else if (isPluginMode && data.OFFICIAL_PLUGINS) {
-          addonList = data.OFFICIAL_PLUGINS;
-        } else if (!isPluginMode) {
-          addonList = data.OFFICIAL_THEMES || data.themes || data.THEMES || data.items || [];
-        }
-        if (isPluginMode) {
-          setPlugins(addonList);
-        } else {
-          setThemesList(addonList);
-        }
-      } catch (e) {
-        setError(e instanceof Error ? e.message : String(e));
-        if (isPluginMode) {
-          setPlugins([]);
-        } else {
-          setThemesList([]);
-        }
-      } finally {
-        setLoading(false);
-      }
-    })(), []);
-    var fetchPlugins = React2.useCallback(() => fetchData(true), [
-      fetchData
-    ]);
-    var fetchThemes = React2.useCallback(() => fetchData(false), [
-      fetchData
-    ]);
-    React2.useEffect(() => {
-      fetchPlugins();
-      fetchThemes();
-    }, [
-      fetchPlugins,
-      fetchThemes
-    ]);
-    var filterList = (list) => {
-      if (!list)
-        return [];
-      var q3 = searchQuery.toLowerCase();
-      if (!q3)
-        return list;
-      return list.filter((p) => p.name.toLowerCase().includes(q3) || p.description.toLowerCase().includes(q3) || (p.authors || []).some((a) => a.toLowerCase().includes(q3)));
-    };
-    var sortedAndFiltered = React2.useMemo(() => {
-      var list = filterList(mode === "plugins" ? plugins2 : themesList);
-      var getStatusPriority = (status, sortBy) => {
-        if (sortBy === "Working First") {
-          return status === "working" || status === "warning" ? 0 : 1;
-        }
-        if (sortBy === "Broken First") {
-          return status === "broken" ? 0 : 1;
-        }
-        return 0;
-      };
-      switch (sort) {
-        case "Newest":
-          return [
-            ...list
-          ].reverse();
-        case "Oldest":
-          return [
-            ...list
-          ];
-        case "Name (A\u2013Z)":
-          return [
-            ...list
-          ].sort((a, b3) => a.name.localeCompare(b3.name));
-        case "Name (Z\u2013A)":
-          return [
-            ...list
-          ].sort((a, b3) => b3.name.localeCompare(a.name));
-        case "Working First":
-          if (mode === "plugins") {
-            return [
-              ...list
-            ].sort((a, b3) => {
-              var pa = getStatusPriority(a.status, "Working First");
-              var pb = getStatusPriority(b3.status, "Working First");
-              return pa !== pb ? pa - pb : a.name.localeCompare(b3.name);
-            });
-          }
-          return list;
-        case "Broken First":
-          if (mode === "plugins") {
-            return [
-              ...list
-            ].sort((a, b3) => {
-              var pa = getStatusPriority(a.status, "Broken First");
-              var pb = getStatusPriority(b3.status, "Broken First");
-              return pa !== pb ? pa - pb : a.name.localeCompare(b3.name);
-            });
-          }
-          return list;
-        default:
-          return list;
-      }
-    }, [
-      plugins2,
-      themesList,
-      mode,
-      searchQuery,
-      sort
-    ]);
-    if (error) {
-      return /* @__PURE__ */ jsx(import_react_native29.View, {
-        style: {
-          flex: 1,
-          paddingHorizontal: 8,
-          justifyContent: "center",
-          alignItems: "center"
-        },
-        children: /* @__PURE__ */ jsxs(Card, {
-          style: {
-            gap: 8
-          },
-          children: [
-            /* @__PURE__ */ jsx(Text, {
-              style: {
-                textAlign: "center"
-              },
-              variant: "heading-lg/bold",
-              children: "An error occurred while fetching the repository"
-            }),
-            /* @__PURE__ */ jsx(Text, {
-              style: {
-                textAlign: "center"
-              },
-              variant: "text-sm/medium",
-              color: "text-muted",
-              children: error
-            }),
-            /* @__PURE__ */ jsx(Button, {
-              size: "lg",
-              text: "Refetch",
-              onPress: () => fetchData(mode === "plugins"),
-              icon: findAssetId("RetryIcon")
-            })
-          ]
-        })
-      });
-    }
-    return /* @__PURE__ */ jsxs(import_react_native29.View, {
-      style: {
-        flex: 1
-      },
-      children: [
-        /* @__PURE__ */ jsx(import_react_native29.View, {
-          style: {
-            paddingHorizontal: 10
-          },
-          children: /* @__PURE__ */ jsxs(Stack, {
-            spacing: 12,
-            children: [
-              /* @__PURE__ */ jsx(import_react_native29.View, {
-                style: {
-                  flexDirection: "row",
-                  paddingTop: 10
-                },
-                children: /* @__PURE__ */ jsxs(import_react_native29.View, {
-                  style: {
-                    flex: 1,
-                    flexDirection: "row",
-                    alignItems: "center"
-                  },
-                  children: [
-                    /* @__PURE__ */ jsx(Button, {
-                      size: "md",
-                      text: "Plugins",
-                      variant: mode === "plugins" ? "primary" : "secondary",
-                      onPress: () => setMode("plugins"),
-                      style: {
-                        flex: 1
-                      }
-                    }),
-                    /* @__PURE__ */ jsx(import_react_native29.View, {
-                      style: {
-                        width: 8
-                      }
-                    }),
-                    /* @__PURE__ */ jsx(Button, {
-                      size: "md",
-                      text: "Themes",
-                      variant: mode === "themes" ? "primary" : "secondary",
-                      onPress: () => setMode("themes"),
-                      style: {
-                        flex: 1
-                      }
-                    })
-                  ]
-                })
-              }),
-              /* @__PURE__ */ jsxs(import_react_native29.View, {
-                style: {
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 8,
-                  paddingBottom: 6
-                },
-                children: [
-                  /* @__PURE__ */ jsx(Search_default, {
-                    placeholder: `Search ${mode}...`,
-                    isRound: true,
-                    onChangeText: setSearchQuery,
-                    style: {
-                      flex: 1
-                    }
-                  }),
-                  /* @__PURE__ */ jsx(import_react_native29.View, {
-                    style: {
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 8
-                    },
-                    children: /* @__PURE__ */ jsx(IconButton, {
-                      size: "md",
-                      variant: "tertiary",
-                      icon: findAssetId("MoreVerticalIcon"),
-                      disabled: !!searchQuery,
-                      onPress: () => showSimpleActionSheet4({
-                        key: "AddonListSortOptions",
-                        header: {
-                          title: "Sort Options",
-                          onClose: () => hideActionSheet3("AddonListSortOptions")
-                        },
-                        options: Object.entries(Sort).map(([key, value]) => ({
-                          label: value,
-                          onPress: () => {
-                            setSort(value);
-                          }
-                        }))
-                      })
-                    })
-                  })
-                ]
-              })
-            ]
-          })
-        }),
-        /* @__PURE__ */ jsx(FlashList, {
-          data: sortedAndFiltered,
-          refreshing: loading,
-          onRefresh: mode === "plugins" ? fetchPlugins : fetchThemes,
-          estimatedItemSize: 200,
-          contentContainerStyle: {
-            paddingBottom: 90,
-            paddingHorizontal: 5
-          },
-          ListHeaderComponent: mode === "plugins" ? /* @__PURE__ */ jsx(import_react_native29.View, {
-            style: {
-              paddingVertical: 6,
-              paddingHorizontal: 8
-            },
-            children: /* @__PURE__ */ jsx(Card, {
-              border: "strong",
-              children: /* @__PURE__ */ jsx(import_react_native29.View, {
-                style: {
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "row"
-                },
-                children: /* @__PURE__ */ jsxs(import_react_native29.View, {
-                  style: {
-                    gap: 6,
-                    flexShrink: 1
-                  },
-                  children: [
-                    /* @__PURE__ */ jsx(Text, {
-                      variant: "heading-md/bold",
-                      children: "Unproxied Plugins"
-                    }),
-                    /* @__PURE__ */ jsx(Text, {
-                      variant: "text-sm/medium",
-                      color: "text-muted",
-                      children: "Plugins installed from this source have not been checked for safety, install at your own risk"
-                    })
-                  ]
-                })
-              })
-            })
-          }) : null,
-          //@ts-ignore
-          renderItem: ({ item: addon }) => /* @__PURE__ */ jsx(import_react_native29.View, {
-            style: {
-              paddingVertical: 6,
-              paddingHorizontal: 8
-            },
-            children: /* @__PURE__ */ jsx(AddonCard2, {
-              addon,
-              isPluginMode: mode === "plugins",
-              installing,
-              setInstalling,
-              setRefreshTick
-            })
-          })
-        })
-      ]
-    });
-  }
-  var import_react_native29, showSimpleActionSheet4, hideActionSheet3, PLUGIN_URL, THEME_URL, Sort;
-  var init_PluginBrowser = __esm({
-    "src/core/ui/settings/pages/PluginBrowser/index.tsx"() {
-      "use strict";
-      init_asyncIteratorSymbol();
-      init_promiseAllSettled();
-      init_async_to_generator();
-      init_jsxRuntime();
-      init_common();
-      import_react_native29 = __toESM(require_react_native());
-      init_components();
-      init_assets();
-      init_safeFetch();
-      init_toasts();
-      init_Search();
-      init_plugins();
-      init_themes();
-      init_common();
-      init_sheets();
-      init_wrappers2();
-      init_alerts();
-      init_components();
-      init_lazy();
-      init_metro();
-      ({ showSimpleActionSheet: showSimpleActionSheet4 } = lazyDestructure(() => findByProps("showSimpleActionSheet")));
-      ({ hideActionSheet: hideActionSheet3 } = findByProps("hideActionSheet"));
-      PLUGIN_URL = "https://raw.githubusercontent.com/Purple-EyeZ/Plugins-List/refs/heads/main/src/plugins-data.json";
-      THEME_URL = "https://raw.githubusercontent.com/kmmiio99o/theme-marketplace/refs/heads/main/themes.json";
-      Sort = /* @__PURE__ */ function(Sort2) {
-        Sort2["DateNewest"] = "Newest";
-        Sort2["DateOldest"] = "Oldest";
-        Sort2["NameAZ"] = "Name (A\u2013Z)";
-        Sort2["NameZA"] = "Name (Z\u2013A)";
-        Sort2["WorkingFirst"] = "Working First";
-        Sort2["BrokenFirst"] = "Broken First";
-        return Sort2;
-      }(Sort || {});
-    }
-  });
-
   // src/core/ui/hooks/useFS.ts
   function useFileExists(path, prefix) {
-    var [state, setState] = (0, import_react8.useState)(2);
+    var [state, setState] = (0, import_react9.useState)(2);
     var check = () => fileExists(path, {
       prefix
     }).then((exists) => setState(exists ? 1 : 0)).catch(() => setState(3));
-    var customFS = (0, import_react8.useMemo)(() => new Proxy(fs_exports, {
+    var customFS = (0, import_react9.useMemo)(() => new Proxy(fs_exports, {
       get(target, p, receiver) {
         var val = Reflect.get(target, p, receiver);
         if (typeof val !== "function")
           return;
         return (...args) => {
-          var promise = (check(), val(...args));
+          var promise = val(...args);
           if (promise?.constructor?.name === "Promise") {
             setState(2);
             promise.finally(check);
@@ -12321,20 +16255,20 @@
         };
       }
     }), []);
-    (0, import_react8.useEffect)(() => void check(), []);
+    (0, import_react9.useEffect)(() => void check(), []);
     return [
       state,
       customFS
     ];
   }
-  var import_react8, CheckState;
+  var import_react9, CheckState;
   var init_useFS = __esm({
     "src/core/ui/hooks/useFS.ts"() {
       "use strict";
       init_asyncIteratorSymbol();
       init_promiseAllSettled();
       init_fs();
-      import_react8 = __toESM(require_react());
+      import_react9 = __toESM(require_react());
       CheckState = /* @__PURE__ */ function(CheckState2) {
         CheckState2[CheckState2["FALSE"] = 0] = "FALSE";
         CheckState2[CheckState2["TRUE"] = 1] = "TRUE";
@@ -12351,7 +16285,7 @@
       variant: displayable.has(asset.type) ? "default" : "danger",
       label: asset.name,
       subLabel: `Index: ${asset.id} Type: ${asset.type}`,
-      icon: displayable.has(asset.type) ? /* @__PURE__ */ jsx(import_react_native30.Image, {
+      icon: displayable.has(asset.type) ? /* @__PURE__ */ jsx(import_react_native29.Image, {
         source: asset.id,
         style: {
           width: 32,
@@ -12361,12 +16295,12 @@
         variant: "danger",
         source: findAssetId(asset.type in iconMap ? iconMap[asset.type] : iconMap.default)
       }),
-      onPress: () => openAlert4("revenge-asset-display-details", /* @__PURE__ */ jsx(AlertModal5, {
+      onPress: () => openAlert4("zencord-asset-display-details", /* @__PURE__ */ jsx(AlertModal5, {
         title: asset.name,
         content: `Index: ${asset.id}
 Module ID: ${asset.moduleId}
 Type: ${asset.type}`,
-        extraContent: displayable.has(asset.type) ? /* @__PURE__ */ jsx(import_react_native30.Image, {
+        extraContent: displayable.has(asset.type) ? /* @__PURE__ */ jsx(import_react_native29.Image, {
           resizeMode: "contain",
           source: asset.id,
           style: {
@@ -12376,7 +16310,7 @@ Type: ${asset.type}`,
           }
         }) : /* @__PURE__ */ jsxs(Text, {
           variant: "text-sm/medium",
-          color: "text-danger",
+          color: "text-feedback-critical",
           style: {
             width: "100%",
             textAlign: "center"
@@ -12404,7 +16338,7 @@ Type: ${asset.type}`,
       }))
     });
   }
-  var import_react_native30, openAlert4, AlertModal5, AlertActionButton5, displayable, iconMap, copyToClipboard;
+  var import_react_native29, openAlert4, AlertModal5, AlertActionButton5, displayable, iconMap, copyToClipboard;
   var init_AssetDisplay = __esm({
     "src/core/ui/settings/pages/Developer/AssetDisplay.tsx"() {
       "use strict";
@@ -12417,7 +16351,7 @@ Type: ${asset.type}`,
       init_common();
       init_components();
       init_toasts();
-      import_react_native30 = __toESM(require_react_native());
+      import_react_native29 = __toESM(require_react_native());
       ({ openAlert: openAlert4 } = lazyDestructure(() => findByProps("openAlert", "dismissAlert")));
       ({ AlertModal: AlertModal5, AlertActionButton: AlertActionButton5 } = lazyDestructure(() => findByProps("AlertModal", "AlertActions")));
       displayable = /* @__PURE__ */ new Set([
@@ -12426,10 +16360,10 @@ Type: ${asset.type}`,
         "svg"
       ]);
       iconMap = {
-        jsona: "ic_file_text",
-        lottie: "ic_image",
+        jsona: "PaperIcon",
+        lottie: "ImageTextIcon",
         webm: "CirclePlayIcon-primary",
-        ttf: "ic_add_text",
+        ttf: "LettersIcon",
         default: "UnknownGameIcon"
       };
       copyToClipboard = (text) => {
@@ -12442,102 +16376,55 @@ Type: ${asset.type}`,
   // src/core/ui/settings/pages/Developer/AssetBrowser.tsx
   function AssetBrowser() {
     var [search, setSearch] = React.useState("");
-    var [showNonImages, setShowNonImages] = React.useState(false);
-    var all = (0, import_react9.useMemo)(() => Array.from(iterateAssets()), []);
-    var filteredData = (0, import_react9.useMemo)(() => {
-      var result = all.filter((a) => a.name.includes(search) || a.id.toString() === search);
-      if (!showNonImages) {
-        result = result.filter((a) => displayable2.has(a.type));
-      }
-      return result;
-    }, [
-      all,
-      search,
-      showNonImages
-    ]);
+    var all = (0, import_react10.useMemo)(() => Array.from(iterateAssets()), []);
     return /* @__PURE__ */ jsx(ErrorBoundary, {
-      children: /* @__PURE__ */ jsxs(import_react_native31.View, {
+      children: /* @__PURE__ */ jsxs(import_react_native30.View, {
         style: {
           flex: 1
         },
         children: [
-          /* @__PURE__ */ jsxs(import_react_native31.View, {
+          /* @__PURE__ */ jsx(Search_default, {
             style: {
-              flexDirection: "row",
-              alignItems: "center",
               margin: 10
             },
+            onChangeText: (v2) => setSearch(v2)
+          }),
+          /* @__PURE__ */ jsxs(import_react_native30.View, {
+            style: {
+              flex: 1,
+              borderRadius: 16,
+              paddingHorizontal: 12,
+              overflow: "hidden",
+              backgroundColor: "transparent"
+            },
             children: [
-              /* @__PURE__ */ jsx(import_react_native31.View, {
+              /* @__PURE__ */ jsx(Text, {
+                variant: "text-sm/medium",
+                color: "text-feedback-critical",
                 style: {
-                  flex: 1,
-                  marginRight: 10
+                  marginBottom: 16
                 },
-                children: /* @__PURE__ */ jsx(Search_default, {
-                  onChangeText: (v2) => setSearch(v2)
-                })
+                children: "Some assets types cannot be displayed and will be marked in red."
               }),
-              /* @__PURE__ */ jsx(import_react_native31.TouchableOpacity, {
-                style: {
-                  padding: 12,
-                  backgroundColor: showNonImages ? "#0f1013" : "#303139",
-                  borderRadius: 8,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  minWidth: 44,
-                  minHeight: 44
+              /* @__PURE__ */ jsx(import_react_native30.FlatList, {
+                data: all.filter((a) => a.name.includes(search) || a.id.toString() === search),
+                renderItem: ({ item }) => /* @__PURE__ */ jsx(AssetDisplay, {
+                  asset: item
+                }),
+                contentContainerStyle: {
+                  overflow: "hidden",
+                  backgroundColor: "transparent",
+                  borderRadius: 16
                 },
-                onPress: () => setShowNonImages(!showNonImages),
-                children: /* @__PURE__ */ jsx(import_react_native31.Image, {
-                  style: {
-                    width: 20,
-                    height: 20
-                  },
-                  source: findAssetId("ic_image")
-                })
+                keyExtractor: (a) => a.name
               })
             ]
-          }),
-          /* @__PURE__ */ jsx(import_react_native31.ScrollView, {
-            children: /* @__PURE__ */ jsxs(import_react_native31.View, {
-              style: {
-                flex: 1,
-                borderRadius: 16,
-                paddingHorizontal: 12,
-                overflow: "hidden",
-                backgroundColor: "transparent"
-              },
-              children: [
-                showNonImages && /* @__PURE__ */ jsx(Text, {
-                  variant: "text-sm/medium",
-                  color: "text-danger",
-                  style: {
-                    marginBottom: 16
-                  },
-                  children: "Some assets types cannot be displayed and will be marked in red."
-                }),
-                /* @__PURE__ */ jsx(import_react_native31.FlatList, {
-                  data: filteredData,
-                  renderItem: ({ item }) => /* @__PURE__ */ jsx(AssetDisplay, {
-                    asset: item,
-                    showNonImages
-                  }),
-                  contentContainerStyle: {
-                    overflow: "hidden",
-                    backgroundColor: "transparent",
-                    borderRadius: 16
-                  },
-                  scrollEnabled: false,
-                  keyExtractor: (a) => a.id.toString()
-                })
-              ]
-            })
           })
         ]
       })
     });
   }
-  var import_react9, import_react_native31, displayable2;
+  var import_react10, import_react_native30;
   var init_AssetBrowser = __esm({
     "src/core/ui/settings/pages/Developer/AssetBrowser.tsx"() {
       "use strict";
@@ -12548,13 +16435,8 @@ Type: ${asset.type}`,
       init_assets();
       init_components();
       init_components2();
-      import_react9 = __toESM(require_react());
-      import_react_native31 = __toESM(require_react_native());
-      displayable2 = /* @__PURE__ */ new Set([
-        "png",
-        "jpg",
-        "svg"
-      ]);
+      import_react10 = __toESM(require_react());
+      import_react_native30 = __toESM(require_react_native());
     }
   });
 
@@ -12565,28 +16447,14 @@ Type: ${asset.type}`,
   });
   function Developer() {
     var [rdtFileExists, fs] = useFileExists("preloads/reactDevtools.js");
-    var [isDebuggerConnected, setIsDebuggerConnected] = (0, import_react10.useState)(isConnectedToDebugger2());
+    var dtConnected2 = useIsDtConnected();
+    var rdtConnected2 = useIsRdtConnected();
     var styles = useStyles4();
     var navigation2 = NavigationNative.useNavigation();
     useProxy(settings);
     useProxy(loaderConfig);
-    (0, import_react10.useEffect)(() => {
-      var interval = setInterval(() => {
-        setIsDebuggerConnected(isConnectedToDebugger2());
-      }, 1e3);
-      return () => clearInterval(interval);
-    }, []);
-    var handleDebuggerConnect = () => {
-      if (isDebuggerConnected) {
-        disconnectFromDebugger2();
-        setIsDebuggerConnected(false);
-      } else {
-        connectToDebugger2(settings.debuggerUrl);
-        setTimeout(() => setIsDebuggerConnected(isConnectedToDebugger2()), 100);
-      }
-    };
     return /* @__PURE__ */ jsx(ErrorBoundary, {
-      children: /* @__PURE__ */ jsx(import_react_native33.ScrollView, {
+      children: /* @__PURE__ */ jsx(import_react_native32.ScrollView, {
         style: {
           flex: 1
         },
@@ -12600,106 +16468,50 @@ Type: ${asset.type}`,
           },
           spacing: 24,
           children: [
+            /* @__PURE__ */ jsx(TextInput, {
+              label: Strings.DEBUGGER_URL,
+              placeholder: "localhost:7864",
+              size: "md",
+              leadingIcon: () => /* @__PURE__ */ jsx(LegacyFormText, {
+                style: styles.leadingText,
+                children: "ws://"
+              }),
+              defaultValue: settings.debuggerUrl,
+              onChange: (v2) => settings.debuggerUrl = v2
+            }),
             /* @__PURE__ */ jsxs(TableRowGroup, {
-              title: Strings.DEBUGGER_URL,
+              title: Strings.DEBUG,
               children: [
-                /* @__PURE__ */ jsx(TextInput, {
-                  placeholder: "127.0.0.1:9090",
-                  size: "md",
-                  leadingIcon: () => /* @__PURE__ */ jsx(LegacyFormText, {
-                    style: styles.leadingText,
-                    children: "ws://"
+                /* @__PURE__ */ jsx(TableSwitchRow, {
+                  label: Strings.DEBUGGER_AUTOCONNECT,
+                  subLabel: Strings.DEBUGGER_AUTOCONNECT_DESC,
+                  icon: /* @__PURE__ */ jsx(TableRow.Icon, {
+                    source: findAssetId("BookmarkIcon")
                   }),
-                  defaultValue: settings.debuggerUrl,
-                  onChange: (v2) => settings.debuggerUrl = v2
-                }),
-                /* @__PURE__ */ jsx(Stack, {
-                  style: {
-                    marginTop: 4,
-                    borderTopLeftRadius: 16,
-                    borderTopRightRadius: 16,
-                    overflow: "hidden"
-                  },
-                  children: /* @__PURE__ */ jsx(TableSwitchRow, {
-                    label: Strings.AUTO_DEBUGGER,
-                    subLabel: isDebuggerConnected ? "Connected" : void 0,
-                    icon: /* @__PURE__ */ jsx(TableRow.Icon, {
-                      source: findAssetId("copy")
-                    }),
-                    value: settings.autoDebugger,
-                    onValueChange: (v2) => {
-                      settings.autoDebugger = v2;
-                    }
-                  })
+                  value: !!settings.enableAutoDebugger,
+                  onValueChange: (v2) => {
+                    settings.enableAutoDebugger = v2;
+                  }
                 }),
                 /* @__PURE__ */ jsx(TableRow, {
-                  label: isDebuggerConnected ? "Disconnect from Debugger" : Strings.CONNECT_TO_DEBUG_WEBSOCKET,
+                  label: dtConnected2 ? Strings.DISCONNECT_FROM_DEBUG_WEBSOCKET : Strings.CONNECT_TO_DEBUG_WEBSOCKET,
+                  subLabel: "Version 1.0.0",
                   icon: /* @__PURE__ */ jsx(TableRow.Icon, {
-                    source: findAssetId(isDebuggerConnected ? "ic_message_delete" : "copy")
+                    source: findAssetId(dtConnected2 ? "DenyIcon" : "LinkIcon")
                   }),
-                  onPress: handleDebuggerConnect
+                  onPress: () => dtConnected2 ? disconnectDt() : connectToDebugger(settings.debuggerUrl)
+                }),
+                isReactDevToolsPreloaded() && /* @__PURE__ */ jsx(Fragment, {
+                  children: /* @__PURE__ */ jsx(TableRow, {
+                    label: rdtConnected2 ? Strings.DISCONNECT_FROM_REACT_DEVTOOLS : Strings.CONNECT_TO_REACT_DEVTOOLS,
+                    subLabel: `Version ${getReactDevToolsVersion()}`,
+                    icon: /* @__PURE__ */ jsx(TableRow.Icon, {
+                      source: findAssetId(rdtConnected2 ? "DenyIcon" : "StaffBadgeIcon")
+                    }),
+                    onPress: () => rdtConnected2 ? disconnectRdt() : connectToReactDevTools(settings.debuggerUrl)
+                  })
                 })
               ]
-            }),
-            isReactDevToolsPreloaded() && /* @__PURE__ */ jsx(Fragment, {
-              children: /* @__PURE__ */ jsxs(TableRowGroup, {
-                title: Strings.DEVTOOLS_URL,
-                children: [
-                  /* @__PURE__ */ jsx(TextInput, {
-                    placeholder: "127.0.0.1:8097",
-                    size: "md",
-                    leadingIcon: () => /* @__PURE__ */ jsx(LegacyFormText, {
-                      style: styles.leadingText,
-                      children: "ws://"
-                    }),
-                    defaultValue: settings.devToolsUrl,
-                    onChange: (v2) => settings.devToolsUrl = v2
-                  }),
-                  /* @__PURE__ */ jsx(Stack, {
-                    style: {
-                      marginTop: 4,
-                      borderTopLeftRadius: 16,
-                      borderTopRightRadius: 16,
-                      overflow: "hidden"
-                    },
-                    children: /* @__PURE__ */ jsx(TableSwitchRow, {
-                      label: Strings.AUTO_DEVTOOLS,
-                      icon: /* @__PURE__ */ jsx(TableRow.Icon, {
-                        source: findAssetId("ic_badge_staff")
-                      }),
-                      value: settings.autoDevTools,
-                      onValueChange: (v2) => {
-                        settings.autoDevTools = v2;
-                      }
-                    })
-                  }),
-                  /* @__PURE__ */ jsx(TableRow, {
-                    label: Strings.CONNECT_TO_REACT_DEVTOOLS,
-                    icon: /* @__PURE__ */ jsx(TableRow.Icon, {
-                      source: findAssetId("ic_badge_staff")
-                    }),
-                    onPress: () => _async_to_generator(function* () {
-                      if (!settings.devToolsUrl?.trim()) {
-                        showToast("Invalid devTools URL!", findAssetId("Small"));
-                        return;
-                      }
-                      try {
-                        var devTools = globalThis[getReactDevToolsProp() || "__vendetta_rdc"];
-                        if (!devTools?.connectToDevTools) {
-                          showToast("Invalid devTools URL!", findAssetId("Small"));
-                          return;
-                        }
-                        yield devTools.connectToDevTools({
-                          host: settings.devToolsUrl.split(":")?.[0],
-                          resolveRNStyle: import_react_native33.StyleSheet.flatten
-                        });
-                      } catch (error) {
-                        showToast("Invalid devTools URL!", findAssetId("Small"));
-                      }
-                    })()
-                  })
-                ]
-              })
             }),
             isLoaderConfigSupported() && /* @__PURE__ */ jsx(Fragment, {
               children: /* @__PURE__ */ jsxs(TableRowGroup, {
@@ -12709,7 +16521,7 @@ Type: ${asset.type}`,
                     label: Strings.LOAD_FROM_CUSTOM_URL,
                     subLabel: Strings.LOAD_FROM_CUSTOM_URL_DEC,
                     icon: /* @__PURE__ */ jsx(TableRow.Icon, {
-                      source: findAssetId("copy")
+                      source: findAssetId("LinkIcon")
                     }),
                     value: loaderConfig.customLoadUrl.enabled,
                     onValueChange: (v2) => {
@@ -12722,14 +16534,14 @@ Type: ${asset.type}`,
                       size: "md",
                       onChange: (v2) => loaderConfig.customLoadUrl.url = v2,
                       placeholder: "http://localhost:4040/zencord.js",
-                      label: Strings.PUPU_URL
+                      label: Strings.BUNNY_URL
                     })
                   }),
                   isReactDevToolsPreloaded() && isVendettaLoader() && /* @__PURE__ */ jsx(TableSwitchRow, {
                     label: Strings.LOAD_REACT_DEVTOOLS,
                     subLabel: `${Strings.VERSION}: ${getReactDevToolsVersion()}`,
                     icon: /* @__PURE__ */ jsx(TableRow.Icon, {
-                      source: findAssetId("ic_badge_staff")
+                      source: findAssetId("StaffBadgeIcon")
                     }),
                     value: loaderConfig.loadReactDevTools,
                     onValueChange: (v2) => {
@@ -12744,11 +16556,13 @@ Type: ${asset.type}`,
               children: [
                 /* @__PURE__ */ jsx(TableRow, {
                   label: Strings.CLEAR_BUNDLE,
+                  subLabel: Strings.CLEAR_BUNDLE_DESC,
                   icon: /* @__PURE__ */ jsx(TableRow.Icon, {
-                    source: findAssetId("TrashIcon")
+                    source: findAssetId("TrashIcon"),
+                    variant: "danger"
                   }),
                   onPress: () => {
-                    openAlert5("pupu-clear-bundle-reload-confirmation", /* @__PURE__ */ jsx(AlertModal6, {
+                    openAlert5("zencord-clear-bundle-reload-confirmation", /* @__PURE__ */ jsx(AlertModal6, {
                       title: Strings.MODAL_RELOAD_REQUIRED,
                       content: Strings.MODAL_RELOAD_REQUIRED_DESC,
                       actions: /* @__PURE__ */ jsxs(Stack, {
@@ -12756,7 +16570,7 @@ Type: ${asset.type}`,
                           /* @__PURE__ */ jsx(AlertActionButton6, {
                             text: Strings.RELOAD,
                             variant: "destructive",
-                            onPress: () => import_react_native32.NativeModules.BundleUpdaterManager.reload()
+                            onPress: () => import_react_native31.NativeModules.BundleUpdaterManager.reload()
                           }),
                           /* @__PURE__ */ jsx(AlertActionButton6, {
                             text: Strings.CANCEL,
@@ -12765,16 +16579,17 @@ Type: ${asset.type}`,
                         ]
                       })
                     }));
-                  }
+                  },
+                  variant: "danger"
                 }),
                 /* @__PURE__ */ jsx(TableRow, {
                   arrow: true,
                   label: Strings.ASSET_BROWSER,
                   icon: /* @__PURE__ */ jsx(TableRow.Icon, {
-                    source: findAssetId("ic_image")
+                    source: findAssetId("ImageIcon")
                   }),
                   trailing: TableRow.Arrow,
-                  onPress: () => navigation2.push("PUPU_CUSTOM_PAGE", {
+                  onPress: () => navigation2.push("BUNNY_CUSTOM_PAGE", {
                     title: Strings.ASSET_BROWSER,
                     render: AssetBrowser
                   })
@@ -12783,9 +16598,9 @@ Type: ${asset.type}`,
                   arrow: true,
                   label: Strings.ERROR_BOUNDARY_TOOLS_LABEL,
                   icon: /* @__PURE__ */ jsx(TableRow.Icon, {
-                    source: findAssetId("ic_warning_24px")
+                    source: findAssetId("WarningIcon")
                   }),
-                  onPress: () => showSimpleActionSheet5({
+                  onPress: () => showSimpleActionSheet4({
                     key: "ErrorBoundaryTools",
                     header: {
                       title: "Which ErrorBoundary do you want to trip?",
@@ -12793,23 +16608,23 @@ Type: ${asset.type}`,
                         style: {
                           marginRight: 8
                         },
-                        source: findAssetId("ic_warning_24px")
+                        source: findAssetId("WarningIcon")
                       }),
-                      onClose: () => hideActionSheet4()
+                      onClose: () => hideActionSheet3()
                     },
                     options: [
                       // @ts-expect-error
                       // Of course, to trigger an error, we need to do something incorrectly. The below will do!
                       {
-                        label: Strings.PUPU,
-                        onPress: () => navigation2.push("PUPU_CUSTOM_PAGE", {
+                        label: Strings.BUNNY,
+                        onPress: () => navigation2.push("BUNNY_CUSTOM_PAGE", {
                           render: () => /* @__PURE__ */ jsx("undefined", {})
                         })
                       },
                       {
                         label: "Discord",
                         isDestructive: true,
-                        onPress: () => navigation2.push("PUPU_CUSTOM_PAGE", {
+                        onPress: () => navigation2.push("BUNNY_CUSTOM_PAGE", {
                           noErrorBoundary: true
                         })
                       }
@@ -12859,7 +16674,7 @@ Type: ${asset.type}`,
       })
     });
   }
-  var import_react_native32, import_react_native33, import_react10, hideActionSheet4, showSimpleActionSheet5, openAlert5, AlertModal6, AlertActionButton6, RDT_EMBED_LINK, useStyles4;
+  var import_react_native31, import_react_native32, hideActionSheet3, showSimpleActionSheet4, openAlert5, AlertModal6, AlertActionButton6, RDT_EMBED_LINK, useStyles4;
   var init_Developer = __esm({
     "src/core/ui/settings/pages/Developer/index.tsx"() {
       "use strict";
@@ -12873,8 +16688,11 @@ Type: ${asset.type}`,
       init_storage();
       init_assets();
       init_debug();
+      init_devtools();
+      init_react();
       init_loader();
       init_settings();
+      init_toasts();
       init_lazy();
       init_common();
       init_components();
@@ -12882,15 +16700,13 @@ Type: ${asset.type}`,
       init_color();
       init_components2();
       init_styles();
+      import_react_native31 = __toESM(require_react_native());
       import_react_native32 = __toESM(require_react_native());
-      import_react_native33 = __toESM(require_react_native());
-      init_toasts();
-      import_react10 = __toESM(require_react());
-      ({ hideActionSheet: hideActionSheet4 } = lazyDestructure(() => findByProps("openLazy", "hideActionSheet")));
-      ({ showSimpleActionSheet: showSimpleActionSheet5 } = lazyDestructure(() => findByProps("showSimpleActionSheet")));
+      ({ hideActionSheet: hideActionSheet3 } = lazyDestructure(() => findByProps("openLazy", "hideActionSheet")));
+      ({ showSimpleActionSheet: showSimpleActionSheet4 } = lazyDestructure(() => findByProps("showSimpleActionSheet")));
       ({ openAlert: openAlert5 } = lazyDestructure(() => findByProps("openAlert", "dismissAlert")));
       ({ AlertModal: AlertModal6, AlertActionButton: AlertActionButton6 } = lazyDestructure(() => findByProps("AlertModal", "AlertActions")));
-      RDT_EMBED_LINK = "https://raw.githubusercontent.com/turki-basha/ZencordMobile/main/dist/devtools.bundle";
+      RDT_EMBED_LINK = "https://github.com/zencord-mod/react-devtools-core/releases/latest/download/index.bundle";
       useStyles4 = createStyles({
         leadingText: {
           ...TextStyleSheet["heading-md/semibold"],
@@ -12904,11 +16720,11 @@ Type: ${asset.type}`,
   // src/core/ui/settings/index.ts
   function initSettings() {
     registerSection({
-      name: "ZenCord",
+      name: Strings.BUNNY,
       items: [
         {
-          key: "ZENCORD",
-          title: () => Strings.PUPU,
+          key: "BUNNY",
+          title: () => Strings.BUNNY,
           icon: {
             uri: zencord_default
           },
@@ -12918,7 +16734,7 @@ Type: ${asset.type}`,
         {
           key: "BUNNY_PLUGINS",
           title: () => Strings.PLUGINS,
-          icon: findAssetId("AppsIcon"),
+          icon: findAssetId("PuzzlePieceIcon"),
           render: () => Promise.resolve().then(() => (init_Plugins(), Plugins_exports))
         },
         {
@@ -12936,12 +16752,6 @@ Type: ${asset.type}`,
           usePredicate: () => isFontSupported()
         },
         {
-          key: "ZENCORD_BROWSER",
-          title: () => Strings.BROWSER,
-          icon: findAssetId("ChannelListMagnifyingGlassIcon"),
-          render: () => Promise.resolve().then(() => (init_PluginBrowser(), PluginBrowser_exports))
-        },
-        {
           key: "BUNNY_DEVELOPER",
           title: () => Strings.DEVELOPER,
           icon: findAssetId("WrenchIcon"),
@@ -12955,15 +16765,10 @@ Type: ${asset.type}`,
       items: []
     });
     registerSection({
-      name: "Revenge",
-      items: []
-    });
-    registerSection({
       name: "Vendetta",
       items: []
     });
   }
-  var PupuIcon;
   var init_settings3 = __esm({
     "src/core/ui/settings/index.ts"() {
       "use strict";
@@ -12976,7 +16781,6 @@ Type: ${asset.type}`,
       init_loader();
       init_settings();
       init_settings2();
-      PupuIcon = zencord_default;
     }
   });
 
@@ -12999,7 +16803,7 @@ Type: ${asset.type}`,
   });
 
   // src/core/vendetta/api.tsx
-  var import_react11, import_react_native34, initVendettaObject;
+  var import_react12, import_react_native33, initVendettaObject;
   var init_api3 = __esm({
     "src/core/vendetta/api.tsx"() {
       "use strict";
@@ -13028,8 +16832,8 @@ Type: ${asset.type}`,
       init_styles();
       init_toasts();
       init_dist();
-      import_react11 = __toESM(require_react());
-      import_react_native34 = __toESM(require_react_native());
+      import_react12 = __toESM(require_react());
+      import_react_native33 = __toESM(require_react_native());
       init_plugins();
       initVendettaObject = () => {
         var createStackBasedFilter = (fn) => {
@@ -13059,8 +16863,8 @@ Type: ${asset.type}`,
                     ...module,
                     ActionSheetTitleHeader: module.BottomSheetTitleHeader,
                     ActionSheetContentContainer: ({ children }) => {
-                      (0, import_react11.useEffect)(() => console.warn("Discord has removed 'ActionSheetContentContainer', please move into something else. This has been temporarily replaced with View"), []);
-                      return /* @__PURE__ */ (0, import_react11.createElement)(import_react_native34.View, null, children);
+                      (0, import_react12.useEffect)(() => console.warn("Discord has removed 'ActionSheetContentContainer', please move into something else. This has been temporarily replaced with View"), []);
+                      return /* @__PURE__ */ (0, import_react12.createElement)(import_react_native33.View, null, children);
                     }
                   };
                 }
@@ -13126,7 +16930,7 @@ Type: ${asset.type}`,
             without: (object, ...keys) => omit(object, keys)
           },
           debug: {
-            connectToDebugger: (url2) => connectToDebugger2(url2),
+            connectToDebugger: (url2) => connectToDebugger(url2),
             getDebugInfo: () => getDebugInfo()
           },
           ui: {
@@ -13215,7 +17019,7 @@ Type: ${asset.type}`,
             createMMKVBackend: (store) => createMMKVBackend(store),
             createFileBackend: (file) => {
               if (isPyonLoader() && file === "vendetta_theme.json") {
-                file = "pyon/current-theme.json";
+                file = "pyoncord/current-theme.json";
               }
               return createFileBackend(file);
             }
@@ -13304,7 +17108,6 @@ Type: ${asset.type}`,
     for (var d of _disposer)
       if (typeof d === "function")
         d();
-    delete globalThis.zencord;
     delete globalThis.bunny;
   }
   var managers, _disposer;
@@ -13375,16 +17178,15 @@ Type: ${asset.type}`,
       init_debug();
       init_flux();
       init_jsx();
+      init_toasts();
       init_logger();
       init_settings2();
-      init_debug();
       init_lib();
       src_default = () => _async_to_generator(function* () {
         yield Promise.all([
           initThemes(),
           injectFluxInterceptor(),
           patchSettings(),
-          patchLogHook(),
           patchCommands(),
           patchJsx(),
           initVendettaObject(),
@@ -13392,18 +17194,20 @@ Type: ${asset.type}`,
           initSettings(),
           fixes_default(),
           patchErrorBoundary(),
-          updatePlugins(),
-          updateFonts(),
-          initPlugins(),
-          VdPluginManager.initPlugins()
+          patchToasts(),
+          updatePlugins()
         ]).then(
           // Push them all to unloader
           (u) => u.forEach((f) => f && unload.push(f))
         );
-        initDebugger();
-        globalThis.zencord = lib_exports;
         globalThis.bunny = lib_exports;
-        logger.log("ZenCord is ready!");
+        globalThis.zencord = lib_exports;
+        globalThis.revenge = lib_exports;
+        initDebugger();
+        VdPluginManager.initPlugins().then((u) => unload.push(u)).catch(() => alert("Failed to initialize Vendetta plugins"));
+        initPlugins();
+        updateFonts();
+        logger.log("ZenCord Mobile is ready!");
       })();
     }
   });
@@ -13419,17 +17223,17 @@ Type: ${asset.type}`,
       try {
         Object.freeze = Object.seal = Object;
         yield (init_caches(), __toCommonJS(caches_exports)).initMetroCache();
-        (init_src(), __toCommonJS(src_exports)).default();
+        yield (init_src(), __toCommonJS(src_exports)).default();
       } catch (e) {
         var stack = e instanceof Error ? e.stack : void 0;
         console.error("[ZenCord Init Error]", stack ?? e?.toString?.() ?? e);
         setTimeout(() => {
           try {
-            var { NativeClientInfoModule: NativeClientInfoModule2 } = (init_modules(), __toCommonJS(modules_exports));
-            var build = NativeClientInfoModule2?.getConstants?.()?.Build ?? NativeClientInfoModule2?.Build ?? "unknown";
+            var { ClientInfoManager } = (init_modules(), __toCommonJS(modules_exports));
+            var buildNum = ClientInfoManager?.Build ?? ClientInfoManager?.getConstants?.()?.Build ?? "unknown";
             alert([
               "Failed to load ZenCord!\n",
-              `Build Number: ${build}`,
+              `Build Number: ${buildNum}`,
               `ZenCord: ${"v1.4.3"}`,
               stack || e?.toString?.()
             ].join("\n"));
@@ -13475,8 +17279,7 @@ Type: ${asset.type}`,
         deferMethodExecution(
           batchedBridge,
           "callFunctionReturnFlushedQueue",
-          // If the call is to AppRegistry, we want to defer it because it is not yet registered (Revenge delays it)
-          // Same goes to the non-callable modules, which are not registered yet, so we ensure that only registered ones can get through
+          // If the call is to AppRegistry, we want to defer it because it is not yet registered
           (...args) => args[0] === "AppRegistry" || !batchedBridge.getCallableModule(args[0]),
           ({ args }) => {
             if (batchedBridge.getCallableModule(args[0])) {
@@ -13495,12 +17298,13 @@ Type: ${asset.type}`,
         } catch (err) {
           console.error("[ZenCord Start Error]", err);
         }
-        try {
-          for (var unpatch of unpatches)
+        for (var unpatch of unpatches) {
+          try {
             unpatch();
-          unpatches.length = 0;
-        } catch (unused) {
+          } catch (unused) {
+          }
         }
+        unpatches.length = 0;
         try {
           originalRequire(0);
         } catch (err) {
@@ -13508,7 +17312,8 @@ Type: ${asset.type}`,
         }
         try {
           resumeDeferred();
-        } catch (unused) {
+        } catch (err) {
+          console.error("[ZenCord resumeDeferred Error]", err);
         }
       })();
       startDiscord();

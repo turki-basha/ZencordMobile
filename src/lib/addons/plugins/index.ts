@@ -212,7 +212,7 @@ export async function deleteRepository(repoUrl: string) {
 }
 
 /**
- * Enablea a plugin. The plugin must have been declared as installed.
+ * Enable a plugin. The plugin must have been declared as installed.
  * @param id The installed plugin ID
  * @param start Whether to start the plugin
  */
@@ -224,7 +224,7 @@ export async function enablePlugin(id: string, start: boolean) {
 }
 
 /**
- * Disables and stop the plugin. The plugin must have been declared as installed
+ * Disables and stops the plugin. The plugin must have been declared as installed
  * @param id The installed plugin ID
  */
 export function disablePlugin(id: string) {
@@ -324,7 +324,6 @@ export async function startPlugin(id: string, { throwIfDisabled = false, disable
 
     // Stage three (of external plugins), start the plugin
     try {
-        
         pluginInstance.start?.();
         pluginSettings[id]!.enabled = true;
     } catch (error) {
@@ -381,7 +380,7 @@ export async function updatePlugins() {
         corePluginInstances.set(id, instance);
     }
 
-    updateAllRepository();
+    await updateAllRepository();
 }
 
 /**
@@ -391,9 +390,9 @@ export async function initPlugins() {
     await awaitStorage(pluginRepositories, pluginSettings);
 
     // Now, start all enabled plugins...
-    Promise.allSettled([...registeredPlugins.keys()].map(async id => {
+    await Promise.allSettled([...registeredPlugins.keys()].map(async id => {
         if (isPluginEnabled(id)) {
-            startPlugin(id);
+            await startPlugin(id);
         }
     }));
 }

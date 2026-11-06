@@ -56,3 +56,4 @@ export function updateBunnyColor(colorManifest: ColorManifest | null, { update =
         AppearanceManager.updateTheme(internalDef != null ? ref.key : ref.lastSetDiscordTheme);
     }
 }
+

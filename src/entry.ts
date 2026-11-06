@@ -11,17 +11,17 @@ async function initializeZenCord() {
         Object.freeze = Object.seal = Object;
 
         await require("@metro/internals/caches").initMetroCache();
-        require(".").default();
+        await require(".").default();
     } catch (e: any) {
         const stack = e instanceof Error ? e.stack : undefined;
         console.error("[ZenCord Init Error]", stack ?? e?.toString?.() ?? e);
         setTimeout(() => {
             try {
-                const { NativeClientInfoModule } = require("@lib/api/native/modules");
-                const build = NativeClientInfoModule?.getConstants?.()?.Build ?? NativeClientInfoModule?.Build ?? "unknown";
+                const { ClientInfoManager } = require("@lib/api/native/modules");
+                const buildNum = ClientInfoManager?.Build ?? ClientInfoManager?.getConstants?.()?.Build ?? "unknown";
                 alert([
                     "Failed to load ZenCord!\n",
-                    `Build Number: ${build}`,
+                    `Build Number: ${buildNum}`,
                     `ZenCord: ${version}`,
                     stack || e?.toString?.(),
                 ].join("\n"));
@@ -64,7 +64,7 @@ if (typeof window.__r === "undefined") {
         });
 
         unpatches.push(restore);
-    }
+    };
 
     const resumeDeferred = () => {
         for (const queue of deferredCalls) {
@@ -78,7 +78,7 @@ if (typeof window.__r === "undefined") {
         }
 
         deferredCalls.length = 0;
-    }
+    };
 
     const onceIndexRequired = (originalRequire: Metro.RequireFn) => {
         // We hold calls from the native side
@@ -87,8 +87,7 @@ if (typeof window.__r === "undefined") {
             deferMethodExecution(
                 batchedBridge,
                 "callFunctionReturnFlushedQueue",
-                // If the call is to AppRegistry, we want to defer it because it is not yet registered (Revenge delays it)
-                // Same goes to the non-callable modules, which are not registered yet, so we ensure that only registered ones can get through
+                // If the call is to AppRegistry, we want to defer it because it is not yet registered
                 (...args) => args[0] === "AppRegistry" || !batchedBridge.getCallableModule(args[0]),
                 ({ args }) => {
                     if (batchedBridge.getCallableModule(args[0])) {
@@ -110,11 +109,11 @@ if (typeof window.__r === "undefined") {
             } catch (err) {
                 console.error("[ZenCord Start Error]", err);
             }
-
-            try {
-                for (const unpatch of unpatches) unpatch();
-                unpatches.length = 0;
-            } catch {}
+            
+            for (const unpatch of unpatches) {
+                try { unpatch(); } catch {}
+            }
+            unpatches.length = 0;
 
             try {
                 originalRequire(0);
@@ -124,20 +123,20 @@ if (typeof window.__r === "undefined") {
 
             try {
                 resumeDeferred();
-            } catch {}
+            } catch (err) {
+                console.error("[ZenCord resumeDeferred Error]", err);
+            }
         };
 
         startDiscord();
-    }
+    };
 
     Object.defineProperties(globalThis, {
         __r: {
             configurable: true,
             get: () => _requireFunc,
             set(v) {
-                // _requireFunc is required here, because using 'this' here errors for some unknown reason
                 _requireFunc = function patchedRequire(a: number) {
-                    // Initializing index.ts(x)
                     if (a === 0) {
                         if (window.modules instanceof Map) window.modules = Object.fromEntries(window.modules);
                         onceIndexRequired(v);
@@ -149,7 +148,6 @@ if (typeof window.__r === "undefined") {
         __d: {
             configurable: true,
             get() {
-                // @ts-ignore - I got an error where 'Object' is undefined *sometimes*, which is literally never supposed to happen
                 if (window.Object && !window.modules) {
                     window.modules = window.__c?.();
                 }

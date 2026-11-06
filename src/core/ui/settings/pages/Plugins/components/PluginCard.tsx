@@ -3,154 +3,141 @@ import { UnifiedPluginModel } from "@core/ui/settings/pages/Plugins/models";
 import { usePluginCardStyles } from "@core/ui/settings/pages/Plugins/usePluginCardStyles";
 import { findAssetId } from "@lib/api/assets";
 import { NavigationNative, tokens } from "@metro/common";
-import {
-  Card,
-  IconButton,
-  Stack,
-  TableSwitch,
-  Text,
-} from "@metro/common/components";
+import { Card, IconButton, Stack, TableSwitch, Text } from "@metro/common/components";
 import { showSheet } from "@ui/sheets";
 import chroma from "chroma-js";
-import { createContext, useContext, useMemo } from "react";
-import { Image, View } from "react-native";
-import { isCorePlugin } from "@lib/addons/plugins";
+import React, { createContext, useContext, useMemo } from "react";
+import { Image, View, TouchableOpacity } from "react-native";
 
-const CardContext = createContext<{
-  plugin: UnifiedPluginModel;
-  result: Fuzzysort.KeysResult<UnifiedPluginModel>;
-}>(null!);
+const CardContext = createContext<{ plugin: UnifiedPluginModel, result: Fuzzysort.KeysResult<UnifiedPluginModel>; }>(null!);
 const useCardContext = () => useContext(CardContext);
 
 function getHighlightColor(): import("react-native").ColorValue {
-  return chroma(tokens.unsafe_rawColors.YELLOW_300).alpha(0.3).hex();
+    return chroma(tokens.unsafe_rawColors.YELLOW_300).alpha(0.3).hex();
 }
 
 function Title() {
-  const styles = usePluginCardStyles();
-  const { plugin, result } = useCardContext();
+    const styles = usePluginCardStyles();
+    const { plugin, result } = useCardContext();
 
-  // could be empty if the plugin name is irrelevant!
-  const highlightedNode = result[0].highlight((m, i) => (
-    <Text key={i} style={{ backgroundColor: getHighlightColor() }}>
-      {m}
-    </Text>
-  ));
+    // could be empty if the plugin name is irrelevant!
+    const highlightedNode = result[0].highlight((m, i) =>
+        <Text key={i} style={{ backgroundColor: getHighlightColor() }}>
+            {m}
+        </Text>
+    );
 
-  const icon = plugin.icon && findAssetId(plugin.icon);
+    const icon = plugin.icon && findAssetId(plugin.icon);
 
-  const textNode = (
-    <Text numberOfLines={1} variant="heading-lg/semibold">
-      {highlightedNode.length ? highlightedNode : plugin.name}
-    </Text>
-  );
+    const textNode = (
+        <Text
+            numberOfLines={1}
+            variant="heading-lg/semibold"
+        >
+            {highlightedNode.length ? highlightedNode : plugin.name}
+        </Text>
+    );
 
-  return (
-    <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-      {icon && <Image style={styles.smallIcon} source={icon} />}
-      {textNode}
-    </View>
-  );
+    return <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+        {icon && <Image
+            style={styles.smallIcon}
+            source={icon}
+        />}
+        {textNode}
+    </View>;
 }
 
 function Authors() {
-  const { plugin, result } = useCardContext();
-  const styles = usePluginCardStyles();
+    const { plugin, result } = useCardContext();
+    const styles = usePluginCardStyles();
 
-  if (!plugin.authors) return null;
+    if (!plugin.authors) return null;
 
-  // could be empty if the author(s) are irrelevant with the search!
-  const highlightedNode = result[2].highlight((m, i) => (
-    <Text key={i} style={{ backgroundColor: getHighlightColor() }}>
-      {m}
-    </Text>
-  ));
+    // could be empty if the author(s) are irrelevant with the search!
+    const highlightedNode = result[2].highlight((m, i) =>
+        <Text key={i} style={{ backgroundColor: getHighlightColor() }}>
+            {m}
+        </Text>
+    );
 
-  const badges = plugin.getBadges();
-  const authorText =
-    highlightedNode.length > 0
-      ? highlightedNode
-      : plugin.authors.map((a) => a.name).join(", ");
+    const badges = plugin.getBadges();
+    const authorText = highlightedNode.length > 0 ? highlightedNode : plugin.authors.map(a => a.name).join(", ");
 
-  return (
-    <View
-      style={{ flexDirection: "row", flexWrap: "wrap", flexShrink: 1, gap: 4 }}
-    >
-      <Text variant="text-sm/semibold" color="text-muted">
-        by {authorText}
-      </Text>
-      {badges.length > 0 && (
-        <View style={styles.badgesContainer}>
-          {badges.map((b, i) => (
-            <Image key={i} source={b.source} style={styles.badgeIcon} />
-          ))}
+    return (
+        <View style={{ flexDirection: "row", flexWrap: "wrap", flexShrink: 1, gap: 4 }}>
+            <Text variant="text-sm/semibold" color="text-muted">
+                by {authorText}
+            </Text>
+            {badges.length > 0 && <View style={styles.badgesContainer}>
+                {badges.map((b, i) => <Image
+                    key={i}
+                    source={b.source}
+                    style={styles.badgeIcon}
+                />)}
+            </View>}
         </View>
-      )}
-    </View>
-  );
+    );
 }
 
 function Description() {
-  const { plugin, result } = useCardContext();
+    const { plugin, result } = useCardContext();
 
-  // could be empty if the description is irrelevant with the search!
-  const highlightedNode = result[1].highlight((m, i) => (
-    <Text key={i} style={{ backgroundColor: getHighlightColor() }}>
-      {m}
-    </Text>
-  ));
+    // could be empty if the description is irrelevant with the search!
+    const highlightedNode = result[1].highlight((m, i) =>
+        <Text key={i} style={{ backgroundColor: getHighlightColor() }}>{m}</Text>
+    );
 
-  return (
-    <Text variant="text-md/medium">
-      {highlightedNode.length ? highlightedNode : plugin.description}
-    </Text>
-  );
+    return <Text variant="text-md/medium">
+        {highlightedNode.length ? highlightedNode : plugin.description}
+    </Text>;
 }
 
 const Actions = () => {
-  const { plugin } = useCardContext();
-  const navigation = NavigationNative.useNavigation();
+    const { plugin } = useCardContext();
+    const navigation = NavigationNative.useNavigation();
 
-  return (
-    <View style={{ flexDirection: "row", gap: 6 }}>
-      <IconButton
-        size="sm"
-        variant="secondary"
-        icon={findAssetId("WrenchIcon")}
-        disabled={!plugin.getPluginSettingsComponent()}
-        onPress={() =>
-          navigation.push("PUPU_CUSTOM_PAGE", {
-            title: plugin.name,
-            render: plugin.getPluginSettingsComponent(),
-          })
-        }
-      />
-      <IconButton
-        size="sm"
-        variant="secondary"
-        icon={findAssetId("CircleInformationIcon-primary")}
-        onPress={() =>
-          void showSheet(
-            "PluginInfoActionSheet",
-            plugin.resolveSheetComponent(),
-            { plugin, navigation },
-          )
-        }
-      />
-    </View>
-  );
+    return <View style={{ flexDirection: "row", gap: 6 }}>
+        <IconButton
+            size="sm"
+            variant="secondary"
+            icon={findAssetId("WrenchIcon")}
+            disabled={!plugin.getPluginSettingsComponent()}
+            onPress={() => navigation.push("BUNNY_CUSTOM_PAGE", {
+                title: plugin.name,
+                render: plugin.getPluginSettingsComponent(),
+            })}
+        />
+        <IconButton
+            size="sm"
+            variant="secondary"
+            icon={findAssetId("CircleInformationIcon-primary")}
+            onPress={() => void showSheet(
+                "PluginInfoActionSheet",
+                plugin.resolveSheetComponent(),
+                { plugin, navigation }
+            )}
+        />
+    </View>;
 };
 
-export default function PluginCard({
-  result,
-  item: plugin,
-}: CardWrapper<UnifiedPluginModel>) {
-  plugin.usePluginState();
+export default function PluginCard({ result, item: plugin }: CardWrapper<UnifiedPluginModel>) {
+    plugin.usePluginState();
 
-  
-const [, forceUpdate] = React.useReducer(() => ({}), 0);
-const cardContextValue = useMemo(() => ({ plugin, result }), [plugin, result]);
-    const core = isCorePlugin(plugin.id);
+    const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
+    const [isToggling, setIsToggling] = React.useState(false);
+
+    const cardContextValue = useMemo(() => ({ plugin, result }), [plugin, result]);
+
+    const handleToggle = async () => {
+        if (isToggling) return;
+        setIsToggling(true);
+        try {
+            await plugin.toggle(!plugin.isEnabled());
+        } finally {
+            setIsToggling(false);
+            forceUpdate();
+        }
+    };
 
     return (
         <CardContext.Provider value={cardContextValue}>
@@ -164,18 +151,16 @@ const cardContextValue = useMemo(() => ({ plugin, result }), [plugin, result]);
                         <View>
                             <Stack spacing={12} direction="horizontal">
                                 <Actions />
-                                <View style={core ? { opacity: 0.5 } : undefined}>
-                                    <TableSwitch
-                                        value={core ? true : plugin.isEnabled()}
-                                        disabled={core}
-                                        onValueChange={(v: boolean) => {
-                                            if (!core) {
-                                                plugin.toggle(v);
-                                                forceUpdate();
-                                            }
-                                        }}
-                                    />
-                                </View>
+                                <TouchableOpacity
+                                    activeOpacity={0.8}
+                                    onPress={handleToggle}
+                                    disabled={isToggling}
+                                    style={{ opacity: isToggling ? 0.5 : 1 }}
+                                >
+                                    <View pointerEvents="none">
+                                        <TableSwitch value={plugin.isEnabled()} />
+                                    </View>
+                                </TouchableOpacity>
                             </Stack>
                         </View>
                     </View>

@@ -1,4 +1,4 @@
-import { getMetroCache, indexBlacklistFlag, indexExportsFlags } from "@metro/internals/caches";
+import { getMetroCache, indexExportsFlags } from "@metro/internals/caches";
 import { Metro } from "@metro/types";
 
 import { ModuleFlags, ModulesMapInternal } from "./enums";
@@ -43,7 +43,7 @@ for (const key in metroModules) {
 
             _importingModuleId = originalImportingId;
             return ret;
-        }) as any); // If only spitroast had better types
+        }) as any);
     }
 }
 
@@ -56,6 +56,7 @@ function blacklistModule(id: number) {
 function isBadExports(exports: any) {
     return !exports
         || exports === window
+        || exports["<!@ pylix was here :fuyusquish: !@>"] === null
         || (exports.__proto__ === Object.prototype && Reflect.ownKeys(exports).length === 0)
         || (exports.default?.[Symbol.toStringTag] === "IntlMessagesProxy");
 }
@@ -74,24 +75,22 @@ function onModuleRequire(moduleExports: any, id: Metro.ModuleID) {
 
     // There are modules registering the same native component
     if (!patchedNativeComponentRegistry && ["customBubblingEventTypes", "customDirectEventTypes", "register", "get"].every(x => moduleExports[x])) {
-        instead("register", moduleExports, (args: any, origFunc: any) => {
+        instead("register", moduleExports, ([name, cb]: any, origFunc: any) => {
             try {
-                return origFunc.apply(moduleExports, args);
+                return origFunc(name, cb);
             } catch {
-                return args[0];
+                return name;
             }
         });
 
         patchedNativeComponentRegistry = true;
     }
 
-
     // Hook DeveloperExperimentStore
     if (moduleExports?.default?.constructor?.displayName === "DeveloperExperimentStore") {
         moduleExports.default = new Proxy(moduleExports.default, {
             get(target, property, receiver) {
                 if (property === "isDeveloper") {
-                    // Hopefully won't explode accessing it here :3
                     const { settings } = require("@lib/api/settings");
                     return settings.enableDiscordDeveloperSettings ?? false;
                 }
@@ -114,15 +113,6 @@ function onModuleRequire(moduleExports: any, id: Metro.ModuleID) {
         const inspect = (f: unknown) => typeof f === "function" && functionToString.apply(f, []);
         window["__core-js_shared__"].inspectSource = inspect;
         patchedInspectSource = true;
-    }
-
-    // Hindi timestamps moment
-    if (moduleExports.isMoment) {
-        instead("defineLocale", moduleExports, (args: [string], orig: (lcl: string) => string) => {
-            const origLocale = moduleExports.locale();
-            orig(...args);
-            moduleExports.locale(origLocale);
-        });
     }
 
     const subs = moduleSubscriptions.get(Number(id));
@@ -174,6 +164,8 @@ export function requireModule(id: Metro.ModuleID) {
 }
 
 export function* getModules(uniq: string, all = false) {
+    yield [-1, require("@metro/polyfills/redesign")];
+
     let cache = getMetroCache().findIndex[uniq];
     if (all && !cache?.[`_${ModulesMapInternal.FULL_LOOKUP}`]) cache = undefined;
     if (cache?.[`_${ModulesMapInternal.NOT_FOUND}`]) return;
@@ -190,8 +182,6 @@ export function* getModules(uniq: string, all = false) {
         if (isBadExports(exports)) continue;
         yield [id, exports];
     }
-
-    yield [-1, require("@metro/polyfills/redesign")];
 }
 
 export function* getCachedPolyfillModules(name: string) {
@@ -210,101 +200,4 @@ export function* getCachedPolyfillModules(name: string) {
             yield [id, exports];
         }
     }
-}
-
-export interface WaitForOptions {
-    count?: number;
-}
-
-export type ModuleFilter<T = any> = {
-    (exports: any): T | undefined;
-    key?: string;
-}
-
-export function waitFor<T = any>(
-    filter: ModuleFilter<T>,
-    callback: (exports: T, id: Metro.ModuleID) => void,
-    options: WaitForOptions = {}
-): () => void {
-    const { count = 1 } = options;
-    let currentCount = 0;
-    const unsubscribers: Array<() => void> = [];
-    let isActive = true;
-
-    const cleanup = () => {
-        if (!isActive) return;
-        isActive = false;
-        unsubscribers.forEach(unsub => unsub());
-        unsubscribers.length = 0;
-    };
-
-    function checkModule(id: Metro.ModuleID): boolean {
-        if (!isActive) return true;
-
-        const exports = requireModule(id);
-        if (isBadExports(exports)) return false;
-
-        const result = filter(exports);
-        if (!result) return false;
-
-        callback(result, id);
-        
-        if (++currentCount >= count) {
-            cleanup();
-            return true;
-        }
-
-        return false;
-    }
-
-    if (filter.key) {
-        const cache = getMetroCache().findIndex[filter.key];
-        if (cache) {
-            for (const id in cache) {
-                if (id[0] === "_") continue;
-                const numId = Number(id);
-                
-                if (metroModules[numId]?.isInitialized) {
-                    if (checkModule(numId)) return cleanup;
-                } else {
-                    const unsub = subscribeModule(numId, () => {
-                        checkModule(numId);
-                    });
-                    unsubscribers.push(unsub);
-                }
-            }
-        }
-    }
-
-    for (const id in metroModules) {
-        if (!isActive) break;
-        const numId = Number(id);
-        
-        if (metroModules[numId]?.isInitialized && !metroModules[numId]?.hasError) {
-            if (checkModule(numId)) return cleanup;
-        }
-    }
-
-    if (isActive) {
-        for (const id in metroModules) {
-            const numId = Number(id);
-            if (!metroModules[numId]?.isInitialized) {
-                const unsub = subscribeModule(numId, () => {
-                    checkModule(numId);
-                });
-                unsubscribers.push(unsub);
-            }
-        }
-    }
-
-    return cleanup;
-}
-
-export function waitForModule<T = any>(
-    filter: ModuleFilter<T>,
-    options: WaitForOptions = {}
-): Promise<T> {
-    return new Promise((resolve) => {
-        waitFor(filter, (exports) => resolve(exports), options);
-    });
 }

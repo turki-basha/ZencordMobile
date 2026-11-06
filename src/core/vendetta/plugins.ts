@@ -6,8 +6,8 @@ import { BUNNY_PROXY_PREFIX, VD_PROXY_PREFIX } from "@lib/utils/constants";
 import { logger,LoggerClass } from "@lib/utils/logger";
 
 type EvaledPlugin = {
-    onLoad?(): void;
-    onUnload(): void;
+    onLoad?(): Promise<void> | void;
+    onUnload(): Promise<void> | void;
     settings: React.ComponentType<unknown>;
 };
 
@@ -55,8 +55,9 @@ export const VdPluginManager = {
 
         try {
             pluginManifest = await (await this.pluginFetch(id + "manifest.json")).json();
-        } catch {
-            throw new Error(`Failed to fetch manifest for ${id}`);
+        } catch (e: any) {
+          logger.error(`Failed to fetch manifest for ${id}`, e);
+          throw new Error(`Failed to fetch manifest for ${id}\n${e?.stack ?? e}`);
         }
 
         let pluginJs: string | undefined;
@@ -110,29 +111,27 @@ export const VdPluginManager = {
     async startPlugin(id: string) {
         if (!id.endsWith("/")) id += "/";
         const plugin = plugins[id];
-        if (plugin.id.includes("xxjust") == true || plugin.id.includes("DevNjay") == true) {
-            return
-        }
         if (!plugin) throw new Error("Attempted to start non-existent plugin");
 
         try {
             if (!settings.safeMode?.enabled) {
                 const pluginRet: EvaledPlugin = await this.evalPlugin(plugin);
                 pluginInstance[id] = pluginRet;
-                pluginRet.onLoad?.();
+                await pluginRet.onLoad?.();
             }
             plugin.enabled = true;
         } catch (e) {
             logger.error(`Plugin ${plugin.id} errored whilst loading, and will be unloaded`, e);
 
             try {
-                pluginInstance[plugin.id]?.onUnload?.();
+                await pluginInstance[plugin.id]?.onUnload?.();
             } catch (e2) {
                 logger.error(`Plugin ${plugin.id} errored whilst unloading`, e2);
             }
 
             delete pluginInstance[id];
             plugin.enabled = false;
+            throw e;
         }
     },
 
@@ -172,7 +171,7 @@ export const VdPluginManager = {
 
         if (!settings.safeMode?.enabled) {
             // Loop over any plugin that is enabled, update it if allowed, then start it.
-            Promise.allSettled(allIds.filter(pl => plugins[pl].enabled).map(async pl => (plugins[pl].update && await this.fetchPlugin(pl).catch((e: Error) => logger.error(e.message)), await this.startPlugin(pl))));
+            await Promise.allSettled(allIds.filter(pl => plugins[pl].enabled).map(async pl => (plugins[pl].update && await this.fetchPlugin(pl).catch((e: Error) => logger.error(e.message)), await this.startPlugin(pl))));
             // Wait for the above to finish, then update all disabled plugins that are allowed to.
             allIds.filter(pl => !plugins[pl].enabled && plugins[pl].update).forEach(pl => this.fetchPlugin(pl));
         }

@@ -44,7 +44,8 @@ const config = {
         js: "//# sourceURL=zencord"
     },
     loader: {
-        ".png": "dataurl"
+        ".png": "dataurl",
+        ".html": "text"
     },
     define: {
         window: "globalThis",

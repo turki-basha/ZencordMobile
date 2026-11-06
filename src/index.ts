@@ -8,23 +8,21 @@ import { updateFonts } from "@lib/addons/fonts";
 import { initPlugins, updatePlugins } from "@lib/addons/plugins";
 import { initThemes } from "@lib/addons/themes";
 import { patchCommands } from "@lib/api/commands";
-import { patchLogHook } from "@lib/api/debug";
+import { initDebugger } from "@lib/api/debug";
 import { injectFluxInterceptor } from "@lib/api/flux";
 import { patchJsx } from "@lib/api/react/jsx";
+import { patchToasts } from "@lib/ui/toasts";
 import { logger } from "@lib/utils/logger";
 import { patchSettings } from "@ui/settings";
-import { initDebugger } from "@lib/api/debug";
 
 import * as lib from "./lib";
 
 export default async () => {
     // Load everything in parallel
-
     await Promise.all([
         initThemes(),
         injectFluxInterceptor(),
         patchSettings(),
-        patchLogHook(),
         patchCommands(),
         patchJsx(),
         initVendettaObject(),
@@ -32,21 +30,32 @@ export default async () => {
         initSettings(),
         initFixes(),
         patchErrorBoundary(),
-        updatePlugins(),
-        updateFonts(),
-        initPlugins(),
-        VdPluginManager.initPlugins(),
+        patchToasts(),
+        updatePlugins()
     ]).then(
         // Push them all to unloader
         u => u.forEach(f => f && lib.unload.push(f))
     );
 
-    initDebugger()
-
-    // Assign window objects for ZenCord and plugin backward compatibility
-    window.zencord = lib;
+    // Assign window object
     window.bunny = lib;
+    window.zencord = lib;
+    window.revenge = lib;
+
+    // Start debugger
+    initDebugger();
+
+    // Once done, load Vendetta plugins
+    VdPluginManager.initPlugins()
+        .then(u => lib.unload.push(u))
+        .catch(() => alert("Failed to initialize Vendetta plugins"));
+
+    // And then, load Bunny plugins
+    initPlugins();
+
+    // Update the fonts
+    updateFonts();
 
     // We good :)
-    logger.log("ZenCord is ready!");
+    logger.log("ZenCord Mobile is ready!");
 };

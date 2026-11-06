@@ -17,7 +17,7 @@ const { openAlert } = lazyDestructure(() => findByProps("openAlert", "dismissAle
 const { AlertModal, AlertActionButton } = lazyDestructure(() => findByProps("AlertModal", "AlertActions"));
 
 function promptDetachConfirmationForThen(fontName: string | undefined, cb: () => void) {
-    if (fontName && fonts[fontName].source) openAlert("revenge-fonts-detach-source-confirmation", <AlertModal
+    if (fontName && fonts[fontName].source) openAlert("zencord-fonts-detach-source-confirmation", <AlertModal
         title="Detach font pack URL?"
         content="You need to detach the font pack URL from this font pack before you can manually edit its font entries. Do you want to detach the font pack URL?"
         actions={
@@ -47,7 +47,7 @@ function guessFontName(urls: string[]) {
     return shortest?.replace(/-[A-Za-z]*$/, "") || null;
 }
 
-function RevengeFontsExtractor({ fonts, setName }: {
+function ZenCordFontsExtractor({ fonts, setName }: {
     fonts: Record<string, string>;
     setName: (name: string) => void;
 }) {
@@ -288,7 +288,7 @@ export default function FontEditor(props: {
                         label={Strings.LABEL_EXTRACT_FONTS_FROM_THEME}
                         subLabel={Strings.DESC_EXTRACT_FONTS_FROM_THEME}
                         icon={<TableRow.Icon source={findAssetId("HammerIcon")} />}
-                        onPress={() => promptActionSheet(RevengeFontsExtractor, fontEntries, { setName })}
+                        onPress={() => promptActionSheet(ZenCordFontsExtractor, fontEntries, { setName })}
                     />}
                     <TableRow
                         label={"Import font entries from a link"}
@@ -399,7 +399,7 @@ export default function FontEditor(props: {
                                 .finally(() => setIsImporting(false));
                         }
                     }}
-                    icon={findAssetId(props.name ? "toast_image_saved" : "DownloadIcon")}
+                    icon={findAssetId(props.name ? "UploadIcon" : "DownloadIcon")}
                     style={{ marginLeft: 8 }}
                 />
             </View>

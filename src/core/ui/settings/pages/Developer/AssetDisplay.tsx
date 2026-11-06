@@ -12,10 +12,10 @@ const { AlertModal, AlertActionButton } = lazyDestructure(() => findByProps("Ale
 const displayable = new Set(['png', 'jpg', 'svg']);
 
 const iconMap = {
-    jsona: 'ic_file_text',
-    lottie: 'ic_image',
+    jsona: 'PaperIcon',
+    lottie: 'ImageTextIcon',
     webm: 'CirclePlayIcon-primary',
-    ttf: 'ic_add_text',
+    ttf: 'LettersIcon',
     default: 'UnknownGameIcon'
 };
 
@@ -34,18 +34,18 @@ export default function AssetDisplay({ asset }: AssetDisplayProps) {
                     : <TableRow.Icon
                         variant='danger'
                         source={findAssetId(asset.type in iconMap ? iconMap[asset.type as keyof typeof iconMap] : iconMap.default)}
-                      />
+                    />
             }
             onPress={() =>
-                openAlert("revenge-asset-display-details", <AlertModal
+                openAlert("zencord-asset-display-details", <AlertModal
                     title={asset.name}
                     content={`Index: ${asset.id}\nModule ID: ${asset.moduleId}\nType: ${asset.type}`}
                     extraContent={
                         displayable.has(asset.type)
                             ? <Image resizeMode="contain" source={asset.id} style={{ flex: 1, width: 'auto', height: 192 }} />
-                            : (<Text variant='text-sm/medium' color="text-danger" style={{ width: '100%', textAlign: 'center' }}>
+                            : (<Text variant='text-sm/medium' color="text-feedback-critical" style={{ width: '100%', textAlign: 'center' }}>
                                 Asset type {asset.type.toUpperCase()} is not supported for preview.
-                              </Text>)
+                            </Text>)
                     }
                     actions={
                         <Stack>

@@ -3,10 +3,6 @@ import { removeCacheFile } from "./fs";
 
 // @ts-ignore
 const pyonLoaderIdentity = globalThis.__PYON_LOADER__;
-
-// @ts-ignore
-const rainLoaderIdentity = globalThis.__RAIN_LOADER__;
-
 // @ts-ignore
 const vendettaLoaderIdentity = globalThis.__vendetta_loader;
 
@@ -32,26 +28,13 @@ export function isPyonLoader() {
     return pyonLoaderIdentity != null;
 }
 
-export function isRa1nLoader() {
-    return rainLoaderIdentity != null;
-}
-
 function polyfillVendettaLoaderIdentity() {
-    if (!isPyonLoader() || isVendettaLoader() || !isRa1nLoader()) return null;
+    if (!isPyonLoader() || isVendettaLoader()) return null;
 
-    let loader: { name: string; features: Record<string, any> };
-
-    if (isRa1nLoader() == true) {
-        loader = {
-            name: rainLoaderIdentity.loaderName,
-            features: {} as Record<string, any>,
-        };
-    } else {
-        loader = {
-            name: pyonLoaderIdentity.loaderName,
-            features: {} as Record<string, any>,
-        };
-    }
+    const loader = {
+        name: pyonLoaderIdentity.loaderName,
+        features: {} as Record<string, any>
+    };
 
     if (isLoaderConfigSupported()) loader.features.loaderConfig = true;
     if (isSysColorsSupported()) {
@@ -96,8 +79,6 @@ export function getLoaderIdentity() {
         return pyonLoaderIdentity;
     } else if (isVendettaLoader()) {
         return getVendettaLoaderIdentity();
-    } else if (isRa1nLoader()) {
-        return rainLoaderIdentity();
     }
 
     return null;
@@ -113,18 +94,14 @@ export function getVendettaLoaderIdentity(): VendettaLoaderIdentity | null {
 getVendettaLoaderIdentity();
 
 export function getLoaderName() {
-    // @ts-ignore
-    if (globalThis.__ZENCORD_LOADER__) return globalThis.__ZENCORD_LOADER__.loaderName || "ZenCord";
     if (isPyonLoader()) return pyonLoaderIdentity.loaderName;
-    else if (isRa1nLoader()) return rainLoaderIdentity.loadername;
     else if (isVendettaLoader()) return vendettaLoaderIdentity.name;
 
-    return "ZenCord";
+    return "Unknown";
 }
 
 export function getLoaderVersion(): string | null {
     if (isPyonLoader()) return pyonLoaderIdentity.loaderVersion;
-    else if (isRa1nLoader()) return rainLoaderIdentity.loaderVersion;
     return null;
 }
 
@@ -133,8 +110,6 @@ export function isLoaderConfigSupported() {
         return true;
     } else if (isVendettaLoader()) {
         return vendettaLoaderIdentity!!.features.loaderConfig;
-    } else if (isRa1nLoader()) {
-        return true;
     }
 
     return false;
@@ -145,8 +120,6 @@ export function isThemeSupported() {
         return pyonLoaderIdentity.hasThemeSupport;
     } else if (isVendettaLoader()) {
         return vendettaLoaderIdentity!!.features.themes != null;
-    } else if (isRa1nLoader()) {
-        return false; // Ra1n has theme support disabled, this is here just to make sure it doesnt think it does
     }
 
     return false;
@@ -166,7 +139,13 @@ export function getStoredTheme(): VdThemeInfo | null {
 }
 
 export function getThemeFilePath() {
-    return "zencord/current-theme.json";
+    if (isPyonLoader()) {
+        return "pyoncord/current-theme.json";
+    } else if (isVendettaLoader()) {
+        return "vendetta_theme.json";
+    }
+
+    return null;
 }
 
 export function isReactDevToolsPreloaded() {
@@ -184,9 +163,8 @@ export function getReactDevToolsProp(): string | null {
     if (!isReactDevToolsPreloaded()) return null;
 
     if (isPyonLoader()) {
-        window.__zencord_rdt = window.__REACT_DEVTOOLS__.exports;
         window.__pyoncord_rdt = window.__REACT_DEVTOOLS__.exports;
-        return "__zencord_rdt";
+        return "__pyoncord_rdt";
     }
 
     if (isVendettaLoader()) {
@@ -210,7 +188,12 @@ export function getReactDevToolsVersion() {
 }
 
 export function isSysColorsSupported() {
-    return true;
+    if (isPyonLoader()) return pyonLoaderIdentity.isSysColorsSupported;
+    else if (isVendettaLoader()) {
+        return vendettaLoaderIdentity!!.features.syscolors != null;
+    }
+
+    return false;
 }
 
 export function getSysColors() {
@@ -225,7 +208,13 @@ export function getSysColors() {
 }
 
 export function getLoaderConfigPath() {
-    return "zencord/loader.json";
+    if (isPyonLoader()) {
+        return "pyoncord/loader.json";
+    } else if (isVendettaLoader()) {
+        return "vendetta_loader.json";
+    }
+
+    return "loader.json";
 }
 
 export function isFontSupported() {

@@ -3,9 +3,7 @@ import { getLoaderConfigPath } from "@lib/api/native/loader";
 
 export interface Settings {
     debuggerUrl: string;
-    devToolsUrl: string;
-    autoDebugger: boolean;
-    autoDevTools: boolean;
+    enableAutoDebugger?: boolean;
     developerSettings: boolean;
     enableDiscordDeveloperSettings: boolean;
     safeMode?: {

@@ -9,7 +9,7 @@ import { TouchableOpacity, View } from "react-native";
 const { hideActionSheet } = lazyDestructure(() => findByProps("openLazy", "hideActionSheet"));
 const { showSimpleActionSheet } = lazyDestructure(() => findByProps("showSimpleActionSheet"));
 
-// TODO: These styles work weirdly. Low DPI Has cramped text. Fix?
+// TODO: These styles work weirdly. iOS has cramped text, Android with low DPI probably does too. Fix?
 const useStyles = createStyles({
     card: {
         backgroundColor: semanticColors?.CARD_SECONDARY_BG,
@@ -20,7 +20,6 @@ const useStyles = createStyles({
         padding: 0,
     },
     headerLeading: {
-        flex: 1,
         flexDirection: "column",
         justifyContent: "center",
         scale: 1.2
@@ -32,18 +31,16 @@ const useStyles = createStyles({
         alignItems: "center"
     },
     headerLabel: {
-        ...TextStyleSheet["heading-lg/semibold"],
-    },
-    headerLabelCompact: {
-        ...TextStyleSheet["text-md/semibold"],
+        ...TextStyleSheet["heading-md/semibold"],
+        color: semanticColors.TEXT_DEFAULT,
     },
     headerSubtitle: {
-        ...TextStyleSheet["text-sm/semibold"],
+        ...TextStyleSheet["text-md/semibold"],
         color: semanticColors.TEXT_MUTED,
     },
     descriptionLabel: {
         ...TextStyleSheet["text-md/semibold"],
-        color: "text-strong",
+        color: semanticColors.TEXT_DEFAULT,
     },
     actions: {
         flexDirection: "row-reverse",
@@ -51,7 +48,7 @@ const useStyles = createStyles({
         gap: 5
     },
     iconStyle: {
-        tintColor: semanticColors.LOGO_PRIMARY,
+        tintColor: semanticColors.INTERACTIVE_ICON_DEFAULT,
         opacity: 0.2,
         height: 64,
         width: 64,
