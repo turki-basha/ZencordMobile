@@ -3862,11 +3862,11 @@
       "register",
       "get"
     ].every((x2) => moduleExports[x2])) {
-      instead2("register", moduleExports, ([name, cb], origFunc) => {
+      instead2("register", moduleExports, (args, origFunc) => {
         try {
-          return origFunc(name, cb);
+          return origFunc.apply(moduleExports, args);
         } catch (unused) {
-          return name;
+          return args[0];
         }
       });
       patchedNativeComponentRegistry = true;
